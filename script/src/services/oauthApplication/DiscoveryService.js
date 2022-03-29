@@ -5,13 +5,13 @@ const BaseService_js_1 = require("../BaseService.js");
 class DiscoveryService extends BaseService_js_1.BaseService {
     async getOpenidConfiguration() {
         return (await this.rest.httpRequest({
-            url: "{BEDEV2Url:application-authorization}/.well-known/openid-configuration",
+            url: "{BEDEV2Url:oauth}/.well-known/openid-configuration",
             errorHandling: "BEDEV2",
         })).body;
     }
     async listJwks() {
         return (await this.rest.httpRequest({
-            url: "{BEDEV2Url:application-authorization}/v1/certs",
+            url: "{BEDEV2Url:oauth}/v1/certs",
             errorHandling: "BEDEV2",
         })).body;
     }
