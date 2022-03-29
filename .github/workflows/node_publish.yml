@@ -45,15 +45,10 @@ jobs:
           FOLDER: npm
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MESSAGE: "Build: ({sha}) {msg}"
-
-      - name: test
-        run: echo "$test"
-        env:
-          test: ${{ toJSON(github) }}
         
       # Only used if it's triggered from a release
       - name: Publish on NPM
-        if: ${{ github.event.action == 'Published' }}
+        if: github.event_name == 'published'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: cd npm && npm publish
