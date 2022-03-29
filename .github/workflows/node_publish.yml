@@ -45,28 +45,3 @@ jobs:
           FOLDER: npm
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MESSAGE: "Build: ({sha}) {msg}"
-        
-      # Only used if it's triggered from a release
-      - name: Publish on NPM
-        if: ${{ github.event.action == "Published" }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: cd npm && npm publish
-
-      - name: Deno Lint
-        run: deno lint
-        
-      - name: Build npm folder
-        run: deno run -A --unstable ./scripts/dnt.ts
-        
-      - name: Add .gitignore
-        run: echo node_modules/ > "npm/.gitignore"
-        
-      - name: Push to Node branch
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: self
-          BRANCH: node
-          FOLDER: npm
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MESSAGE: "Build: ({sha}) {msg}"
