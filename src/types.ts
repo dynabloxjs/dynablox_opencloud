@@ -1,5 +1,5 @@
 /**
- * Authentication type. 
+ * Authentication type.
  */
 export type AuthenticationType =
 	| "APIKey"

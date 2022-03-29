@@ -1,5 +1,8 @@
 import * as services from "../services.ts";
-import { RESTController, type ClientAuthenticationInit as RESTClientAuthentication } from "../rest/RESTController.ts";
+import {
+	type ClientAuthenticationInit as RESTClientAuthentication,
+	RESTController,
+} from "../rest/RESTController.ts";
 import { type EnvironmentURLOptions } from "../types.ts";
 
 /**

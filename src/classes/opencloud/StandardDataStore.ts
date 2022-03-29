@@ -5,7 +5,10 @@ import { DataStoreEntryVersion } from "./DataStoreEntryVersion.ts";
 import { DataStoreKeyInfo } from "./DataStoreKeyInfo.ts";
 import { ServicePage } from "../../helpers/ServicePaging.ts";
 import { SortOrderLong } from "../../types.ts";
-import { type OpenCloudClient } from "../../clients/OpenCloudClient.ts";
+import {
+	type OpenCloudClient,
+	OpenCloudClientError,
+} from "../../clients/OpenCloudClient.ts";
 
 /**
  * DataStore type.
@@ -80,6 +83,12 @@ export class StandardDataStore {
 			[false],
 		);
 
+		if (key.length > 50) {
+			throw new OpenCloudClientError(
+				`key exceeds the maximum allowed 50 characters in length (${key.length})`,
+			);
+		}
+
 		const response = await this._client.services.opencloud.DataStoreService
 			.getDataStoreEntry<Data, Attributes>(
 				this.universeId,
@@ -118,6 +127,22 @@ export class StandardDataStore {
 			[false],
 		);
 
+		if (key.length > 50) {
+			throw new OpenCloudClientError(
+				`key exceeds the maximum allowed 50 characters in length (${key.length})`,
+			);
+		}
+		if (userIds && userIds.length > 4) {
+			throw new OpenCloudClientError(
+				`userIds exceeds the maximum allowed 4 items (${userIds.length})`,
+			);
+		}
+		if (attributes && JSONv2.serialize(attributes).length > 300) {
+			throw new OpenCloudClientError(
+				`attributes exceeds the maximum allowed 300 characters in length (${key.length})`,
+			);
+		}
+
 		const response = await this._client.services.opencloud.DataStoreService
 			.incrementDataStoreEntry(
 				this.universeId,
@@ -150,6 +175,12 @@ export class StandardDataStore {
 			[false, true],
 		);
 
+		if (key.length > 50) {
+			throw new OpenCloudClientError(
+				`key exceeds the maximum allowed 50 characters in length (${key.length})`,
+			);
+		}
+
 		await this._client.services.opencloud.DataStoreService
 			.removeDataStoreEntry(this.universeId, this.name, key, this.scope);
 	}
@@ -164,6 +195,12 @@ export class StandardDataStore {
 			"read",
 			[false, true],
 		);
+
+		if (key.length > 50) {
+			throw new OpenCloudClientError(
+				`key exceeds the maximum allowed 50 characters in length (${key.length})`,
+			);
+		}
 
 		const response = await this._client.services.opencloud.DataStoreService
 			.getDataStoreEntryVersion<Data>(
@@ -204,6 +241,31 @@ export class StandardDataStore {
 			"create",
 			[false, true],
 		);
+
+		const serializedData = typeof data === "string"
+			? data
+			: JSONv2.serialize(data);
+
+		if (key.length > 50) {
+			throw new OpenCloudClientError(
+				`key exceeds the maximum allowed 50 characters in length (${key.length})`,
+			);
+		}
+		if (serializedData.length > 4_000_000) {
+			throw new OpenCloudClientError(
+				`data exceeds the maximum allowed 4MB (${serializedData.length})`,
+			);
+		}
+		if (userIds && userIds.length > 4) {
+			throw new OpenCloudClientError(
+				`userIds exceeds the maximum allowed 4 items (${userIds.length})`,
+			);
+		}
+		if (attributes && JSONv2.serialize(attributes).length > 300) {
+			throw new OpenCloudClientError(
+				`attributes exceeds the maximum allowed 300 characters in length (${key.length})`,
+			);
+		}
 
 		const response = await this._client.services.opencloud.DataStoreService
 			.updateDataStoreEntry(
@@ -246,6 +308,12 @@ export class StandardDataStore {
 			"list",
 			[false, true],
 		);
+
+		if (key.length > 50) {
+			throw new OpenCloudClientError(
+				`key exceeds the maximum allowed 50 characters in length (${key.length})`,
+			);
+		}
 
 		return new ServicePage<
 			OpenCloudClient["services"]["opencloud"]["DataStoreService"][

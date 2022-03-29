@@ -264,7 +264,6 @@ export class RESTController {
 	 */
 	public readonly aliases: Record<string, string> = {};
 
-
 	/**
 	 * The authentication type of the client.
 	 *

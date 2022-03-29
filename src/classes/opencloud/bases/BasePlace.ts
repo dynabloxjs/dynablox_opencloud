@@ -64,6 +64,12 @@ export class BasePlace {
 			[false],
 		);
 
+		if (data.length > 10_000_000) {
+			throw new OpenCloudClientError(
+				`data execeeds the maximum allowed 100MB (${data.length.toLocaleString()}).`,
+			);
+		}
+
 		return (await this._client.services.opencloud.PlaceManagementService
 			.updatePlaceData(
 				this.parentUniverseId,
