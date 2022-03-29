@@ -403,7 +403,6 @@ export class RESTController {
 	public async httpRequest<Expect = unknown>(
 		request: HTTPRequest,
 	): Promise<HTTPResponse<Expect>> {
-		const method = request.method ?? "GET";
 		const errorHandling = request.errorHandling ?? "BEDEV1";
 
 		// handle initial headers
