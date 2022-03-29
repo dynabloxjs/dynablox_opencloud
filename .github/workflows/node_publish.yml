@@ -46,6 +46,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MESSAGE: "Build: ({sha}) {msg}"
 
+      - name: test
+        run: echo "$github.event"
+        
       # Only used if it's triggered from a release
       - name: Publish on NPM
         if: ${{ github.event.action == 'Published' }}
