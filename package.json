@@ -1,0 +1,45 @@
+{
+  "module": "./esm/mod.js",
+  "main": "./script/mod.js",
+  "types": "./types/mod.d.ts",
+  "name": "@dynabloxjs/dynablox_opencloud",
+  "version": "0.1.0",
+  "description": "A Roblox OpenCloud API wrapper for Deno (and NodeJS) written in TypeScript. This is an automatically generated Node port.",
+  "homepage": "https://github.com/JullianDev/dynablox_opencloud",
+  "author": "Julli4n",
+  "bugs": {
+    "url": "https://github.com/JullianDev/dynablox_opencloud/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:JullianDev/dynablox_opencloud.git"
+  },
+  "keywords": [
+    "dynablox",
+    "roblox",
+    "opencloud"
+  ],
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./esm/mod.js",
+      "require": "./script/mod.js",
+      "types": "./types/mod.d.ts"
+    }
+  },
+  "scripts": {
+    "test": "node test_runner.js"
+  },
+  "dependencies": {
+    "whatwg-mimetype": "^3.0.0",
+    "@deno/shim-deno": "~0.4.3",
+    "@deno/shim-crypto": "~0.2.0",
+    "@deno/shim-timers": "~0.1.0",
+    "undici": "^4.12.1"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.26",
+    "chalk": "4.1.2",
+    "@types/whatwg-mimetype": "^2.1.1"
+  }
+}

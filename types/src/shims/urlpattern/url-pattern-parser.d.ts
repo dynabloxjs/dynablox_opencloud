@@ -1,0 +1,36 @@
+import { URLPatternInit } from "./url-pattern.interfaces.js";
+export declare class Parser {
+    private input;
+    private tokenList;
+    private internalResult;
+    private tokenIndex;
+    private tokenIncrement;
+    private componentStart;
+    private state;
+    private groupDepth;
+    private hostnameIPv6BracketDepth;
+    private shouldTreatAsStandardURL;
+    constructor(input: string);
+    get result(): URLPatternInit;
+    parse(): void;
+    private changeState;
+    private changeStateWithoutSettingComponent;
+    private rewind;
+    private rewindAndSetState;
+    private safeToken;
+    private isNonSpecialPatternChar;
+    private isProtocolSuffix;
+    private nextIsAuthoritySlashes;
+    private isIdentityTerminator;
+    private isPasswordPrefix;
+    private isPortPrefix;
+    private isPathnameStart;
+    private isSearchPrefix;
+    private isHashPrefix;
+    private isGroupOpen;
+    private isGroupClose;
+    private isIPv6Open;
+    private isIPv6Close;
+    private makeComponentString;
+    private computeShouldTreatAsStandardURL;
+}
