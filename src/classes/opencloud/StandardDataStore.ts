@@ -81,7 +81,7 @@ export class StandardDataStore {
 		);
 
 		const response = await this._client.services.opencloud.DataStoreService
-			.getDataStoreEntry<string, Attributes>(
+			.getDataStoreEntry<Data, Attributes>(
 				this.universeId,
 				this.name,
 				key,
@@ -89,7 +89,7 @@ export class StandardDataStore {
 			);
 
 		return new DataStoreEntry<Data, Attributes>(
-			JSONv2.deserialize(response.value) as Data,
+			response.value,
 			response.userIds,
 			response.attributes,
 			response.versionId,
