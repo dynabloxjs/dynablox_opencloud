@@ -47,7 +47,9 @@ jobs:
           MESSAGE: "Build: ({sha}) {msg}"
 
       - name: test
-        run: echo "$github.event"
+        run: echo "$test"
+        env:
+          test: ${{ toJSON(github.event) }}
         
       # Only used if it's triggered from a release
       - name: Publish on NPM
