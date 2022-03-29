@@ -110,7 +110,7 @@ class StandardDataStore {
         this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString()], "read", [false]);
         const response = await this._client.services.opencloud.DataStoreService
             .getDataStoreEntry(this.universeId, this.name, key, this.scope);
-        return new DataStoreEntry_js_1.DataStoreEntry(JSONv2.deserialize(response.value), response.userIds, response.attributes, response.versionId, response.versionCreatedTime, response.createdTime);
+        return new DataStoreEntry_js_1.DataStoreEntry(response.value, response.userIds, response.attributes, response.versionId, response.versionCreatedTime, response.createdTime);
     }
     /**
      * Increment the value of an entry in a DataStore.
