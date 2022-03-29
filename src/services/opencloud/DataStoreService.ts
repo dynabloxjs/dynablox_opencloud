@@ -1,0 +1,290 @@
+import { BaseService } from "../BaseService.ts";
+import { SortOrderLong } from "../../types.ts";
+import { Base64Encode, Md5 } from "../../../deps.ts";
+import * as JSONv2 from "../../utils/json.ts";
+
+interface ListDataStoresResponseDataStoresItem {
+	name: string;
+	createdDate: string;
+}
+
+interface ListDataStoresResponse {
+	datastores: ListDataStoresResponseDataStoresItem[];
+	nextPageCursor: string | null;
+}
+
+interface EntryKey {
+	scope: string;
+	key: string;
+}
+
+interface ListDataStoreEntriesResponse {
+	keys: EntryKey[];
+	nextPageCursor: string | null;
+}
+
+interface DataStoreEntry<
+	Expect,
+	Attributes extends Record<string, unknown>,
+> {
+	createdTime: string | null;
+	versionCreatedTime: string | null;
+	versionId: string | null;
+	attributes: Attributes | null;
+	userIds: number[] | null;
+	value: Expect;
+}
+
+interface EntryVersion {
+	version?: string;
+	deleted?: boolean;
+	contentLength?: number;
+	createdTime?: string;
+	objectCreatedTime?: string;
+}
+
+interface ListDataStoreEntryVersions {
+	versions: EntryVersion[];
+	nextPageCursor: string | null;
+}
+
+interface DataStoreEntryVersion<Expect> {
+	createdTime: string | null;
+	versionCreatedTime: string | null;
+	versionId: string | null;
+	value: Expect | null;
+}
+
+export class DataStoreService extends BaseService {
+	public async listDataStores(
+		universeId: number,
+		prefix?: string,
+		limit?: number,
+		cursor?: string,
+	): Promise<ListDataStoresResponse> {
+		// TODO: When ordered/sorted datastores are implemented, handle it here
+		return (await this.rest.httpRequest<ListDataStoresResponse>({
+			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores`,
+			query: {
+				cursor,
+				limit,
+				prefix,
+			},
+			errorHandling: "BEDEV2",
+			includeCredentials: true,
+		})).body;
+	}
+
+	public async listDataStoreEntries(
+		universeId: number,
+		datastoreName: string,
+		scope = "global",
+		allScopes?: boolean,
+		prefix?: string,
+		limit?: number,
+		cursor?: string,
+	): Promise<ListDataStoreEntriesResponse> {
+		// TODO: When ordered/sorted datastores are implemented, handle it here
+		return (await this.rest.httpRequest<ListDataStoreEntriesResponse>({
+			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries`,
+			query: {
+				datastoreName,
+				scope,
+				AllScopes: allScopes,
+				prefix,
+				limit,
+				cursor,
+			},
+			errorHandling: "BEDEV2",
+			includeCredentials: true,
+		})).body;
+	}
+
+	public async getDataStoreEntry<
+		Expect = unknown,
+		Attributes extends Record<string, unknown> = Record<string, unknown>,
+	>(
+		universeId: number,
+		datastoreName: string,
+		entryKey: string,
+		scope = "global",
+	): Promise<DataStoreEntry<Expect, Attributes>> {
+		// TODO: When ordered/sorted datastores are implemented, handle it here
+		const response = await this.rest.httpRequest<Expect>({
+			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
+			query: {
+				datastoreName,
+				entryKey,
+				scope,
+			},
+			camelizeResponse: false,
+			errorHandling: "BEDEV2",
+			includeCredentials: true,
+		});
+
+		return {
+			createdTime: response.headers.get("roblox-entry-created-time"),
+			versionCreatedTime: response.headers.get(
+				"last-modified",
+			),
+			versionId: response.headers.get("roblox-entry-version"),
+			attributes: response.headers.has("roblox-entry-attributes")
+				? JSON.parse(response.headers.get("roblox-entry-attributes")!)
+				: null,
+			userIds: response.headers.has("roblox-entry-userids")
+				? JSON.parse(response.headers.get("roblox-entry-userids")!)
+				: null,
+			value: response.body,
+		};
+	}
+
+	public async updateDataStoreEntry(
+		universeId: number,
+		dataStoreName: string,
+		entryKey: string,
+		data: string,
+		attributes?: Record<string, unknown>,
+		userIds?: number[],
+		scope = "global",
+		matchKeyVersion?: string,
+		createOnly?: boolean,
+	): Promise<EntryVersion> {
+		// TODO: When ordered/sorted datastores are implemented, handle it here
+		return (await this.rest.httpRequest<EntryVersion>({
+			method: "POST",
+			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
+			query: {
+				dataStoreName,
+				entryKey,
+				scope,
+				matchKeyVersion,
+				exclusiveCreate: createOnly,
+			},
+			headers: {
+				"roblox-entry-userids": JSON.stringify(userIds),
+				"roblox-entry-attributes": JSON.stringify(attributes),
+				"content-md5": Base64Encode(
+					new Md5().update(data).digest(),
+				),
+			},
+			body: {
+				type: "text",
+				value: data,
+			},
+			errorHandling: "BEDEV2",
+			includeCredentials: true,
+		})).body;
+	}
+
+	public async incrementDataStoreEntry(
+		universeId: number,
+		dataStoreName: string,
+		entryKey: string,
+		incrementBy: number,
+		attributes?: Record<string, unknown>,
+		userIds?: number[],
+		scope = "global",
+	): Promise<EntryVersion> {
+		// TODO: When ordered/sorted datastores are implemented, handle it here
+		return (await this.rest.httpRequest<EntryVersion>({
+			method: "POST",
+			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/increment`,
+			query: {
+				dataStoreName,
+				entryKey,
+				scope,
+				incrementBy,
+			},
+			headers: {
+				"roblox-entry-userids": JSON.stringify(userIds),
+				"roblox-entry-attributes": JSON.stringify(attributes),
+			},
+			errorHandling: "BEDEV2",
+			includeCredentials: true,
+		})).body;
+	}
+
+	public async removeDataStoreEntry(
+		universeId: number,
+		dataStoreName: string,
+		entryKey: string,
+		scope = "global",
+	): Promise<void> {
+		// TODO: When ordered/sorted datastores are implemented, handle it here
+		await this.rest.httpRequest<void>({
+			method: "DELETE",
+			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
+			query: {
+				dataStoreName,
+				entryKey,
+				scope,
+			},
+			expect: "none",
+			errorHandling: "BEDEV2",
+			includeCredentials: true,
+		});
+	}
+
+	public async listDataStoreEntryVersions(
+		universeId: number,
+		dataStoreName: string,
+		entryKey: string,
+		startTime?: string,
+		endTime?: string,
+		sortOrder?: SortOrderLong,
+		limit?: number,
+		scope = "global",
+		cursor?: string,
+	): Promise<ListDataStoreEntryVersions> {
+		// TODO: When ordered/sorted datastores are implemented, handle it here
+		return (await this.rest.httpRequest<ListDataStoreEntryVersions>({
+			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`,
+			query: {
+				dataStoreName,
+				entryKey,
+				scope,
+				startTime,
+				endTime,
+				sortOrder,
+				limit,
+				cursor,
+			},
+			errorHandling: "BEDEV2",
+			includeCredentials: true,
+		})).body;
+	}
+
+	public async getDataStoreEntryVersion<Expect = unknown>(
+		universeId: number,
+		datastoreName: string,
+		entryKey: string,
+		versionId: string,
+		scope = "global",
+	): Promise<DataStoreEntryVersion<Expect>> {
+		// TODO: When ordered/sorted datastores are implemented, handle it here
+		const response = await this.rest.httpRequest<string>({
+			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions/version`,
+			query: {
+				datastoreName,
+				entryKey,
+				versionId,
+				scope,
+			},
+			expect: "text",
+			errorHandling: "BEDEV2",
+			includeCredentials: true,
+		});
+
+		return {
+			createdTime: response.headers.get("roblox-entry-created-time"),
+			versionCreatedTime: response.headers.get(
+				"last-modified",
+			),
+			versionId: response.headers.get("roblox-entry-version"),
+			value:
+				(response.body.length > 0
+					? JSONv2.deserialize(response.body) as Expect
+					: null),
+		};
+	}
+}

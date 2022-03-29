@@ -1,0 +1,345 @@
+import * as JSONv2 from "../../utils/json.ts";
+import { DataStoreEntry } from "./DataStoreEntry.ts";
+import { DataStoreEntryVersionInfo } from "./DataStoreEntryVersionInfo.ts";
+import { DataStoreEntryVersion } from "./DataStoreEntryVersion.ts";
+import { DataStoreKeyInfo } from "./DataStoreKeyInfo.ts";
+import { ServicePage } from "../../helpers/ServicePaging.ts";
+import { SortOrderLong } from "../../types.ts";
+import { type OpenCloudClient } from "../../clients/OpenCloudClient.ts";
+
+/**
+ * DataStore type.
+ */
+export enum DataStoreType {
+	Standard = "Standard",
+}
+
+/**
+ * Standard DataStore class for Open Cloud.
+ */
+export class StandardDataStore {
+	/**
+	 * The DataStore universe ID.
+	 */
+	public readonly universeId: number;
+	/**
+	 * The name of the datastore.
+	 */
+	public readonly name: string;
+
+	/**
+	 * The scope of the datastore.
+	 */
+	public readonly scope: string;
+
+	/**
+	 * The type of the DataStore.
+	 */
+	public readonly type: keyof typeof DataStoreType;
+
+	/**
+	 * The client to use services from.
+	 * @private
+	 */
+	private readonly _client: OpenCloudClient;
+
+	/**
+	 * Construct a new BaseUniverse
+	 * @param universeId - The DataStore universe ID.
+	 * @param client The client to use services from.
+	 * @param dataStoreName - The name of the datastore .
+	 * @param scope - The scope of the datastore. Default is `global`.
+	 * @param type - Type of the DataStore.
+	 */
+	constructor(
+		client: OpenCloudClient,
+		universeId: number,
+		dataStoreName: string,
+		scope: string,
+		type: keyof typeof DataStoreType,
+	) {
+		this.universeId = universeId;
+		this._client = client;
+		this.name = dataStoreName;
+		this.scope = scope;
+		this.type = type;
+	}
+
+	/**
+	 * Get the content of a DataStore entry.
+	 * @param key - The key of the entry.
+	 */
+	public async getEntry<
+		Data = unknown,
+		Attributes extends Record<string, unknown> = Record<string, unknown>,
+	>(key: string): Promise<DataStoreEntry<Data, Attributes>> {
+		this._client.canAccessResource(
+			"universe-datastores.objects",
+			[this.universeId.toString()],
+			"read",
+			[false],
+		);
+
+		const response = await this._client.services.opencloud.DataStoreService
+			.getDataStoreEntry<string, Attributes>(
+				this.universeId,
+				this.name,
+				key,
+				this.scope,
+			);
+
+		return new DataStoreEntry<Data, Attributes>(
+			JSONv2.deserialize(response.value) as Data,
+			response.userIds,
+			response.attributes,
+			response.versionId,
+			response.versionCreatedTime,
+			response.createdTime,
+		);
+	}
+
+	/**
+	 * Increment the value of an entry in a DataStore.
+	 * @param key - The key of the entry to increment.
+	 * @param incrementBy - The amount to increment the value by.
+	 * @param userIds - An array of user IDs to be associated with the entry.
+	 * @param attributes - The new attributes of the entry.
+	 */
+	public async incrementEntry(
+		key: string,
+		incrementBy: number,
+		userIds?: number[],
+		attributes?: Record<string, unknown>,
+	): Promise<DataStoreEntryVersionInfo> {
+		this._client.canAccessResource(
+			"universe-datastores.objects",
+			[this.universeId.toString()],
+			"update",
+			[false],
+		);
+
+		const response = await this._client.services.opencloud.DataStoreService
+			.incrementDataStoreEntry(
+				this.universeId,
+				this.name,
+				key,
+				incrementBy,
+				attributes,
+				userIds,
+				this.scope,
+			);
+
+		return new DataStoreEntryVersionInfo(
+			response.version,
+			response.createdTime,
+			response.objectCreatedTime,
+			response.deleted,
+			response.contentLength,
+		);
+	}
+
+	/**
+	 * Removes an entry from the DataStore.
+	 * @param key - The key of the entry to remove.
+	 */
+	public async removeEntry(key: string): Promise<void> {
+		this._client.canAccessResource(
+			"universe-datastores.objects",
+			[this.universeId.toString(), this.name],
+			"delete",
+			[false, true],
+		);
+
+		await this._client.services.opencloud.DataStoreService
+			.removeDataStoreEntry(this.universeId, this.name, key, this.scope);
+	}
+
+	public async getEntryVersion<Data = unknown>(
+		key: string,
+		version: string,
+	): Promise<DataStoreEntryVersion<Data>> {
+		this._client.canAccessResource(
+			"universe-datastores.versions",
+			[this.universeId.toString(), this.name],
+			"read",
+			[false, true],
+		);
+
+		const response = await this._client.services.opencloud.DataStoreService
+			.getDataStoreEntryVersion<Data>(
+				this.universeId,
+				this.name,
+				key,
+				version,
+				this.scope,
+			);
+
+		return new DataStoreEntryVersion<Data>(
+			response.value,
+			response.versionId,
+			response.createdTime,
+			response.versionCreatedTime,
+		);
+	}
+
+	public async updateEntry(
+		key: string,
+		data: unknown,
+		userIds?: number[],
+		attributes?: Record<string, unknown>,
+		matchKeyVersion?: string,
+		createOnly?: boolean,
+	): Promise<DataStoreEntryVersionInfo> {
+		if (!createOnly) {
+			this._client.canAccessResource(
+				"universe-datastores.objects",
+				[this.universeId.toString(), this.name],
+				"update",
+				[false, true],
+			);
+		}
+		this._client.canAccessResource(
+			"universe-datastores.objects",
+			[this.universeId.toString(), this.name],
+			"create",
+			[false, true],
+		);
+
+		const response = await this._client.services.opencloud.DataStoreService
+			.updateDataStoreEntry(
+				this.universeId,
+				this.name,
+				key,
+				typeof data === "string" ? data : JSONv2.serialize(data),
+				attributes,
+				userIds,
+				this.scope,
+				matchKeyVersion,
+				createOnly,
+			);
+
+		return new DataStoreEntryVersionInfo(
+			response.version,
+			response.createdTime,
+			response.objectCreatedTime,
+			response.deleted,
+			response.contentLength,
+		);
+	}
+
+	public listEntryVersions(
+		key: string,
+		limit?: number,
+		sortOrder?: SortOrderLong,
+		startTime?: string,
+		endTime?: string,
+		cursor?: string,
+	): ServicePage<
+		OpenCloudClient["services"]["opencloud"]["DataStoreService"][
+			"listDataStoreEntryVersions"
+		],
+		DataStoreEntryVersionInfo[]
+	> {
+		this._client.canAccessResource(
+			"universe-datastores.versions",
+			[this.universeId.toString(), this.name],
+			"list",
+			[false, true],
+		);
+
+		return new ServicePage<
+			OpenCloudClient["services"]["opencloud"]["DataStoreService"][
+				"listDataStoreEntryVersions"
+			],
+			DataStoreEntryVersionInfo[]
+		>(
+			this._client.services.opencloud.DataStoreService,
+			this._client.services.opencloud.DataStoreService
+				.listDataStoreEntryVersions,
+			[
+				this.universeId,
+				this.name,
+				key,
+				startTime,
+				endTime,
+				sortOrder,
+				limit,
+				this.scope,
+				cursor,
+			],
+			(parameters, data) => {
+				if (data) {
+					if (!data.nextPageCursor) return;
+					parameters[8] = data.nextPageCursor;
+
+					return parameters;
+				}
+			},
+			undefined,
+			(data) => {
+				return data.versions.map((version) =>
+					new DataStoreEntryVersionInfo(
+						version.version,
+						version.createdTime,
+						version.objectCreatedTime,
+						version.deleted,
+						version.contentLength,
+					)
+				);
+			},
+		);
+	}
+
+	public listEntries(
+		prefix?: string,
+		allScopes?: boolean,
+		limit?: number,
+		cursor?: string,
+	): ServicePage<
+		OpenCloudClient["services"]["opencloud"]["DataStoreService"][
+			"listDataStoreEntries"
+		],
+		DataStoreKeyInfo[]
+	> {
+		this._client.canAccessResource(
+			"universe-datastores.objects",
+			[this.universeId.toString(), this.name],
+			"list",
+			[false, true],
+		);
+
+		return new ServicePage<
+			OpenCloudClient["services"]["opencloud"]["DataStoreService"][
+				"listDataStoreEntries"
+			],
+			DataStoreKeyInfo[]
+		>(
+			this._client.services.opencloud.DataStoreService,
+			this._client.services.opencloud.DataStoreService
+				.listDataStoreEntries,
+			[
+				this.universeId,
+				this.name,
+				this.scope,
+				allScopes,
+				prefix,
+				limit,
+				cursor,
+			],
+			(parameters, data) => {
+				if (data) {
+					if (!data.nextPageCursor) return;
+					parameters[6] = data.nextPageCursor;
+
+					return parameters;
+				}
+			},
+			undefined,
+			(data) => {
+				return data.keys.map((key) =>
+					new DataStoreKeyInfo(key.scope, key.key)
+				);
+			},
+		);
+	}
+}

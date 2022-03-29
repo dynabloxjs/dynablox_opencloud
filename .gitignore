@@ -1,0 +1,5 @@
+tests/
+npm/
+/**/.DS_STORE
+.idea
+.vscode
