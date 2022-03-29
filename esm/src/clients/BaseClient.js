@@ -1,5 +1,5 @@
 import * as services from "../services.js";
-import { RESTController } from "../rest/RESTController.js";
+import { RESTController, } from "../rest/RESTController.js";
 /**
  * Error for BaseClient related actions.
  */

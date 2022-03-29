@@ -60,6 +60,9 @@ class BasePlace {
             throw new OpenCloudClient_js_1.OpenCloudClientError("Can not use `updatePlaceData` on a place with no parentUniverseId.");
         }
         this._client.canAccessResource("universe-places", [this.parentUniverseId.toString()], "write", [false]);
+        if (data.length > 10000000) {
+            throw new OpenCloudClient_js_1.OpenCloudClientError(`data execeeds the maximum allowed 100MB (${data.length.toLocaleString()}).`);
+        }
         return (await this._client.services.opencloud.PlaceManagementService
             .updatePlaceData(this.parentUniverseId, this.id, data, placeVersionType)).versionNumber;
     }
