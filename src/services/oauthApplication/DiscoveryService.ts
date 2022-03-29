@@ -29,14 +29,14 @@ interface ListJwksResponse {
 export class DiscoveryService extends BaseService {
 	public async getOpenidConfiguration(): Promise<OpenidConfiguration> {
 		return (await this.rest.httpRequest<OpenidConfiguration>({
-			url: "{BEDEV2Url:application-authorization}/.well-known/openid-configuration",
+			url: "{BEDEV2Url:oauth}/.well-known/openid-configuration",
 			errorHandling: "BEDEV2",
 		})).body;
 	}
 
 	public async listJwks(): Promise<ListJwksResponse> {
 		return (await this.rest.httpRequest<ListJwksResponse>({
-			url: "{BEDEV2Url:application-authorization}/v1/certs",
+			url: "{BEDEV2Url:oauth}/v1/certs",
 			errorHandling: "BEDEV2",
 		})).body;
 	}
