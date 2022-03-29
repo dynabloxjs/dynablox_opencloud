@@ -22,7 +22,7 @@ export function getOpenCloudRatelimitHelper(rest) {
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries?*")),
             limitations: ["Authenticated"],
             duration: 60000,
-            count: 100,
+            count: 300,
         },
         // Get the value of a DataStore entry
         {
@@ -30,7 +30,7 @@ export function getOpenCloudRatelimitHelper(rest) {
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*")),
             limitations: ["Authenticated"],
             duration: 60000,
-            count: 500,
+            count: 300,
         },
         // Update the value of a DataStore entry
         {
@@ -38,7 +38,7 @@ export function getOpenCloudRatelimitHelper(rest) {
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*")),
             limitations: ["Authenticated"],
             duration: 60000,
-            count: 500,
+            count: 300,
         },
         // Increment the value of a DataStore entry
         {
@@ -46,7 +46,7 @@ export function getOpenCloudRatelimitHelper(rest) {
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment?*")),
             limitations: ["Authenticated"],
             duration: 60000,
-            count: 500,
+            count: 300,
         },
         // Delete DataStore entry
         {
@@ -54,7 +54,7 @@ export function getOpenCloudRatelimitHelper(rest) {
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*")),
             limitations: ["Authenticated"],
             duration: 60000,
-            count: 500,
+            count: 300,
         },
         // List DataStore entry versions
         {
@@ -62,7 +62,7 @@ export function getOpenCloudRatelimitHelper(rest) {
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions?*")),
             limitations: ["Authenticated"],
             duration: 60000,
-            count: 100,
+            count: 300,
         },
         // Get DataStore entry version
         {
@@ -70,7 +70,7 @@ export function getOpenCloudRatelimitHelper(rest) {
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version?*")),
             limitations: ["Authenticated"],
             duration: 60000,
-            count: 100,
+            count: 300,
         },
         // List DataStores
         {
@@ -78,7 +78,7 @@ export function getOpenCloudRatelimitHelper(rest) {
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores?*")),
             limitations: ["Authenticated"],
             duration: 60000,
-            count: 100,
+            count: 300,
         },
     ]);
 }
