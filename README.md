@@ -1,8 +1,12 @@
 ### Active Development
 This module is currently in active development. Nothing is going to stay consistent as it reaches a stable release.
 
-## <p align="center">Dynablox</p>
-<p align="center">[Docs](https://doc.deno.land/https://deno.land/x/dynablox_opencloud/mod.ts)</p>
+### <p align="center">Dynablox</p>
+<p align="center">
+<a href="https://doc.deno.land/https://deno.land/x/dynablox_opencloud/mod.ts">Docs</a>
+| <a href="https://deno.land/x/dynablox_opencloud">deno.land/x</a>
+| <a href="https://www.npmjs.com/package/@dynabloxjs/opencloud">NPM</a>
+</p>
 
 An API wrapper for the OpenCloud Roblox API using the Deno runtime (with full web compatibility and mostly NodeJS compatbility).
 
@@ -87,8 +91,6 @@ const client = new OpenCloudClient({
 
 #### Ratelimiting
 the OpenCloudClient also has a built-in ratelimit helper. If a ratelimit is reached, it will throw an OpenCloudClientError.
-
-**Ratelimits are only enforced on Open Cloud endpoints, User endpoints will never be supported for this behavior.**
 
 You can opt in for yielding behavior by setting `ratelimiterShouldYield` to `true`:
 ```typescript
