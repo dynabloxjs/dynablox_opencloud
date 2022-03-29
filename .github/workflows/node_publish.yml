@@ -1,9 +1,6 @@
 name: Transpile for NodeJS and Release
 
 on:
-  release:
-    branches: [main]
-    types: [published]
   push:
     branches: [main]
   
