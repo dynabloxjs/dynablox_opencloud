@@ -51,4 +51,4 @@ jobs:
         # if: github.event_name == 'published'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: cd npm && npm publish
+        run: cd npm && npm publish --access public
