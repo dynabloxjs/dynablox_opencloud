@@ -307,7 +307,7 @@ export class RESTController {
 
 	public handleRequestHeaders(
 		request: InternalHTTPRequest,
-		url: URL,
+		_url: URL,
 		contentType?: string,
 	): Headers {
 		let filteredHeaders = request.headers ?? {};
