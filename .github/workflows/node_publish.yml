@@ -49,7 +49,7 @@ jobs:
       - name: test
         run: echo "$test"
         env:
-          test: ${{ toJSON(github.event) }}
+          test: ${{ toJSON(github) }}
         
       # Only used if it's triggered from a release
       - name: Publish on NPM
