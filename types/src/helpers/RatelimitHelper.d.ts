@@ -6,7 +6,6 @@ interface SubjectRatelimit {
     index: number;
     origin: Limitation;
     count: number;
-    dependencies: string[];
     startTime?: Date;
 }
 interface RegisteredSubject {
@@ -20,10 +19,9 @@ interface Ratelimit {
     limitations: Limitation[];
     duration: number;
     count: number;
-    dependencies?: string[];
 }
 /**
- * Helper for OpenCloud ratelimit handling. This could also be used on the UserClient, but ratelimits are not public.
+ * Helper for OpenCloud ratelimit handling. This could also be used on other clients, but ratelimits are not public.
  */
 export declare class RatelimitHelper {
     /**

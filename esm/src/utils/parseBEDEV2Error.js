@@ -64,15 +64,12 @@ export async function parseBEDEV2Error(response) {
                             return [{
                                     code: json.error,
                                     message: json.message,
-                                    childErrors: "errorDetails" in json
-                                        ? json.errorDetails.map((error) => {
-                                            return {
-                                                type: error.datastoreErrorCode,
-                                                code: error.errorDetailType,
-                                            };
-                                        })
-                                        : [],
-                                }];
+                                }].concat("errorDetails" in json ? json.errorDetails.map(error => {
+                                return {
+                                    code: error.datastoreErrorCode,
+                                    message: error.errorDetailType,
+                                };
+                            }) : []);
                         }
                     }
                     if ("message" in json) {

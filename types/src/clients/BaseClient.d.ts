@@ -1,6 +1,6 @@
 import * as dntShim from "../../_dnt.shims.js";
 import * as services from "../services.js";
-import { type ClientAuthenticationInit as RESTClientAuthentication, RESTController } from "../rest/RESTController.js";
+import { RESTController, type ClientAuthenticationInit as RESTClientAuthentication } from "../rest/RESTController.js";
 import { type EnvironmentURLOptions } from "../types.js";
 /**
  * Services type for the prototypes of all services.

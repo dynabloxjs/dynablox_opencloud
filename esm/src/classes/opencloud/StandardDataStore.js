@@ -4,7 +4,6 @@ import { DataStoreEntryVersionInfo } from "./DataStoreEntryVersionInfo.js";
 import { DataStoreEntryVersion } from "./DataStoreEntryVersion.js";
 import { DataStoreKeyInfo } from "./DataStoreKeyInfo.js";
 import { ServicePage } from "../../helpers/ServicePaging.js";
-import { OpenCloudClientError, } from "../../clients/OpenCloudClient.js";
 /**
  * DataStore type.
  */
@@ -83,9 +82,6 @@ export class StandardDataStore {
      */
     async getEntry(key) {
         this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString()], "read", [false]);
-        if (key.length > 50) {
-            throw new OpenCloudClientError(`key exceeds the maximum allowed 50 characters in length (${key.length})`);
-        }
         const response = await this._client.services.opencloud.DataStoreService
             .getDataStoreEntry(this.universeId, this.name, key, this.scope);
         return new DataStoreEntry(response.value, response.userIds, response.attributes, response.versionId, response.versionCreatedTime, response.createdTime);
@@ -99,15 +95,6 @@ export class StandardDataStore {
      */
     async incrementEntry(key, incrementBy, userIds, attributes) {
         this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString()], "update", [false]);
-        if (key.length > 50) {
-            throw new OpenCloudClientError(`key exceeds the maximum allowed 50 characters in length (${key.length})`);
-        }
-        if (userIds && userIds.length > 4) {
-            throw new OpenCloudClientError(`userIds exceeds the maximum allowed 4 items (${userIds.length})`);
-        }
-        if (attributes && JSONv2.serialize(attributes).length > 300) {
-            throw new OpenCloudClientError(`attributes exceeds the maximum allowed 300 characters in length (${key.length})`);
-        }
         const response = await this._client.services.opencloud.DataStoreService
             .incrementDataStoreEntry(this.universeId, this.name, key, incrementBy, attributes, userIds, this.scope);
         return new DataStoreEntryVersionInfo(response.version, response.createdTime, response.objectCreatedTime, response.deleted, response.contentLength);
@@ -118,17 +105,11 @@ export class StandardDataStore {
      */
     async removeEntry(key) {
         this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "delete", [false, true]);
-        if (key.length > 50) {
-            throw new OpenCloudClientError(`key exceeds the maximum allowed 50 characters in length (${key.length})`);
-        }
         await this._client.services.opencloud.DataStoreService
             .removeDataStoreEntry(this.universeId, this.name, key, this.scope);
     }
     async getEntryVersion(key, version) {
         this._client.canAccessResource("universe-datastores.versions", [this.universeId.toString(), this.name], "read", [false, true]);
-        if (key.length > 50) {
-            throw new OpenCloudClientError(`key exceeds the maximum allowed 50 characters in length (${key.length})`);
-        }
         const response = await this._client.services.opencloud.DataStoreService
             .getDataStoreEntryVersion(this.universeId, this.name, key, version, this.scope);
         return new DataStoreEntryVersion(response.value, response.versionId, response.createdTime, response.versionCreatedTime);
@@ -138,30 +119,12 @@ export class StandardDataStore {
             this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "update", [false, true]);
         }
         this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "create", [false, true]);
-        const serializedData = typeof data === "string"
-            ? data
-            : JSONv2.serialize(data);
-        if (key.length > 50) {
-            throw new OpenCloudClientError(`key exceeds the maximum allowed 50 characters in length (${key.length})`);
-        }
-        if (serializedData.length > 4000000) {
-            throw new OpenCloudClientError(`data exceeds the maximum allowed 4MB (${serializedData.length})`);
-        }
-        if (userIds && userIds.length > 4) {
-            throw new OpenCloudClientError(`userIds exceeds the maximum allowed 4 items (${userIds.length})`);
-        }
-        if (attributes && JSONv2.serialize(attributes).length > 300) {
-            throw new OpenCloudClientError(`attributes exceeds the maximum allowed 300 characters in length (${key.length})`);
-        }
         const response = await this._client.services.opencloud.DataStoreService
             .updateDataStoreEntry(this.universeId, this.name, key, typeof data === "string" ? data : JSONv2.serialize(data), attributes, userIds, this.scope, matchKeyVersion, createOnly);
         return new DataStoreEntryVersionInfo(response.version, response.createdTime, response.objectCreatedTime, response.deleted, response.contentLength);
     }
     listEntryVersions(key, limit, sortOrder, startTime, endTime, cursor) {
         this._client.canAccessResource("universe-datastores.versions", [this.universeId.toString(), this.name], "list", [false, true]);
-        if (key.length > 50) {
-            throw new OpenCloudClientError(`key exceeds the maximum allowed 50 characters in length (${key.length})`);
-        }
         return new ServicePage(this._client.services.opencloud.DataStoreService, this._client.services.opencloud.DataStoreService
             .listDataStoreEntryVersions, [
             this.universeId,
