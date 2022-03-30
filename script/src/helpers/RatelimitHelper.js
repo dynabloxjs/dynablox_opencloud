@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RatelimitHelper = void 0;
 /**
- * Helper for OpenCloud ratelimit handling. This could also be used on the UserClient, but ratelimits are not public.
+ * Helper for OpenCloud ratelimit handling.
  */
 class RatelimitHelper {
     /**
