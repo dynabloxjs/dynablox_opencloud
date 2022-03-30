@@ -32,7 +32,7 @@ interface Ratelimit {
 }
 
 /**
- * Helper for OpenCloud ratelimit handling. This could also be used on the UserClient, but ratelimits are not public.
+ * Helper for OpenCloud ratelimit handling.
  */
 export class RatelimitHelper {
 	/**
