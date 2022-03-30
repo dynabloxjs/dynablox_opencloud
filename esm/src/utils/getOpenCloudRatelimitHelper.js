@@ -20,65 +20,73 @@ export function getOpenCloudRatelimitHelper(rest) {
         {
             methods: ["GET"],
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries?*")),
-            limitations: ["Authenticated"],
+            limitations: ["All"],
             duration: 60000,
-            count: 100,
+            count: 300,
+            dependencies: ["universeId"],
         },
         // Get the value of a DataStore entry
         {
             methods: ["GET"],
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*")),
-            limitations: ["Authenticated"],
+            limitations: ["All"],
             duration: 60000,
-            count: 500,
+            count: 300,
+            dependencies: ["universeId"],
         },
         // Update the value of a DataStore entry
         {
             methods: ["POST"],
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*")),
-            limitations: ["Authenticated"],
+            limitations: ["All"],
             duration: 60000,
-            count: 500,
+            count: 300,
+            dependencies: ["universeId"],
         },
         // Increment the value of a DataStore entry
         {
             methods: ["POST"],
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment?*")),
-            limitations: ["Authenticated"],
+            limitations: ["All"],
             duration: 60000,
-            count: 500,
+            count: 300,
+            dependencies: ["universeId"],
         },
         // Delete DataStore entry
         {
             methods: ["DELETE"],
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*")),
-            limitations: ["Authenticated"],
+            limitations: ["All"],
             duration: 60000,
-            count: 500,
+            count: 300,
+            dependencies: ["universeId"],
         },
         // List DataStore entry versions
         {
             methods: ["GET"],
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions?*")),
-            limitations: ["Authenticated"],
+            limitations: ["All"],
             duration: 60000,
-            count: 100,
+            count: 300,
+            dependencies: ["universeId"],
         },
         // Get DataStore entry version
         {
             methods: ["GET"],
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version?*")),
-            limitations: ["Authenticated"],
+            limitations: ["All"],
             duration: 60000,
-            count: 100,
+            count: 300,
+            dependencies: ["universeId"],
         },
         // List DataStores
         {
             methods: ["GET"],
             pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores?*")),
-            limitations: ["Authenticated"],
+            limitations: ["All"],
             duration: 60000,
-            count: 100,
+            count: 300,
+            dependencies: ["universeId"],
         },
     ]);
 }
