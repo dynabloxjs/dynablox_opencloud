@@ -97,7 +97,7 @@ async function parseBEDEV2Error(response) {
                                                 code: error.errorDetailType,
                                             };
                                         })
-                                        : []
+                                        : [],
                                 }];
                         }
                     }
