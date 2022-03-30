@@ -16,9 +16,12 @@ type BEDEV1ErrorResponse = string | {
 	message: string;
 };
 
+type ChildError = { type: string; code: string; };
+
 export interface BEDEV1Error {
 	code?: string | number;
 	message: string;
+	childErrors?: ChildError[];
 	field?: string;
 	fieldData?: string;
 }
