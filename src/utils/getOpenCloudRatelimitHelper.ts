@@ -22,11 +22,6 @@ export function getOpenCloudRatelimitHelper(
 			duration: 60_000,
 			count: 10,
 		},
-		/*
-		This is temporarily disabled.
-		TODO: the OpenCloud rate limit helpers were not made to do throughput rateliiting, and per universe ratelimits.
-		During the private beta, it was per API key.
-
 		// DataStore APIs
 		// List DataStore entries
 		{
@@ -36,9 +31,10 @@ export function getOpenCloudRatelimitHelper(
 					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries?*",
 				),
 			),
-			limitations: ["Authenticated"],
+			limitations: ["All"],
 			duration: 60_000,
 			count: 300,
+			dependencies: ["universeId"],
 		},
 		// Get the value of a DataStore entry
 		{
@@ -48,9 +44,10 @@ export function getOpenCloudRatelimitHelper(
 					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*",
 				),
 			),
-			limitations: ["Authenticated"],
+			limitations: ["All"],
 			duration: 60_000,
 			count: 300,
+			dependencies: ["universeId"],
 		},
 		// Update the value of a DataStore entry
 		{
@@ -60,9 +57,10 @@ export function getOpenCloudRatelimitHelper(
 					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*",
 				),
 			),
-			limitations: ["Authenticated"],
+			limitations: ["All"],
 			duration: 60_000,
 			count: 300,
+			dependencies: ["universeId"],
 		},
 		// Increment the value of a DataStore entry
 		{
@@ -72,9 +70,10 @@ export function getOpenCloudRatelimitHelper(
 					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment?*",
 				),
 			),
-			limitations: ["Authenticated"],
+			limitations: ["All"],
 			duration: 60_000,
 			count: 300,
+			dependencies: ["universeId"],
 		},
 		// Delete DataStore entry
 		{
@@ -84,9 +83,10 @@ export function getOpenCloudRatelimitHelper(
 					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*",
 				),
 			),
-			limitations: ["Authenticated"],
+			limitations: ["All"],
 			duration: 60_000,
 			count: 300,
+			dependencies: ["universeId"],
 		},
 		// List DataStore entry versions
 		{
@@ -96,9 +96,10 @@ export function getOpenCloudRatelimitHelper(
 					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions?*",
 				),
 			),
-			limitations: ["Authenticated"],
+			limitations: ["All"],
 			duration: 60_000,
 			count: 300,
+			dependencies: ["universeId"],
 		},
 		// Get DataStore entry version
 		{
@@ -108,9 +109,10 @@ export function getOpenCloudRatelimitHelper(
 					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version?*",
 				),
 			),
-			limitations: ["Authenticated"],
+			limitations: ["All"],
 			duration: 60_000,
 			count: 300,
+			dependencies: ["universeId"],
 		},
 		// List DataStores
 		{
@@ -120,9 +122,10 @@ export function getOpenCloudRatelimitHelper(
 					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores?*",
 				),
 			),
-			limitations: ["Authenticated"],
+			limitations: ["All"],
 			duration: 60_000,
 			count: 300,
-		},*/
+			dependencies: ["universeId"],
+		},
 	]);
 }

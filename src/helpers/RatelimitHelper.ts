@@ -12,6 +12,7 @@ interface SubjectRatelimit {
 	index: number;
 	origin: Limitation;
 	count: number;
+	dependencies: string[];
 	startTime?: Date;
 }
 
@@ -27,10 +28,11 @@ interface Ratelimit {
 	limitations: Limitation[];
 	duration: number;
 	count: number;
+	dependencies?: string[];
 }
 
 /**
- * Helper for OpenCloud ratelimit handling. This could also be used on other clients, but ratelimits are not public.
+ * Helper for OpenCloud ratelimit handling. This could also be used on the UserClient, but ratelimits are not public.
  */
 export class RatelimitHelper {
 	/**
@@ -174,33 +176,80 @@ export class RatelimitHelper {
 				for (const ratelimit of subject.ratelimits) {
 					const limitation = this._options[ratelimit.index];
 
-					if (
-						(limitation.methods.includes(method)) &&
-						((limitation.limitations.some((r) =>
-							subjectLimitations.includes(r)
-						)) || (limitation.limitations.some((r) =>
-							globalLimitations.includes(r)
-						))) && (limitation.pattern.test(url))
-					) {
-						ratelimits.push(ratelimit);
+					const match = limitation.pattern.exec(url);
+
+					if (match) {
+						const dependencies: string[] = [];
+						if (limitation.dependencies) {
+							for (const dependency of limitation.dependencies) {
+								if (match.pathname.groups[dependency]) {
+									dependencies.push(
+										match.pathname.groups[dependency],
+									);
+								}
+								if (url.searchParams.has(dependency)) {
+									dependencies.push(
+										url.searchParams.get(dependency)!,
+									);
+								}
+							}
+						}
+
+						if (
+							(!limitation.dependencies?.length ||
+								ratelimit.dependencies!.every((
+									value,
+									index,
+								) => dependencies[index] === value)) &&
+							(limitation.methods.includes(method)) &&
+							((limitation.limitations.some((r) =>
+								subjectLimitations.includes(r)
+							)) || (limitation.limitations.some((r) =>
+								globalLimitations.includes(r)
+							)))
+						) {
+							ratelimits.push(ratelimit);
+						}
 					}
 				}
 			}
 		}
 
 		for (const [limitationIndex, limitation] of this._options.entries()) {
+			const match = limitation.pattern.exec(url);
 			if (
 				limitation.methods.includes(method) &&
-				limitation.pattern.test(url)
+				match
 			) {
+				const dependencies: string[] = [];
+				if (limitation.dependencies) {
+					for (const dependency of limitation.dependencies) {
+						if (match.pathname.groups[dependency]) {
+							dependencies.push(
+								match.pathname.groups[dependency],
+							);
+						}
+						if (url.searchParams.has(dependency)) {
+							dependencies.push(
+								url.searchParams.get(dependency)!,
+							);
+						}
+					}
+				}
+
 				for (
 					const type of limitation.limitations.filter((type) =>
 						(subjectLimitations.includes(type) ||
 							globalLimitations.includes(type)) &&
-						!ratelimits.find(
-							(ratelimit) => (ratelimit.index ===
-									limitationIndex &&
-								ratelimit.origin === type),
+						!ratelimits.find((ratelimit) =>
+							(ratelimit.index ===
+								limitationIndex) &&
+							(ratelimit.origin === type) &&
+							(!limitation.dependencies?.length ||
+								ratelimit.dependencies!.every((
+									value,
+									index,
+								) => dependencies[index] === value))
 						)
 					)
 				) {
@@ -208,6 +257,7 @@ export class RatelimitHelper {
 						index: limitationIndex,
 						origin: type,
 						count: 0,
+						dependencies,
 					});
 				}
 			}
@@ -255,27 +305,69 @@ export class RatelimitHelper {
 			for (const ratelimit of subject.ratelimits) {
 				const limitation = this._options[ratelimit.index];
 
-				if (
-					(subjectLimitations.includes(ratelimit.origin) ||
-						globalLimitations.includes(ratelimit.origin)) &&
-					(limitation.methods.includes(method)) &&
-					((limitation.limitations.some((r) =>
-						subjectLimitations.includes(r)
-					)) || (limitation.limitations.some((r) =>
-						globalLimitations.includes(r)
-					))) && (limitation.pattern.test(url))
-				) {
-					ratelimit.count += count;
+				const match = limitation.pattern.exec(url);
+				if (match) {
+					const dependencies: string[] = [];
+					if (limitation.dependencies) {
+						for (const dependency of limitation.dependencies) {
+							if (match.pathname.groups[dependency]) {
+								dependencies.push(
+									match.pathname.groups[dependency],
+								);
+							}
+							if (url.searchParams.has(dependency)) {
+								dependencies.push(
+									url.searchParams.get(dependency)!,
+								);
+							}
+						}
+					}
+
+					if (
+						(subjectLimitations.includes(ratelimit.origin) ||
+							globalLimitations.includes(ratelimit.origin)) &&
+						(limitation.methods.includes(method)) &&
+						((limitation.limitations.some((r) =>
+							subjectLimitations.includes(r)
+						)) || (limitation.limitations.some((r) =>
+							globalLimitations.includes(r)
+						))) &&
+						(!limitation.dependencies?.length ||
+							ratelimit.dependencies!.every((
+								value,
+								index,
+							) => dependencies[index] === value))
+					) {
+						ratelimit.count += count;
+					}
 				}
 			}
 
 			for (
 				const [limitationIndex, limitation] of this._options.entries()
 			) {
+				const match = limitation.pattern.exec(url);
+
 				if (
 					limitation.methods.includes(method) &&
-					limitation.pattern.test(url)
+					match
 				) {
+					const dependencies: string[] = [];
+					if (limitation.dependencies) {
+						for (const dependency of limitation.dependencies) {
+							if (match.pathname.groups[dependency]) {
+								dependencies.push(
+									match.pathname.groups[dependency],
+								);
+							}
+							if (url.searchParams.has(dependency)) {
+								dependencies.push(
+									url.searchParams.get(dependency)!,
+								);
+							}
+						}
+					}
+
 					for (
 						const type of limitation.limitations.filter((type) =>
 							(subject.type === type &&
@@ -283,9 +375,15 @@ export class RatelimitHelper {
 									? globalLimitations.includes(type)
 									: subjectLimitations.includes(type))) &&
 							!subject.ratelimits.find(
-								(ratelimit) => (ratelimit.index ===
-										limitationIndex &&
-									ratelimit.origin === type),
+								(ratelimit) =>
+									(ratelimit.index ===
+											limitationIndex &&
+										ratelimit.origin === type) &&
+									(!limitation.dependencies?.length ||
+										ratelimit.dependencies!.every((
+											value,
+											index,
+										) => dependencies[index] === value)),
 							)
 						)
 					) {
@@ -294,6 +392,7 @@ export class RatelimitHelper {
 							origin: type,
 							count,
 							startTime: new Date(),
+							dependencies,
 						});
 					}
 				}
