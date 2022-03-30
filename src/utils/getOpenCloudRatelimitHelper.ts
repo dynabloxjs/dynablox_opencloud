@@ -22,6 +22,11 @@ export function getOpenCloudRatelimitHelper(
 			duration: 60_000,
 			count: 10,
 		},
+		/*
+		This is temporarily disabled.
+		TODO: the OpenCloud rate limit helpers were not made to do throughput rateliiting, and per universe ratelimits.
+		During the private beta, it was per API key.
+
 		// DataStore APIs
 		// List DataStore entries
 		{
@@ -118,6 +123,6 @@ export function getOpenCloudRatelimitHelper(
 			limitations: ["Authenticated"],
 			duration: 60_000,
 			count: 300,
-		},
+		},*/
 	]);
 }
