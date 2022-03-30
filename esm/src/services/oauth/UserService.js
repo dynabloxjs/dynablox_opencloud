@@ -1,6 +1,6 @@
 import { BaseService } from "../BaseService.js";
 export class UserService extends BaseService {
-    async getAuthenticataedUser() {
+    async getAuthenticatedUser() {
         return (await this.rest.httpRequest({
             url: "{BEDEV2Url:oauth}/v1/userinfo",
             errorHandling: "BEDEV2",

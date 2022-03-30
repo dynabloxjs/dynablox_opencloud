@@ -11,6 +11,6 @@ interface AuthenticatedUser {
     verified?: boolean;
 }
 export declare class UserService extends BaseService {
-    getAuthenticataedUser(): Promise<AuthenticatedUser>;
+    getAuthenticatedUser(): Promise<AuthenticatedUser>;
 }
 export {};
