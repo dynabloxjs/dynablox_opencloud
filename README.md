@@ -28,7 +28,7 @@ import * as dynablox from "@dynabloxjs/opencloud";
 
 For pre-release builds:
 
-Run `npm install dynabloxjs/dynablox_opencloud#npm` to install.
+Run `npm install dynabloxjs/dynablox_opencloud#node` to install.
 
 #### Deno Installation
 Steps to install Deno can be found [here](https://github.com/denoland/deno_install).
