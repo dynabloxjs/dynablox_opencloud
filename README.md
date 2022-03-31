@@ -28,9 +28,7 @@ import * as dynablox from "@dynabloxjs/opencloud";
 
 For pre-release builds:
 
-Clone the [node](https://github.com/dynabloxjs/dynablox_opencloud/tree/node) branch on your machine.
-
-Run `npm install {path_to_node_branch_folder}` to install.
+Run `npm install dynabloxjs/dynablox_opencloud#npm` to install.
 
 #### Deno Installation
 Steps to install Deno can be found [here](https://github.com/denoland/deno_install).
@@ -124,7 +122,7 @@ const client2 = new OpenCloudClient({
 
 #### Examples
 ##### Publishing a Place
-Deno:
+###### Deno
 ```typescript
 import { OpenCloudClient } from "https://deno.land/x/dynablox_opencloud/mod.ts";
 
@@ -149,7 +147,7 @@ const placeVersion = await place.updateContents(fileData, "Saved");
 console.log(`Updated place to version ${placeVersion}`);
 ```
 
-NodeJS:
+###### NodeJS
 ```javascript
 const { OpenCloudClient } = require("@dynabloxjs/opencloud");
 const fs = require("fs/promises");
@@ -174,5 +172,82 @@ const place = client.getBaseUniverse(13058).getBasePlace(1818);
     const placeVersion = await place.updateContents(fileData, "Saved");
     
     console.log(`Updated place to version ${placeVersion}`);
+})();
+```
+
+##### Accessing DataStores
+###### Deno
+```typescript
+import { OpenCloudClient } from "https://deno.land/x/dynablox_opencloud/mod.ts";
+
+const client = new OpenCloudClient({
+    credentialsValue: "APIKEYHERE",
+    scopes: [{
+        // Tell the client we have access to reading and listing DataStore objects on universe 13058 and not any other universe.
+        type: "universe-datastores.objects",
+        targetParts: ["13058"],
+        operations: ["read", "list"],
+    }],
+});
+
+// The method has "base" because it doesn't actually make any HTTP requests.
+const datastore = client.getBaseUniverse(13058).getStandardDataStore("TestStore");
+
+// `ServicePage` has an async iterator implementation, let's use it.
+for await (const keys of datastore.listEntries()) {
+    keys.forEach(({key}) => {
+        console.log(key);
+        if (key.startsWith("Player")) {
+            const data = await datastore.getEntry(key);
+
+            console.log(`${key} data length: ${JSON.stringify(data).length}`);
+        }
+    });
+}
+
+// Or:
+// const keys = await datastore.listEntries().getCurrentPage();
+// keys.data.forEach(({key}) => ...);
+// Get more data:
+// const moreKeys = await keys.getNextPage();
+// moreKeys.data.forEach(({key}) => ...);
+```
+
+###### NodeJS
+```javascript
+const { OpenCloudClient } = require("@dynabloxjs/opencloud");
+
+const client = new OpenCloudClient({
+    credentialsValue: "APIKEYHERE",
+    scopes: [{
+        // Tell the client we have access to reading and listing DataStore objects on universe 13058 and not any other universe.
+        type: "universe-datastores.objects",
+        targetParts: ["13058"],
+        operations: ["read", "list"],
+    }],
+});
+
+// The method has "base" because it doesn't actually make any HTTP requests.
+const datastore = client.getBaseUniverse(13058).getStandardDataStore("TestStore");
+
+(async () => {
+    // `ServicePage` has an async iterator implementation, let's use it.
+    for await (const keys of datastore.listEntries()) {
+        keys.forEach(({key}) => {
+            console.log(key);
+            if (key.startsWith("Player")) {
+                const data = await datastore.getEntry(key);
+                
+                console.log(`${key} data length: ${JSON.stringify(data).length}`);
+            }
+        });
+    }
+
+    // Or:
+    // const keys = await datastore.listEntries().getCurrentPage();
+    // keys.data.forEach(({key}) => ...);
+    // Get more data:
+    // const moreKeys = await keys.getNextPage();
+    // moreKeys.data.forEach(({key}) => ...);
 })();
 ```
