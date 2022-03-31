@@ -1,5 +1,5 @@
 import { BaseService } from "../BaseService.js";
-interface AuthenticatedUser {
+export interface AuthenticatedUser {
     sub: string;
     subType: string;
     name: string;
@@ -13,4 +13,3 @@ interface AuthenticatedUser {
 export declare class UserService extends BaseService {
     getAuthenticatedUser(): Promise<AuthenticatedUser>;
 }
-export {};

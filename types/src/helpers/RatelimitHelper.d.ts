@@ -1,20 +1,20 @@
 import * as dntShim from "../../_dnt.shims.js";
 import { type HTTPMethod as Method } from "../rest/RESTController.js";
-declare type Limitation = "All" | "AuthenticatedIP" | "NotAuthenticated" | "Authenticated";
-declare type RegisterIdentifierType = "Authenticated";
-interface SubjectRatelimit {
+export declare type Limitation = "All" | "AuthenticatedIP" | "NotAuthenticated" | "Authenticated";
+export declare type RegisterIdentifierType = "Authenticated";
+export interface SubjectRatelimit {
     index: number;
     origin: Limitation;
     count: number;
     dependencies: string[];
     startTime?: Date;
 }
-interface RegisteredSubject {
+export interface RegisteredSubject {
     type: Limitation;
     id?: number;
     ratelimits: SubjectRatelimit[];
 }
-interface Ratelimit {
+export interface Ratelimit {
     methods: Method[];
     pattern: dntShim.URLPattern;
     limitations: Limitation[];
@@ -100,4 +100,3 @@ export declare class RatelimitHelper {
      */
     getNextRequestAvailability(method: Method, url: URL, id?: number): Date | undefined;
 }
-export {};

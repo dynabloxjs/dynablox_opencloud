@@ -6,7 +6,7 @@ import { type EnvironmentURLOptions } from "../types.js";
 /**
  * Base options for the BaseClent.
  */
-interface OpenCloudClientOptionsBase {
+export interface OpenCloudClientOptionsBase {
     /**
      * Change the environment URLs. Default for `BEDEV2Url` is `apis.roblox.com/{0}`.
      */
@@ -27,7 +27,7 @@ interface OpenCloudClientOptionsBase {
 /**
  * OpenCloudClient options.
  */
-interface OpenCloudClientOptions {
+export interface OpenCloudClientOptions {
     /**
      * The API Key credential value.
      */
@@ -53,31 +53,31 @@ interface OpenCloudClientOptions {
      */
     base?: OpenCloudClientOptionsBase;
 }
-interface UniversePlacesScope {
+export interface UniversePlacesScope {
     scopeType: "universe-places";
     targetParts: [string];
     operations: "write"[];
     allowAllOperations?: boolean;
 }
-interface UniverseDataStoresObjectsScope {
+export interface UniverseDataStoresObjectsScope {
     scopeType: "universe-datastores.objects";
     targetParts: [string, string?];
     operations: ("read" | "create" | "update" | "delete" | "list")[];
     allowAllOperations?: boolean;
 }
-interface UniverseDataStoresVersionsScope {
+export interface UniverseDataStoresVersionsScope {
     scopeType: "universe-datastores.versions";
     targetParts: [string, string?];
     operations: ("read" | "list")[];
     allowAllOperations?: boolean;
 }
-interface UniverseDataStoresControlScope {
+export interface UniverseDataStoresControlScope {
     scopeType: "universe-datastores.control";
     targetParts: [string];
     operations: ("list" | "create")[];
     allowAllOperations?: boolean;
 }
-declare type Scope = UniversePlacesScope | UniverseDataStoresObjectsScope | UniverseDataStoresVersionsScope | UniverseDataStoresControlScope;
+export declare type Scope = UniversePlacesScope | UniverseDataStoresObjectsScope | UniverseDataStoresVersionsScope | UniverseDataStoresControlScope;
 /**
  * OpenCloudClient error objects.
  */
@@ -132,4 +132,3 @@ export declare class OpenCloudClient extends BaseClient {
      */
     getBaseUniverse(universeId: number): BaseUniverse;
 }
-export {};

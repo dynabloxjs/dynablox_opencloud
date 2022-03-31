@@ -1,5 +1,5 @@
 import { BaseService } from "../BaseService.js";
-interface TokenIntrospection {
+export interface TokenIntrospection {
     active: boolean;
     jti: string;
     iss: string;
@@ -13,7 +13,7 @@ interface TokenIntrospection {
     exp: number;
     iat: string;
 }
-interface OAuthToken {
+export interface OAuthToken {
     accessToken: string;
     refreshToken?: string;
     tokenType: string;
@@ -25,4 +25,3 @@ export declare class TokenService extends BaseService {
     revokeToken(token: string): Promise<void>;
     useCode(grantType: string, code: string, refreshToken?: string, codeVerifier?: string): Promise<OAuthToken>;
 }
-export {};

@@ -88,7 +88,7 @@ export interface InternalHTTPRequest {
 /**
  * RESTController public-facing HTTP request parameters.
  */
-interface HTTPRequest extends InternalHTTPRequest {
+export interface HTTPRequest extends InternalHTTPRequest {
     /**
      * The method to use to handle and throw errors.
      *
@@ -124,7 +124,7 @@ export interface RESTControllerOptions {
 /**
  * API key authentication for open cloud endpoints.
  */
-interface APIKeyAuthentication {
+export interface APIKeyAuthentication {
     /**
      * API Key type for open cloud endpoints.
      */
@@ -137,7 +137,7 @@ interface APIKeyAuthentication {
 /**
  * OAuth2 authentication
  */
-interface BearerAuthentication {
+export interface BearerAuthentication {
     /**
      * OAuth2 authentication type.
      */
@@ -150,7 +150,7 @@ interface BearerAuthentication {
 /**
  * OAuth2 application authentication.
  */
-interface ApplicationAuthentication {
+export interface ApplicationAuthentication {
     /**
      * OAuth2 application type.
      */
@@ -259,4 +259,3 @@ export declare class RESTController {
      */
     setCredentialsValue(credentials: ClientAuthenticationInit["value"]): void;
 }
-export {};

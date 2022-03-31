@@ -1,5 +1,5 @@
 import { BaseService } from "../BaseService.js";
-interface OpenidConfiguration {
+export interface OpenidConfiguration {
     issuer: string;
     authorizationEndpoint: string;
     tokenEndpoint: string;
@@ -14,16 +14,15 @@ interface OpenidConfiguration {
     claimsSupported: string[];
     tokenEndpointAuthMethodsSupported: string[];
 }
-interface OAuthKey {
+export interface OAuthKey {
     alg: string;
     kty: string;
     kid: string;
 }
-interface ListJwksResponse {
+export interface ListJwksResponse {
     keys: OAuthKey;
 }
 export declare class DiscoveryService extends BaseService {
     getOpenidConfiguration(): Promise<OpenidConfiguration>;
     listJwks(): Promise<ListJwksResponse>;
 }
-export {};

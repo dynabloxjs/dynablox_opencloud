@@ -5,7 +5,7 @@ import { type EnvironmentURLOptions } from "../types.js";
 /**
  * Services type for the prototypes of all services.
  */
-declare type Services = {
+export declare type Services = {
     opencloud: {
         [K in keyof typeof services.opencloud]: typeof services.opencloud[K]["prototype"];
     };
@@ -19,7 +19,7 @@ declare type Services = {
 /**
  * API key authentication for open cloud endpoints.
  */
-interface APIKeyAuthentication {
+export interface APIKeyAuthentication {
     /**
      * API Key type for open cloud endpoints.
      */
@@ -32,7 +32,7 @@ interface APIKeyAuthentication {
 /**
  * OAuth2 authentication
  */
-interface BearerAuthentication {
+export interface BearerAuthentication {
     /**
      * OAuth2 authentication type.
      */
@@ -45,7 +45,7 @@ interface BearerAuthentication {
 /**
  * OAuth2 application authentication.
  */
-interface ApplicationAuthentication {
+export interface ApplicationAuthentication {
     /**
      * OAuth2 application type.
      */
@@ -61,11 +61,11 @@ interface ApplicationAuthentication {
 /**
  * Authentication credentials.
  */
-declare type ClientAuthentication = APIKeyAuthentication | BearerAuthentication | ApplicationAuthentication;
+export declare type ClientAuthentication = APIKeyAuthentication | BearerAuthentication | ApplicationAuthentication;
 /**
  * BaseClient options.
  */
-interface BaseClientOptions {
+export interface BaseClientOptions {
     /**
      * Basic credentials that include a `type` and `value`.
      */
@@ -128,4 +128,3 @@ export declare class BaseClient {
      */
     setCredentialsValue(credentials: ClientAuthentication["value"]): void;
 }
-export {};
