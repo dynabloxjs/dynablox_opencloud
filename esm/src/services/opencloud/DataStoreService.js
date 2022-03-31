@@ -3,7 +3,6 @@ import { Base64Encode, Md5 } from "../../../deps.js";
 import * as JSONv2 from "../../utils/json.js";
 export class DataStoreService extends BaseService {
     async listDataStores(universeId, prefix, limit, cursor) {
-        // TODO: When ordered/sorted datastores are implemented, handle it here
         return (await this.rest.httpRequest({
             url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores`,
             query: {
@@ -16,7 +15,6 @@ export class DataStoreService extends BaseService {
         })).body;
     }
     async listDataStoreEntries(universeId, datastoreName, scope = "global", allScopes, prefix, limit, cursor) {
-        // TODO: When ordered/sorted datastores are implemented, handle it here
         return (await this.rest.httpRequest({
             url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries`,
             query: {
@@ -32,7 +30,6 @@ export class DataStoreService extends BaseService {
         })).body;
     }
     async getDataStoreEntry(universeId, datastoreName, entryKey, scope = "global") {
-        // TODO: When ordered/sorted datastores are implemented, handle it here
         const response = await this.rest.httpRequest({
             url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
             query: {
@@ -58,7 +55,6 @@ export class DataStoreService extends BaseService {
         };
     }
     async updateDataStoreEntry(universeId, dataStoreName, entryKey, data, attributes, userIds, scope = "global", matchKeyVersion, createOnly) {
-        // TODO: When ordered/sorted datastores are implemented, handle it here
         return (await this.rest.httpRequest({
             method: "POST",
             url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
@@ -83,7 +79,6 @@ export class DataStoreService extends BaseService {
         })).body;
     }
     async incrementDataStoreEntry(universeId, dataStoreName, entryKey, incrementBy, attributes, userIds, scope = "global") {
-        // TODO: When ordered/sorted datastores are implemented, handle it here
         return (await this.rest.httpRequest({
             method: "POST",
             url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/increment`,
@@ -102,7 +97,6 @@ export class DataStoreService extends BaseService {
         })).body;
     }
     async removeDataStoreEntry(universeId, dataStoreName, entryKey, scope = "global") {
-        // TODO: When ordered/sorted datastores are implemented, handle it here
         await this.rest.httpRequest({
             method: "DELETE",
             url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
@@ -117,7 +111,6 @@ export class DataStoreService extends BaseService {
         });
     }
     async listDataStoreEntryVersions(universeId, dataStoreName, entryKey, startTime, endTime, sortOrder, limit, scope = "global", cursor) {
-        // TODO: When ordered/sorted datastores are implemented, handle it here
         return (await this.rest.httpRequest({
             url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`,
             query: {
@@ -135,7 +128,6 @@ export class DataStoreService extends BaseService {
         })).body;
     }
     async getDataStoreEntryVersion(universeId, datastoreName, entryKey, versionId, scope = "global") {
-        // TODO: When ordered/sorted datastores are implemented, handle it here
         const response = await this.rest.httpRequest({
             url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions/version`,
             query: {

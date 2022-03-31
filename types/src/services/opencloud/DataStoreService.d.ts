@@ -6,7 +6,7 @@ export interface ListDataStoresResponseDataStoresItem {
 }
 export interface ListDataStoresResponse {
     datastores: ListDataStoresResponseDataStoresItem[];
-    nextPageCursor: string | null;
+    nextPageCursor?: string;
 }
 export interface EntryKey {
     scope: string;
@@ -14,7 +14,7 @@ export interface EntryKey {
 }
 export interface ListDataStoreEntriesResponse {
     keys: EntryKey[];
-    nextPageCursor: string | null;
+    nextPageCursor?: string;
 }
 export interface DataStoreEntry<Expect, Attributes extends Record<string, unknown>> {
     createdTime: string | null;
@@ -33,7 +33,7 @@ export interface EntryVersion {
 }
 export interface ListDataStoreEntryVersionsResponse {
     versions: EntryVersion[];
-    nextPageCursor: string | null;
+    nextPageCursor?: string;
 }
 export interface DataStoreEntryVersion<Expect> {
     createdTime: string | null;
