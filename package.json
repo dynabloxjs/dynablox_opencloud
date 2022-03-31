@@ -17,7 +17,9 @@
   "keywords": [
     "dynablox",
     "roblox",
-    "opencloud"
+    "opencloud",
+    "api",
+    "endpoint"
   ],
   "license": "MIT",
   "exports": {
