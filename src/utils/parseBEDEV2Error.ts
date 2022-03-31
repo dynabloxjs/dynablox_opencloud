@@ -115,7 +115,7 @@ export async function parseBEDEV2Error(
 									? json.errorDetails.map((error) => {
 										return {
 											type: error.errorDetailType,
-											code: error.datastoreErrorCode
+											code: error.datastoreErrorCode,
 										};
 									})
 									: [],

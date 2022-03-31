@@ -185,6 +185,11 @@ export class StandardDataStore {
 			.removeDataStoreEntry(this.universeId, this.name, key, this.scope);
 	}
 
+	/**
+	 * Get the content of a DataStore entry by version.
+	 * @param key - The key of the entry to get.
+	 * @param version - The version of the entry to get.
+	 */
 	public async getEntryVersion<Data = unknown>(
 		key: string,
 		version: string,
@@ -235,6 +240,7 @@ export class StandardDataStore {
 				[false, true],
 			);
 		}
+		
 		this._client.canAccessResource(
 			"universe-datastores.objects",
 			[this.universeId.toString(), this.name],
@@ -360,7 +366,6 @@ export class StandardDataStore {
 
 	public listEntries(
 		prefix?: string,
-		allScopes?: boolean,
 		limit?: number,
 		cursor?: string,
 	): ServicePage<
@@ -389,7 +394,6 @@ export class StandardDataStore {
 				this.universeId,
 				this.name,
 				this.scope,
-				allScopes,
 				prefix,
 				limit,
 				cursor,
@@ -397,7 +401,58 @@ export class StandardDataStore {
 			(parameters, data) => {
 				if (data) {
 					if (!data.nextPageCursor) return;
-					parameters[6] = data.nextPageCursor;
+					parameters[5] = data.nextPageCursor;
+
+					return parameters;
+				}
+			},
+			undefined,
+			(data) => {
+				return data.keys.map((key) =>
+					new DataStoreKeyInfo(key.scope, key.key)
+				);
+			},
+		);
+	}
+
+	public listAllEntries(
+		prefix?: string,
+		limit?: number,
+		cursor?: string,
+	): ServicePage<
+		OpenCloudClient["services"]["opencloud"]["DataStoreService"][
+			"listDataStoreEntries"
+		],
+		DataStoreKeyInfo[]
+	> {
+		this._client.canAccessResource(
+			"universe-datastores.objects",
+			[this.universeId.toString(), this.name],
+			"list",
+			[false, true],
+		);
+
+		return new ServicePage<
+			OpenCloudClient["services"]["opencloud"]["DataStoreService"][
+				"listDataStoreEntries"
+			],
+			DataStoreKeyInfo[]
+		>(
+			this._client.services.opencloud.DataStoreService,
+			this._client.services.opencloud.DataStoreService
+				.listDataStoreEntries,
+			[
+				this.universeId,
+				this.name,
+				true,
+				prefix,
+				limit,
+				cursor,
+			],
+			(parameters, data) => {
+				if (data) {
+					if (!data.nextPageCursor) return;
+					parameters[5] = data.nextPageCursor;
 
 					return parameters;
 				}

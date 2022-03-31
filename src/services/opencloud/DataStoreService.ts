@@ -77,8 +77,7 @@ export class DataStoreService extends BaseService {
 	public async listDataStoreEntries(
 		universeId: number,
 		datastoreName: string,
-		scope = "global",
-		allScopes?: boolean,
+		scopeOrAllScopes: string | boolean = "global",
 		prefix?: string,
 		limit?: number,
 		cursor?: string,
@@ -87,8 +86,8 @@ export class DataStoreService extends BaseService {
 			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries`,
 			query: {
 				datastoreName,
-				scope,
-				AllScopes: allScopes,
+				[typeof scopeOrAllScopes === "boolean" ? "AllScopes" : "scope"]:
+					scopeOrAllScopes,
 				prefix,
 				limit,
 				cursor,
@@ -230,21 +229,23 @@ export class DataStoreService extends BaseService {
 		scope = "global",
 		cursor?: string,
 	): Promise<ListDataStoreEntryVersionsResponse> {
-		return (await this.rest.httpRequest<ListDataStoreEntryVersionsResponse>({
-			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`,
-			query: {
-				dataStoreName,
-				entryKey,
-				scope,
-				startTime,
-				endTime,
-				sortOrder,
-				limit,
-				cursor,
+		return (await this.rest.httpRequest<ListDataStoreEntryVersionsResponse>(
+			{
+				url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`,
+				query: {
+					dataStoreName,
+					entryKey,
+					scope,
+					startTime,
+					endTime,
+					sortOrder,
+					limit,
+					cursor,
+				},
+				errorHandling: "BEDEV2",
+				includeCredentials: true,
 			},
-			errorHandling: "BEDEV2",
-			includeCredentials: true,
-		})).body;
+		)).body;
 	}
 
 	public async getDataStoreEntryVersion<Expect = unknown>(
