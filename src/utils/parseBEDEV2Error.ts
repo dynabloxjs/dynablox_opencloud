@@ -114,8 +114,8 @@ export async function parseBEDEV2Error(
 								childErrors: "errorDetails" in json
 									? json.errorDetails.map((error) => {
 										return {
-											type: error.datastoreErrorCode,
-											code: error.errorDetailType,
+											type: error.errorDetailType,
+											code: error.datastoreErrorCode
 										};
 									})
 									: [],

@@ -432,7 +432,7 @@ export class RESTController {
 				: parseBEDEV2Error)(response);
 			const errorsToString = errors.map((error) => {
 				return Object.entries(error).map(([key, value]) =>
-					`${key}: "${value}"`
+					`${key}: "${Array.isArray(value) ? JSONv2.serialize(value) : value}"`
 				).join(", ");
 			}).join("\n");
 
