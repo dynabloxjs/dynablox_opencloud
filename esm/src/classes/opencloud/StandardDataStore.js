@@ -124,6 +124,11 @@ export class StandardDataStore {
         await this._client.services.opencloud.DataStoreService
             .removeDataStoreEntry(this.universeId, this.name, key, this.scope);
     }
+    /**
+     * Get the content of a DataStore entry by version.
+     * @param key - The key of the entry to get.
+     * @param version - The version of the entry to get.
+     */
     async getEntryVersion(key, version) {
         this._client.canAccessResource("universe-datastores.versions", [this.universeId.toString(), this.name], "read", [false, true]);
         if (key.length > 50) {
@@ -184,14 +189,13 @@ export class StandardDataStore {
             return data.versions.map((version) => new DataStoreEntryVersionInfo(version.version, version.createdTime, version.objectCreatedTime, version.deleted, version.contentLength));
         });
     }
-    listEntries(prefix, allScopes, limit, cursor) {
+    listEntries(prefix, limit, cursor) {
         this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "list", [false, true]);
         return new ServicePage(this._client.services.opencloud.DataStoreService, this._client.services.opencloud.DataStoreService
             .listDataStoreEntries, [
             this.universeId,
             this.name,
             this.scope,
-            allScopes,
             prefix,
             limit,
             cursor,
@@ -199,7 +203,28 @@ export class StandardDataStore {
             if (data) {
                 if (!data.nextPageCursor)
                     return;
-                parameters[6] = data.nextPageCursor;
+                parameters[5] = data.nextPageCursor;
+                return parameters;
+            }
+        }, undefined, (data) => {
+            return data.keys.map((key) => new DataStoreKeyInfo(key.scope, key.key));
+        });
+    }
+    listAllEntries(prefix, limit, cursor) {
+        this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "list", [false, true]);
+        return new ServicePage(this._client.services.opencloud.DataStoreService, this._client.services.opencloud.DataStoreService
+            .listDataStoreEntries, [
+            this.universeId,
+            this.name,
+            true,
+            prefix,
+            limit,
+            cursor,
+        ], (parameters, data) => {
+            if (data) {
+                if (!data.nextPageCursor)
+                    return;
+                parameters[5] = data.nextPageCursor;
                 return parameters;
             }
         }, undefined, (data) => {

@@ -43,7 +43,7 @@ export interface DataStoreEntryVersion<Expect> {
 }
 export declare class DataStoreService extends BaseService {
     listDataStores(universeId: number, prefix?: string, limit?: number, cursor?: string): Promise<ListDataStoresResponse>;
-    listDataStoreEntries(universeId: number, datastoreName: string, scope?: string, allScopes?: boolean, prefix?: string, limit?: number, cursor?: string): Promise<ListDataStoreEntriesResponse>;
+    listDataStoreEntries(universeId: number, datastoreName: string, scopeOrAllScopes?: string | boolean, prefix?: string, limit?: number, cursor?: string): Promise<ListDataStoreEntriesResponse>;
     getDataStoreEntry<Expect = unknown, Attributes extends Record<string, unknown> = Record<string, unknown>>(universeId: number, datastoreName: string, entryKey: string, scope?: string): Promise<DataStoreEntry<Expect, Attributes>>;
     updateDataStoreEntry(universeId: number, dataStoreName: string, entryKey: string, data: string, attributes?: Record<string, unknown>, userIds?: number[], scope?: string, matchKeyVersion?: string, createOnly?: boolean): Promise<EntryVersion>;
     incrementDataStoreEntry(universeId: number, dataStoreName: string, entryKey: string, incrementBy: number, attributes?: Record<string, unknown>, userIds?: number[], scope?: string): Promise<EntryVersion>;

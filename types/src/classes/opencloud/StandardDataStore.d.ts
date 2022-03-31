@@ -63,8 +63,14 @@ export declare class StandardDataStore {
      * @param key - The key of the entry to remove.
      */
     removeEntry(key: string): Promise<void>;
+    /**
+     * Get the content of a DataStore entry by version.
+     * @param key - The key of the entry to get.
+     * @param version - The version of the entry to get.
+     */
     getEntryVersion<Data = unknown>(key: string, version: string): Promise<DataStoreEntryVersion<Data>>;
     updateEntry(key: string, data: unknown, userIds?: number[], attributes?: Record<string, unknown>, matchKeyVersion?: string, createOnly?: boolean): Promise<DataStoreEntryVersionInfo>;
     listEntryVersions(key: string, limit?: number, sortOrder?: SortOrderLong, startTime?: string, endTime?: string, cursor?: string): ServicePage<OpenCloudClient["services"]["opencloud"]["DataStoreService"]["listDataStoreEntryVersions"], DataStoreEntryVersionInfo[]>;
-    listEntries(prefix?: string, allScopes?: boolean, limit?: number, cursor?: string): ServicePage<OpenCloudClient["services"]["opencloud"]["DataStoreService"]["listDataStoreEntries"], DataStoreKeyInfo[]>;
+    listEntries(prefix?: string, limit?: number, cursor?: string): ServicePage<OpenCloudClient["services"]["opencloud"]["DataStoreService"]["listDataStoreEntries"], DataStoreKeyInfo[]>;
+    listAllEntries(prefix?: string, limit?: number, cursor?: string): ServicePage<OpenCloudClient["services"]["opencloud"]["DataStoreService"]["listDataStoreEntries"], DataStoreKeyInfo[]>;
 }

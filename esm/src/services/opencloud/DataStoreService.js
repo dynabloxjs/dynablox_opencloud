@@ -14,13 +14,12 @@ export class DataStoreService extends BaseService {
             includeCredentials: true,
         })).body;
     }
-    async listDataStoreEntries(universeId, datastoreName, scope = "global", allScopes, prefix, limit, cursor) {
+    async listDataStoreEntries(universeId, datastoreName, scopeOrAllScopes = "global", prefix, limit, cursor) {
         return (await this.rest.httpRequest({
             url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries`,
             query: {
                 datastoreName,
-                scope,
-                AllScopes: allScopes,
+                [typeof scopeOrAllScopes === "boolean" ? "AllScopes" : "scope"]: scopeOrAllScopes,
                 prefix,
                 limit,
                 cursor,
