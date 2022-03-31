@@ -1,6 +1,6 @@
 import { BaseService } from "../BaseService.ts";
 
-interface AuthenticatedUser {
+export interface AuthenticatedUser {
 	sub: string;
 	subType: string;
 	name: string;

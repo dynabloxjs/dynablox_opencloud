@@ -1,6 +1,6 @@
 import { BaseService } from "../BaseService.ts";
 
-interface OpenidConfiguration {
+export interface OpenidConfiguration {
 	issuer: string;
 	authorizationEndpoint: string;
 	tokenEndpoint: string;
@@ -16,13 +16,13 @@ interface OpenidConfiguration {
 	tokenEndpointAuthMethodsSupported: string[];
 }
 
-interface OAuthKey {
+export interface OAuthKey {
 	alg: string;
 	kty: string;
 	kid: string;
 }
 
-interface ListJwksResponse {
+export interface ListJwksResponse {
 	keys: OAuthKey;
 }
 

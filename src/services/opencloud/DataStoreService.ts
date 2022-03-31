@@ -3,27 +3,27 @@ import { SortOrderLong } from "../../types.ts";
 import { Base64Encode, Md5 } from "../../../deps.ts";
 import * as JSONv2 from "../../utils/json.ts";
 
-interface ListDataStoresResponseDataStoresItem {
+export interface ListDataStoresResponseDataStoresItem {
 	name: string;
 	createdDate: string;
 }
 
-interface ListDataStoresResponse {
+export interface ListDataStoresResponse {
 	datastores: ListDataStoresResponseDataStoresItem[];
 	nextPageCursor: string | null;
 }
 
-interface EntryKey {
+export interface EntryKey {
 	scope: string;
 	key: string;
 }
 
-interface ListDataStoreEntriesResponse {
+export interface ListDataStoreEntriesResponse {
 	keys: EntryKey[];
 	nextPageCursor: string | null;
 }
 
-interface DataStoreEntry<
+export interface DataStoreEntry<
 	Expect,
 	Attributes extends Record<string, unknown>,
 > {
@@ -35,7 +35,7 @@ interface DataStoreEntry<
 	value: Expect;
 }
 
-interface EntryVersion {
+export interface EntryVersion {
 	version?: string;
 	deleted?: boolean;
 	contentLength?: number;
@@ -43,12 +43,12 @@ interface EntryVersion {
 	objectCreatedTime?: string;
 }
 
-interface ListDataStoreEntryVersions {
+export interface ListDataStoreEntryVersionsResponse {
 	versions: EntryVersion[];
 	nextPageCursor: string | null;
 }
 
-interface DataStoreEntryVersion<Expect> {
+export interface DataStoreEntryVersion<Expect> {
 	createdTime: string | null;
 	versionCreatedTime: string | null;
 	versionId: string | null;
@@ -235,9 +235,9 @@ export class DataStoreService extends BaseService {
 		limit?: number,
 		scope = "global",
 		cursor?: string,
-	): Promise<ListDataStoreEntryVersions> {
+	): Promise<ListDataStoreEntryVersionsResponse> {
 		// TODO: When ordered/sorted datastores are implemented, handle it here
-		return (await this.rest.httpRequest<ListDataStoreEntryVersions>({
+		return (await this.rest.httpRequest<ListDataStoreEntryVersionsResponse>({
 			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`,
 			query: {
 				dataStoreName,

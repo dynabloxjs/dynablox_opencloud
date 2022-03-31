@@ -4,7 +4,7 @@ export interface UpdatePlaceDataResponse {
 	versionNumber: number;
 }
 
-type UpdatePlaceDataVersionType = "Saved" | "Published";
+export type UpdatePlaceDataVersionType = "Saved" | "Published";
 
 export class PlaceManagementService extends BaseService {
 	public async updatePlaceData(

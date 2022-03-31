@@ -1,6 +1,6 @@
 import { BaseService } from "../BaseService.ts";
 
-interface TokenIntrospection {
+export interface TokenIntrospection {
 	active: boolean;
 	jti: string;
 	iss: string;
@@ -15,7 +15,7 @@ interface TokenIntrospection {
 	iat: string;
 }
 
-interface OAuthToken {
+export interface OAuthToken {
 	accessToken: string;
 	refreshToken?: string;
 	tokenType: string;

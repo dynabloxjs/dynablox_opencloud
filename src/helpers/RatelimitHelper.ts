@@ -1,14 +1,14 @@
 import { type HTTPMethod as Method } from "../rest/RESTController.ts";
 
-type Limitation =
+export type Limitation =
 	| "All"
 	| "AuthenticatedIP"
 	| "NotAuthenticated"
 	| "Authenticated";
 
-type RegisterIdentifierType = "Authenticated";
+export type RegisterIdentifierType = "Authenticated";
 
-interface SubjectRatelimit {
+export interface SubjectRatelimit {
 	index: number;
 	origin: Limitation;
 	count: number;
@@ -16,13 +16,13 @@ interface SubjectRatelimit {
 	startTime?: Date;
 }
 
-interface RegisteredSubject {
+export interface RegisteredSubject {
 	type: Limitation;
 	id?: number;
 	ratelimits: SubjectRatelimit[];
 }
 
-interface Ratelimit {
+export interface Ratelimit {
 	methods: Method[];
 	pattern: URLPattern;
 	limitations: Limitation[];
