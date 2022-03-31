@@ -10,7 +10,7 @@ export interface ListDataStoresResponseDataStoresItem {
 
 export interface ListDataStoresResponse {
 	datastores: ListDataStoresResponseDataStoresItem[];
-	nextPageCursor: string | null;
+	nextPageCursor?: string;
 }
 
 export interface EntryKey {
@@ -20,7 +20,7 @@ export interface EntryKey {
 
 export interface ListDataStoreEntriesResponse {
 	keys: EntryKey[];
-	nextPageCursor: string | null;
+	nextPageCursor?: string;
 }
 
 export interface DataStoreEntry<
@@ -45,7 +45,7 @@ export interface EntryVersion {
 
 export interface ListDataStoreEntryVersionsResponse {
 	versions: EntryVersion[];
-	nextPageCursor: string | null;
+	nextPageCursor?: string;
 }
 
 export interface DataStoreEntryVersion<Expect> {
@@ -62,7 +62,6 @@ export class DataStoreService extends BaseService {
 		limit?: number,
 		cursor?: string,
 	): Promise<ListDataStoresResponse> {
-		// TODO: When ordered/sorted datastores are implemented, handle it here
 		return (await this.rest.httpRequest<ListDataStoresResponse>({
 			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores`,
 			query: {
@@ -84,7 +83,6 @@ export class DataStoreService extends BaseService {
 		limit?: number,
 		cursor?: string,
 	): Promise<ListDataStoreEntriesResponse> {
-		// TODO: When ordered/sorted datastores are implemented, handle it here
 		return (await this.rest.httpRequest<ListDataStoreEntriesResponse>({
 			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries`,
 			query: {
@@ -109,7 +107,6 @@ export class DataStoreService extends BaseService {
 		entryKey: string,
 		scope = "global",
 	): Promise<DataStoreEntry<Expect, Attributes>> {
-		// TODO: When ordered/sorted datastores are implemented, handle it here
 		const response = await this.rest.httpRequest<Expect>({
 			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
 			query: {
@@ -149,7 +146,6 @@ export class DataStoreService extends BaseService {
 		matchKeyVersion?: string,
 		createOnly?: boolean,
 	): Promise<EntryVersion> {
-		// TODO: When ordered/sorted datastores are implemented, handle it here
 		return (await this.rest.httpRequest<EntryVersion>({
 			method: "POST",
 			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
@@ -185,7 +181,6 @@ export class DataStoreService extends BaseService {
 		userIds?: number[],
 		scope = "global",
 	): Promise<EntryVersion> {
-		// TODO: When ordered/sorted datastores are implemented, handle it here
 		return (await this.rest.httpRequest<EntryVersion>({
 			method: "POST",
 			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/increment`,
@@ -210,7 +205,6 @@ export class DataStoreService extends BaseService {
 		entryKey: string,
 		scope = "global",
 	): Promise<void> {
-		// TODO: When ordered/sorted datastores are implemented, handle it here
 		await this.rest.httpRequest<void>({
 			method: "DELETE",
 			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
@@ -236,7 +230,6 @@ export class DataStoreService extends BaseService {
 		scope = "global",
 		cursor?: string,
 	): Promise<ListDataStoreEntryVersionsResponse> {
-		// TODO: When ordered/sorted datastores are implemented, handle it here
 		return (await this.rest.httpRequest<ListDataStoreEntryVersionsResponse>({
 			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`,
 			query: {
@@ -261,7 +254,6 @@ export class DataStoreService extends BaseService {
 		versionId: string,
 		scope = "global",
 	): Promise<DataStoreEntryVersion<Expect>> {
-		// TODO: When ordered/sorted datastores are implemented, handle it here
 		const response = await this.rest.httpRequest<string>({
 			url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions/version`,
 			query: {
