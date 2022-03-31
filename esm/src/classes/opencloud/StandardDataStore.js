@@ -138,6 +138,13 @@ export class StandardDataStore {
             .getDataStoreEntryVersion(this.universeId, this.name, key, version, this.scope);
         return new DataStoreEntryVersion(response.value, response.versionId, response.createdTime, response.versionCreatedTime);
     }
+    /**
+    * Update the value of an entry in a DataStore.
+    * @param key - The key of the entry to update.
+    * @param data - The data to update the entry with.
+    * @param userIds - An array of user IDs to be associated with the entry.
+    * @param attributes - The new attributes of the entry.
+    */
     async updateEntry(key, data, userIds, attributes, matchKeyVersion, createOnly) {
         if (!createOnly) {
             this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "update", [false, true]);
@@ -162,6 +169,15 @@ export class StandardDataStore {
             .updateDataStoreEntry(this.universeId, this.name, key, typeof data === "string" ? data : JSONv2.serialize(data), attributes, userIds, this.scope, matchKeyVersion, createOnly);
         return new DataStoreEntryVersionInfo(response.version, response.createdTime, response.objectCreatedTime, response.deleted, response.contentLength);
     }
+    /**
+     * List all DataStore entry versions.
+     * @param key - The key of the entry to list all versions for.
+     * @param limit - The limit of items per request.
+     * @param sortOrder - The sort order to get the data by.
+     * @param startTime - The start time of the query.
+     * @param endTime - The end time of the query.
+     * @param cursor - The cursor to request for the next batch of items.
+     */
     listEntryVersions(key, limit, sortOrder, startTime, endTime, cursor) {
         this._client.canAccessResource("universe-datastores.versions", [this.universeId.toString(), this.name], "list", [false, true]);
         if (key.length > 50) {
@@ -189,6 +205,12 @@ export class StandardDataStore {
             return data.versions.map((version) => new DataStoreEntryVersionInfo(version.version, version.createdTime, version.objectCreatedTime, version.deleted, version.contentLength));
         });
     }
+    /**
+     * List all DataStore scope entries.
+     * @param prefix - The prefix for the entry keys to search for.
+     * @param limit - The limit of items per request.
+     * @param cursor - The cursor to request for the next batch of items.
+     */
     listEntries(prefix, limit, cursor) {
         this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "list", [false, true]);
         return new ServicePage(this._client.services.opencloud.DataStoreService, this._client.services.opencloud.DataStoreService
@@ -210,6 +232,12 @@ export class StandardDataStore {
             return data.keys.map((key) => new DataStoreKeyInfo(key.scope, key.key));
         });
     }
+    /**
+     * List all DataStore entries.
+     * @param prefix - The prefix for the entry keys to search for.
+     * @param limit - The limit of items per request.
+     * @param cursor - The cursor to request for the next batch of items.
+     */
     listAllEntries(prefix, limit, cursor) {
         this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "list", [false, true]);
         return new ServicePage(this._client.services.opencloud.DataStoreService, this._client.services.opencloud.DataStoreService

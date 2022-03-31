@@ -69,8 +69,36 @@ export declare class StandardDataStore {
      * @param version - The version of the entry to get.
      */
     getEntryVersion<Data = unknown>(key: string, version: string): Promise<DataStoreEntryVersion<Data>>;
+    /**
+    * Update the value of an entry in a DataStore.
+    * @param key - The key of the entry to update.
+    * @param data - The data to update the entry with.
+    * @param userIds - An array of user IDs to be associated with the entry.
+    * @param attributes - The new attributes of the entry.
+    */
     updateEntry(key: string, data: unknown, userIds?: number[], attributes?: Record<string, unknown>, matchKeyVersion?: string, createOnly?: boolean): Promise<DataStoreEntryVersionInfo>;
+    /**
+     * List all DataStore entry versions.
+     * @param key - The key of the entry to list all versions for.
+     * @param limit - The limit of items per request.
+     * @param sortOrder - The sort order to get the data by.
+     * @param startTime - The start time of the query.
+     * @param endTime - The end time of the query.
+     * @param cursor - The cursor to request for the next batch of items.
+     */
     listEntryVersions(key: string, limit?: number, sortOrder?: SortOrderLong, startTime?: string, endTime?: string, cursor?: string): ServicePage<OpenCloudClient["services"]["opencloud"]["DataStoreService"]["listDataStoreEntryVersions"], DataStoreEntryVersionInfo[]>;
+    /**
+     * List all DataStore scope entries.
+     * @param prefix - The prefix for the entry keys to search for.
+     * @param limit - The limit of items per request.
+     * @param cursor - The cursor to request for the next batch of items.
+     */
     listEntries(prefix?: string, limit?: number, cursor?: string): ServicePage<OpenCloudClient["services"]["opencloud"]["DataStoreService"]["listDataStoreEntries"], DataStoreKeyInfo[]>;
+    /**
+     * List all DataStore entries.
+     * @param prefix - The prefix for the entry keys to search for.
+     * @param limit - The limit of items per request.
+     * @param cursor - The cursor to request for the next batch of items.
+     */
     listAllEntries(prefix?: string, limit?: number, cursor?: string): ServicePage<OpenCloudClient["services"]["opencloud"]["DataStoreService"]["listDataStoreEntries"], DataStoreKeyInfo[]>;
 }
