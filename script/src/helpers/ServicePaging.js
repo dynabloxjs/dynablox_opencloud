@@ -152,7 +152,7 @@ class ServicePage {
             yield (await currentPage.getCurrentPage()).data;
         }
         while (currentPage.hasNextPage()) {
-            currentPage = await this.getNextPage();
+            currentPage = await currentPage.getNextPage();
             yield currentPage.data;
         }
     }
