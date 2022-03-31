@@ -224,6 +224,13 @@ export class StandardDataStore {
 		);
 	}
 
+	 /**
+	 * Update the value of an entry in a DataStore.
+	 * @param key - The key of the entry to update.
+	 * @param data - The data to update the entry with.
+	 * @param userIds - An array of user IDs to be associated with the entry.
+	 * @param attributes - The new attributes of the entry.
+	 */
 	public async updateEntry(
 		key: string,
 		data: unknown,
@@ -295,6 +302,15 @@ export class StandardDataStore {
 		);
 	}
 
+	/**
+	 * List all DataStore entry versions.
+	 * @param key - The key of the entry to list all versions for.
+	 * @param limit - The limit of items per request.
+	 * @param sortOrder - The sort order to get the data by.
+	 * @param startTime - The start time of the query.
+	 * @param endTime - The end time of the query.
+	 * @param cursor - The cursor to request for the next batch of items.
+	 */
 	public listEntryVersions(
 		key: string,
 		limit?: number,
@@ -364,6 +380,12 @@ export class StandardDataStore {
 		);
 	}
 
+	/**
+	 * List all DataStore scope entries.
+	 * @param prefix - The prefix for the entry keys to search for.
+	 * @param limit - The limit of items per request.
+	 * @param cursor - The cursor to request for the next batch of items.
+	 */
 	public listEntries(
 		prefix?: string,
 		limit?: number,
@@ -415,6 +437,12 @@ export class StandardDataStore {
 		);
 	}
 
+	/**
+	 * List all DataStore entries.
+	 * @param prefix - The prefix for the entry keys to search for.
+	 * @param limit - The limit of items per request.
+	 * @param cursor - The cursor to request for the next batch of items.
+	 */
 	public listAllEntries(
 		prefix?: string,
 		limit?: number,
