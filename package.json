@@ -19,7 +19,9 @@
     "roblox",
     "opencloud",
     "api",
-    "endpoint"
+    "roblox-api",
+    "roblox-dev",
+    "rbx"
   ],
   "license": "MIT",
   "exports": {
