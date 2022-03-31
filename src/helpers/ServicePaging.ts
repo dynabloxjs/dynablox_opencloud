@@ -124,7 +124,7 @@ export class ServicePage<
 		}
 
 		while (currentPage.hasNextPage()) {
-			currentPage = await this.getNextPage();
+			currentPage = await currentPage.getNextPage();
 			yield currentPage.data as DataTransformed;
 		}
 	}
