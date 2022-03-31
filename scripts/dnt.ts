@@ -53,6 +53,8 @@ await build({
             "dynablox",
             "roblox",
             "opencloud",
+            "api",
+            "endpoint",
         ],
         license: "MIT",
     },
