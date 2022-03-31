@@ -26,21 +26,31 @@ or ESModule:
 import * as dynablox from "@dynabloxjs/opencloud";
 ```
 
+For pre-release builds:
+
+Clone the [node](https://github.com/dynabloxjs/dynablox_opencloud/tree/node) branch on your machine.
+
+Run `npm install {path_to_node_branch_folder}` to install.
+
 #### Deno Installation
 Steps to install Deno can be found [here](https://github.com/denoland/deno_install).
 
 Unlike Node or Python, Deno modules only need to be imported via a path (and then cached).
 
-Because this is a private repository, more has to be done to remotely import it. See the [Deno manual for more information](https://deno.land/manual/linking_to_external_code/private). You can also just **download** it and import locally.
-
 Once you have done the necessary steps, import it:
 ```ts
 import * as dynablox from "https://deno.land/x/dynablox_opencloud/mod.ts";
 ``` 
+*NOTE*: You can also specify a version by appending `@{version}` to the module name.
+
 ... and it's done! Only the `--allow-net` flag is needed for Dynablox Open Cloud, see [more information about flags in the Deno manual](https://deno.land/manual/getting_started/permissions).
 
+For pre-release builds:
+
+Replace `https://deno.land/x/dynablox_opencloud/mod.ts` with `https://raw.githubusercontent.com/dynabloxjs/dynablox_opencloud/main/mod.ts`, or clone onto your machine and import `mod.ts` from the downloaded folder in your code.
+
 ### Starting Guide
-*NOTE: If you are not using tooling, you are fcked*
+*NOTE: If you are not using tooling, you are silly.*
 
 ### All Uses (Functional Programming)
 In `BaseClient`, there is almost no usage of OOP. All APIs on Open Cloud endpoints can be accessed via `<BaseClient>.services`, though with little documentation.
@@ -63,7 +73,7 @@ Import `OpenCloudClient` from the module entrypoint, either the module name (Nod
 Construct a new OpenCloudClient with your APIKey.
 ```typescript
 const client = new OpenCloudClient({
-    credentialValue: "APIKEYHERE"
+    credentialsValue: "APIKEYHERE",
 })
 ```
 
@@ -74,7 +84,7 @@ This is similar to the actual Scopes system Roblox uses for OpenCloud and oAuth.
 By default, all scopes are allowed.
 ```typescript
 const client = new OpenCloudClient({
-    credentialValue: "APIKEYHERE",
+    credentialsValue: "APIKEYHERE",
     scopes: [{
         // The scope type, see TSDoc for more options.
         scopeType: "universe-datastores.objects",
@@ -110,4 +120,59 @@ const client2 = new OpenCloudClient({
     credentialsValue: "APIKEYHERE",
     ratelimiter: client1.ratelimiter,
 });
+```
+
+#### Examples
+##### Publishing a Place
+Deno:
+```typescript
+import { OpenCloudClient } from "https://deno.land/x/dynablox_opencloud/mod.ts";
+
+const client = new OpenCloudClient({
+    credentialsValue: "APIKEYHERE",
+    scopes: [{
+        // Tell the client we have access to updating place data in the universe 13058, and no other universe.
+        type: "universe-places",
+        targetParts: ["13058"],
+        operations: ["write"],
+    }],
+});
+
+// The methods have "base" because it doesn't actually make any HTTP requests.
+const place = client.getBaseUniverse(13058).getBasePlace(1818);
+
+const fileData = await Deno.readFile("./place.rbxl");
+
+// Updates the content of the place for the Saved version type.
+const placeVersion = await place.updateContents(fileData, "Saved");
+
+console.log(`Updated place to version ${placeVersion}`);
+```
+
+NodeJS:
+```javascript
+const { OpenCloudClient } = require("@dynabloxjs/opencloud");
+const fs = require("fs/promises");
+
+const client = new OpenCloudClient({
+    credentialsValue: "APIKEYHERE",
+    scopes: [{
+        // Tell the client we have access to updating place data in the universe 13058, and no other universe.
+        type: "universe-places",
+        targetParts: ["13058"],
+        operations: ["write"],
+    }],
+});
+
+// The methods have "base" because it doesn't actually make any HTTP requests.
+const place = client.getBaseUniverse(13058).getBasePlace(1818);
+
+(async () => {
+    const fileData = await fs.readFile("./place.rbxl");
+    
+    // Updates the content of the place for the Saved version type.
+    const placeVersion = await place.updateContents(fileData, "Saved");
+    
+    console.log(`Updated place to version ${placeVersion}`);
+})();
 ```
