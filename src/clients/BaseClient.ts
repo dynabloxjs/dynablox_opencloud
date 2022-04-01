@@ -195,6 +195,6 @@ export class BaseClient {
 	): void {
 		if (!credentials) return;
 
-		this.setCredentialsValue(credentials);
+		this.rest.setCredentialsValue(credentials);
 	}
 }

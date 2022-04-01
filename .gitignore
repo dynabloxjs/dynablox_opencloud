@@ -1,4 +1,4 @@
-tests/
+INTERNAL_tests/
 npm/
 /**/.DS_STORE
 .idea

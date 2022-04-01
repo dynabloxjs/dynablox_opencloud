@@ -224,7 +224,7 @@ export class StandardDataStore {
 		);
 	}
 
-	 /**
+	/**
 	 * Update the value of an entry in a DataStore.
 	 * @param key - The key of the entry to update.
 	 * @param data - The data to update the entry with.
@@ -247,7 +247,7 @@ export class StandardDataStore {
 				[false, true],
 			);
 		}
-		
+
 		this._client.canAccessResource(
 			"universe-datastores.objects",
 			[this.universeId.toString(), this.name],
