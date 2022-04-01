@@ -78,7 +78,7 @@ Deno.test("BaseClient", async (t) => {
             });
 
             await t.step("formdata", async (t) => {
-                await t.step("string value w/no file name", () => {
+                await t.step("string value", () => {
                     const formdata = new FormData();
                     formdata.append("test", "value");
     
@@ -86,24 +86,6 @@ Deno.test("BaseClient", async (t) => {
                         type: "formdata",
                         value: {
                             test: {
-                                value: "value"
-                            }
-                        },
-                    }), {
-                        type: undefined,
-                        body: formdata,
-                    });
-                });
-
-                await t.step("string value w/file name", () => {
-                    const formdata = new FormData();
-                    formdata.append("test", "value", "filename");
-    
-                    assertEquals(client.rest.formatBody({
-                        type: "formdata",
-                        value: {
-                            test: {
-                                fileName: "filename",
                                 value: "value",
                             }
                         },
@@ -112,20 +94,20 @@ Deno.test("BaseClient", async (t) => {
                         body: formdata,
                     });
                 });
+            });
+            
+            await t.step("urlencoded", () => {
+                const search = new URLSearchParams();
+                search.set("test", "true");
 
-                await t.step("urlencoded", () => {
-                    const search = new URLSearchParams();
-                    search.set("test", "true");
-
-                    assertEquals(client.rest.formatBody({
-                        type: "urlencoded",
-                        value: {
-                            test: "true",
-                        },
-                    }), {
-                        type: undefined,
-                        body: search,
-                    });
+                assertEquals(client.rest.formatBody({
+                    type: "urlencoded",
+                    value: {
+                        test: "true",
+                    },
+                }), {
+                    type: undefined,
+                    body: search,
                 });
             });
         });
