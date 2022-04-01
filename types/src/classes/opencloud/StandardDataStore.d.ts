@@ -70,12 +70,12 @@ export declare class StandardDataStore {
      */
     getEntryVersion<Data = unknown>(key: string, version: string): Promise<DataStoreEntryVersion<Data>>;
     /**
-    * Update the value of an entry in a DataStore.
-    * @param key - The key of the entry to update.
-    * @param data - The data to update the entry with.
-    * @param userIds - An array of user IDs to be associated with the entry.
-    * @param attributes - The new attributes of the entry.
-    */
+     * Update the value of an entry in a DataStore.
+     * @param key - The key of the entry to update.
+     * @param data - The data to update the entry with.
+     * @param userIds - An array of user IDs to be associated with the entry.
+     * @param attributes - The new attributes of the entry.
+     */
     updateEntry(key: string, data: unknown, userIds?: number[], attributes?: Record<string, unknown>, matchKeyVersion?: string, createOnly?: boolean): Promise<DataStoreEntryVersionInfo>;
     /**
      * List all DataStore entry versions.

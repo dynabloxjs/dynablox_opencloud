@@ -1,7 +1,9 @@
 const chalk = require("chalk");
 const process = require("process");
 const { testDefinitions } = require("@deno/shim-deno/test-internals");
-const filePaths = [];
+const filePaths = [
+    "tests/clients/BaseClient.test.js",
+];
 async function main() {
     const testContext = {
         process,

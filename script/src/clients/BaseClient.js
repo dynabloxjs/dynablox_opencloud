@@ -108,7 +108,7 @@ class BaseClient {
     setCredentialsValue(credentials) {
         if (!credentials)
             return;
-        this.setCredentialsValue(credentials);
+        this.rest.setCredentialsValue(credentials);
     }
 }
 exports.BaseClient = BaseClient;
