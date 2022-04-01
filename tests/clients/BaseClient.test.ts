@@ -43,7 +43,7 @@ Deno.test("BaseClient", async (t) => {
             });
         });
 
-        await t.step("URL formatting", (t) => {
+        await t.step("URL formatting", () => {
             assertEquals(client.rest.formatWithAliases("{BEDEV2Url:test}/0"), "www.roblox.com/test/0");
             assertEquals(client.rest.formatWithAliases("{BEDEV2Url:test}/0"), "www.roblox.com/test/0");
             assertEquals(client.rest.formatWithAliases("{BEDEV2Url:test}/0"), "www.roblox.com/test/0");
@@ -55,7 +55,7 @@ Deno.test("BaseClient", async (t) => {
         });
     
         await t.step("body formatting", async (t) => {
-            await t.step("JSON", (t) => {
+            await t.step("JSON", () => {
                 assertEquals(client.rest.formatBody({
                     type: "json",
                     value: {
@@ -67,7 +67,7 @@ Deno.test("BaseClient", async (t) => {
                 });
             });
 
-            await t.step("file", (t) => {
+            await t.step("file", () => {
                 assertEquals(client.rest.formatBody({
                     type: "file",
                     value: new Uint8Array([1, 2, 3]),
