@@ -255,9 +255,7 @@ export class StandardDataStore {
 			[false, true],
 		);
 
-		const serializedData = typeof data === "string"
-			? data
-			: JSONv2.serialize(data);
+		const serializedData = JSONv2.serialize(data);
 
 		if (key.length > 50) {
 			throw new OpenCloudClientError(
