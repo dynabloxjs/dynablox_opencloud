@@ -150,9 +150,7 @@ export class StandardDataStore {
             this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "update", [false, true]);
         }
         this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "create", [false, true]);
-        const serializedData = typeof data === "string"
-            ? data
-            : JSONv2.serialize(data);
+        const serializedData = JSONv2.serialize(data);
         if (key.length > 50) {
             throw new OpenCloudClientError(`key exceeds the maximum allowed 50 characters in length (${key.length})`);
         }
