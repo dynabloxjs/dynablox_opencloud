@@ -47,7 +47,7 @@ await build({
         },
         repository: {
             type: "git",
-            url: "git@github.com:JullianDev/dynablox_opencloud.git"
+            url: "git@github.com:dynabloxjs/dynablox_opencloud.git"
         },
         keywords: [
             "dynablox",
