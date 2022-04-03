@@ -1,11 +1,11 @@
-### Active Development
-This module is currently in active development. Nothing is going to stay consistent as it reaches a stable release.
+> ### Active Development
+> This module is currently in the initial development phase. Breaking changes may be introduced without warning before a stable 1.0.0 release. Check release notes of every release before updating.
 
 ### <p align="center">Dynablox</p>
 <p align="center">
-<a href="https://doc.deno.land/https://deno.land/x/dynablox_opencloud/mod.ts">Docs</a>
+<a href="https://doc.deno.land/https://deno.land/x/dynablox_opencloud/mod.ts">docs</a>
 | <a href="https://deno.land/x/dynablox_opencloud">deno.land/x</a>
-| <a href="https://www.npmjs.com/package/@dynabloxjs/opencloud">NPM</a>
+| <a href="https://www.npmjs.com/package/@dynabloxjs/opencloud">npm</a>
 </p>
 
 An API wrapper for the OpenCloud Roblox API using the Deno runtime (with full web compatibility and mostly NodeJS compatbility).
@@ -28,7 +28,7 @@ import * as dynablox from "@dynabloxjs/opencloud";
 
 For pre-release builds:
 
-Run `npm install dynabloxjs/dynablox_opencloud#node` to install.
+Run `npm install dynabloxjs/dynablox_opencloud#node` to install the current pre-release build.
 
 #### Deno Installation
 Steps to install Deno can be found [here](https://github.com/denoland/deno_install).
@@ -122,7 +122,9 @@ const client2 = new OpenCloudClient({
 
 #### Examples
 ##### Publishing a Place
-###### Deno
+<details>
+    <summary>Deno</summary>
+
 ```typescript
 import { OpenCloudClient } from "https://deno.land/x/dynablox_opencloud/mod.ts";
 
@@ -147,7 +149,11 @@ const placeVersion = await place.updateContents(fileData, "Saved");
 console.log(`Updated place to version ${placeVersion}`);
 ```
 
-###### NodeJS
+</details>
+
+<details>
+    <summary>NodeJS</summary>
+
 ```javascript
 const { OpenCloudClient } = require("@dynabloxjs/opencloud");
 const fs = require("fs/promises");
@@ -175,8 +181,12 @@ const place = client.getBaseUniverse(13058).getBasePlace(1818);
 })();
 ```
 
+</details>
+
 ##### Accessing DataStores
-###### Deno
+<details>
+    <summary>Deno</summary>
+
 ```typescript
 import { OpenCloudClient } from "https://deno.land/x/dynablox_opencloud/mod.ts";
 
@@ -212,8 +222,11 @@ for await (const keys of datastore.listEntries()) {
 // const moreKeys = await keys.getNextPage();
 // moreKeys.data.forEach(({key}) => ...);
 ```
+</details>
 
-###### NodeJS
+<details>
+    <summary>NodeJS</summary>
+
 ```javascript
 const { OpenCloudClient } = require("@dynabloxjs/opencloud");
 
@@ -251,3 +264,5 @@ const datastore = client.getBaseUniverse(13058).getStandardDataStore("TestStore"
     // moreKeys.data.forEach(({key}) => ...);
 })();
 ```
+
+</details>
