@@ -239,7 +239,7 @@ export class StandardDataStore {
 		matchKeyVersion?: string,
 		createOnly?: boolean,
 	): Promise<DataStoreEntryVersionInfo> {
-		if (!createOnly) {
+		if (createOnly === false) {
 			this._client.canAccessResource(
 				"universe-datastores.objects",
 				[this.universeId.toString(), this.name],
