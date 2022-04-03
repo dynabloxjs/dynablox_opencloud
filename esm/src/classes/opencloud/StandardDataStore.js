@@ -146,7 +146,7 @@ export class StandardDataStore {
      * @param attributes - The new attributes of the entry.
      */
     async updateEntry(key, data, userIds, attributes, matchKeyVersion, createOnly) {
-        if (!createOnly) {
+        if (createOnly === false) {
             this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "update", [false, true]);
         }
         this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "create", [false, true]);
