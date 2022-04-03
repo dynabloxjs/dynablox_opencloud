@@ -38,7 +38,7 @@ await build({
     },
     package: {
         name: "@dynabloxjs/opencloud",
-        version: "0.1.5",
+        version: "0.1.6",
         description: "A Roblox OpenCloud API wrapper for Deno (and NodeJS) written in TypeScript. This is an automatically generated Node port.",
         homepage: "https://github.com/dynabloxjs/dynablox_opencloud",
         author: "Julli4n",
