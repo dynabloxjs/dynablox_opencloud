@@ -283,7 +283,7 @@ export class StandardDataStore {
 				this.universeId,
 				this.name,
 				key,
-				typeof data === "string" ? data : JSONv2.serialize(data),
+				serializedData,
 				attributes,
 				userIds,
 				this.scope,
