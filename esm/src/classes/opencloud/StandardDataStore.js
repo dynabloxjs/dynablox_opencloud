@@ -164,7 +164,7 @@ export class StandardDataStore {
             throw new OpenCloudClientError(`attributes exceeds the maximum allowed 300 characters in length (${key.length})`);
         }
         const response = await this._client.services.opencloud.DataStoreService
-            .updateDataStoreEntry(this.universeId, this.name, key, typeof data === "string" ? data : JSONv2.serialize(data), attributes, userIds, this.scope, matchKeyVersion, createOnly);
+            .updateDataStoreEntry(this.universeId, this.name, key, serializedData, attributes, userIds, this.scope, matchKeyVersion, createOnly);
         return new DataStoreEntryVersionInfo(response.version, response.createdTime, response.objectCreatedTime, response.deleted, response.contentLength);
     }
     /**
