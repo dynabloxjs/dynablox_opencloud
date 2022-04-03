@@ -239,21 +239,31 @@ export class StandardDataStore {
 		matchKeyVersion?: string,
 		createOnly?: boolean,
 	): Promise<DataStoreEntryVersionInfo> {
-		if (createOnly === false) {
+		// Temporary solution for checking if it has access to "create" or "update".
+		try {
 			this._client.canAccessResource(
 				"universe-datastores.objects",
 				[this.universeId.toString(), this.name],
 				"update",
 				[false, true],
 			);
+		} catch {
+			this._client.canAccessResource(
+				"universe-datastores.objects",
+				[this.universeId.toString(), this.name],
+				"create",
+				[false, true],
+			);
 		}
 
-		this._client.canAccessResource(
-			"universe-datastores.objects",
-			[this.universeId.toString(), this.name],
-			"create",
-			[false, true],
-		);
+		if (createOnly === true) {
+			this._client.canAccessResource(
+				"universe-datastores.objects",
+				[this.universeId.toString(), this.name],
+				"create",
+				[false, true],
+			);
+		}
 
 		const serializedData = JSONv2.serialize(data);
 
