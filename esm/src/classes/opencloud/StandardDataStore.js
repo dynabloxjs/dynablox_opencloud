@@ -146,10 +146,16 @@ export class StandardDataStore {
      * @param attributes - The new attributes of the entry.
      */
     async updateEntry(key, data, userIds, attributes, matchKeyVersion, createOnly) {
-        if (createOnly === false) {
+        // Temporary solution for checking if it has access to "create" or "update".
+        try {
             this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "update", [false, true]);
         }
-        this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "create", [false, true]);
+        catch {
+            this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "create", [false, true]);
+        }
+        if (createOnly === true) {
+            this._client.canAccessResource("universe-datastores.objects", [this.universeId.toString(), this.name], "create", [false, true]);
+        }
         const serializedData = JSONv2.serialize(data);
         if (key.length > 50) {
             throw new OpenCloudClientError(`key exceeds the maximum allowed 50 characters in length (${key.length})`);
