@@ -21,9 +21,6 @@ Deno.test("BaseClient", async (t) => {
             value: "TESTVALUE2",
         });
         assertEquals(client.rest.hasAuthentication(), true);
-        client.setCredentialsValue(undefined);
-        assertEquals(client.rest.hasAuthentication(), false);
-        client.setCredentialsValue("TESTVALUE");
     });
 
     await t.step("default headers", () => {
