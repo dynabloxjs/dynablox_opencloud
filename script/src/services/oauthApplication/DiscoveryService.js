@@ -5,15 +5,24 @@ const BaseService_js_1 = require("../BaseService.js");
 class DiscoveryService extends BaseService_js_1.BaseService {
     async getOpenidConfiguration() {
         return (await this.rest.httpRequest({
-            url: "{BEDEV2Url:oauth}/.well-known/openid-configuration",
+            url: DiscoveryService.urls.getOpenidConfiguration(),
             errorHandling: "BEDEV2",
         })).body;
     }
     async listJwks() {
         return (await this.rest.httpRequest({
-            url: "{BEDEV2Url:oauth}/v1/certs",
+            url: DiscoveryService.urls.listJwks(),
             errorHandling: "BEDEV2",
         })).body;
     }
 }
 exports.DiscoveryService = DiscoveryService;
+Object.defineProperty(DiscoveryService, "urls", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: {
+        getOpenidConfiguration: () => "{BEDEV2Url:oauth}/.well-known/openid-configuration",
+        listJwks: () => "{BEDEV2Url:oauth}/v1/certs",
+    }
+});

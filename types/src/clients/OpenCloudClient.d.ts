@@ -49,6 +49,14 @@ export interface OpenCloudClientOptions {
      */
     ratelimiterShouldYield?: boolean;
     /**
+     * Retry timeout for 500, 502, and 504 responses in milliseconds.
+     */
+    requestRetryTimeout?: number;
+    /**
+     * Retry count for 500, 502, and 504 responses.
+     */
+    requestRetryCount?: number;
+    /**
      * Base options.
      */
     base?: OpenCloudClientOptionsBase;
@@ -103,6 +111,14 @@ export declare class OpenCloudClient extends BaseClient {
      * The ID of the ratelimiter subject.
      */
     readonly ratelimiterSubjectId: number;
+    /**
+     * Retry timeout for 500, 502, and 504 responses in milliseconds.
+     */
+    readonly requestRetryTimeout = 250;
+    /**
+     * Retry count for 500, 502, and 504 responses.
+     */
+    readonly requestRetryCount = 5;
     /**
      * Whether the ratelimiter should yield instead of throwing an error.
      * @private

@@ -23,6 +23,10 @@ export interface ListJwksResponse {
     keys: OAuthKey;
 }
 export declare class DiscoveryService extends BaseService {
+    static urls: {
+        getOpenidConfiguration: () => string;
+        listJwks: () => string;
+    };
     getOpenidConfiguration(): Promise<OpenidConfiguration>;
     listJwks(): Promise<ListJwksResponse>;
 }

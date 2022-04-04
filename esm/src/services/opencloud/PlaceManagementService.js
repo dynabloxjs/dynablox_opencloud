@@ -3,7 +3,7 @@ export class PlaceManagementService extends BaseService {
     async updatePlaceData(universeId, placeId, fileData, versionType = "Published") {
         return (await this.rest.httpRequest({
             method: "POST",
-            url: `{BEDEV2Url:universes}/v1/${universeId}/places/${placeId}/versions`,
+            url: PlaceManagementService.urls.updatePlaceData(universeId, placeId),
             query: {
                 versionType,
             },
@@ -16,3 +16,11 @@ export class PlaceManagementService extends BaseService {
         })).body;
     }
 }
+Object.defineProperty(PlaceManagementService, "urls", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: {
+        updatePlaceData: (universeId, placeId) => `{BEDEV2Url:universes}/v1/${universeId}/places/${placeId}/versions`,
+    }
+});

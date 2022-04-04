@@ -4,7 +4,7 @@ import * as JSONv2 from "../../utils/json.js";
 export class DataStoreService extends BaseService {
     async listDataStores(universeId, prefix, limit, cursor) {
         return (await this.rest.httpRequest({
-            url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores`,
+            url: DataStoreService.urls.listDataStores(universeId),
             query: {
                 cursor,
                 limit,
@@ -16,7 +16,7 @@ export class DataStoreService extends BaseService {
     }
     async listDataStoreEntries(universeId, datastoreName, scopeOrAllScopes = "global", prefix, limit, cursor) {
         return (await this.rest.httpRequest({
-            url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries`,
+            url: DataStoreService.urls.listDataStoreEntries(universeId),
             query: {
                 datastoreName,
                 [typeof scopeOrAllScopes === "boolean" ? "AllScopes" : "scope"]: scopeOrAllScopes,
@@ -30,7 +30,7 @@ export class DataStoreService extends BaseService {
     }
     async getDataStoreEntry(universeId, datastoreName, entryKey, scope = "global") {
         const response = await this.rest.httpRequest({
-            url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
+            url: DataStoreService.urls.getDataStoreEntry(universeId),
             query: {
                 datastoreName,
                 entryKey,
@@ -56,7 +56,7 @@ export class DataStoreService extends BaseService {
     async updateDataStoreEntry(universeId, dataStoreName, entryKey, data, attributes, userIds, scope = "global", matchKeyVersion, createOnly) {
         return (await this.rest.httpRequest({
             method: "POST",
-            url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
+            url: DataStoreService.urls.updateDataStoreEntry(universeId),
             query: {
                 dataStoreName,
                 entryKey,
@@ -80,7 +80,7 @@ export class DataStoreService extends BaseService {
     async incrementDataStoreEntry(universeId, dataStoreName, entryKey, incrementBy, attributes, userIds, scope = "global") {
         return (await this.rest.httpRequest({
             method: "POST",
-            url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/increment`,
+            url: DataStoreService.urls.incrementDataStoreEntry(universeId),
             query: {
                 dataStoreName,
                 entryKey,
@@ -98,7 +98,7 @@ export class DataStoreService extends BaseService {
     async removeDataStoreEntry(universeId, dataStoreName, entryKey, scope = "global") {
         await this.rest.httpRequest({
             method: "DELETE",
-            url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
+            url: DataStoreService.urls.removeDataStoreEntry(universeId),
             query: {
                 dataStoreName,
                 entryKey,
@@ -111,7 +111,7 @@ export class DataStoreService extends BaseService {
     }
     async listDataStoreEntryVersions(universeId, dataStoreName, entryKey, startTime, endTime, sortOrder, limit, scope = "global", cursor) {
         return (await this.rest.httpRequest({
-            url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`,
+            url: DataStoreService.urls.listDataStoreEntryVersions(universeId),
             query: {
                 dataStoreName,
                 entryKey,
@@ -128,7 +128,7 @@ export class DataStoreService extends BaseService {
     }
     async getDataStoreEntryVersion(universeId, datastoreName, entryKey, versionId, scope = "global") {
         const response = await this.rest.httpRequest({
-            url: `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions/version`,
+            url: DataStoreService.urls.getDataStoreEntryVersion(universeId),
             query: {
                 datastoreName,
                 entryKey,
@@ -149,3 +149,18 @@ export class DataStoreService extends BaseService {
         };
     }
 }
+Object.defineProperty(DataStoreService, "urls", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: {
+        listDataStores: (universeId) => `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores`,
+        listDataStoreEntries: (universeId) => `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries`,
+        getDataStoreEntry: (universeId) => `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
+        updateDataStoreEntry: (universeId) => `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
+        incrementDataStoreEntry: (universeId) => `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/increment`,
+        removeDataStoreEntry: (universeId) => `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry`,
+        listDataStoreEntryVersions: (universeId) => `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions`,
+        getDataStoreEntryVersion: (universeId) => `{BEDEV2Url:datastores}/v1/universes/${universeId}/standard-datastores/datastore/entries/entry/versions/version`,
+    }
+});

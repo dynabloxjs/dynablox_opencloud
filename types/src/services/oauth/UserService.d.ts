@@ -11,5 +11,8 @@ export interface AuthenticatedUser {
     verified?: boolean;
 }
 export declare class UserService extends BaseService {
+    static urls: {
+        getAuthenticatedUser: () => string;
+    };
     getAuthenticatedUser(): Promise<AuthenticatedUser>;
 }

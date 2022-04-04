@@ -42,6 +42,16 @@ export interface DataStoreEntryVersion<Expect> {
     value: Expect | null;
 }
 export declare class DataStoreService extends BaseService {
+    static urls: {
+        listDataStores: (universeId: unknown) => string;
+        listDataStoreEntries: (universeId: unknown) => string;
+        getDataStoreEntry: (universeId: unknown) => string;
+        updateDataStoreEntry: (universeId: unknown) => string;
+        incrementDataStoreEntry: (universeId: unknown) => string;
+        removeDataStoreEntry: (universeId: unknown) => string;
+        listDataStoreEntryVersions: (universeId: unknown) => string;
+        getDataStoreEntryVersion: (universeId: unknown) => string;
+    };
     listDataStores(universeId: number, prefix?: string, limit?: number, cursor?: string): Promise<ListDataStoresResponse>;
     listDataStoreEntries(universeId: number, datastoreName: string, scopeOrAllScopes?: string | boolean, prefix?: string, limit?: number, cursor?: string): Promise<ListDataStoreEntriesResponse>;
     getDataStoreEntry<Expect = unknown, Attributes extends Record<string, unknown> = Record<string, unknown>>(universeId: number, datastoreName: string, entryKey: string, scope?: string): Promise<DataStoreEntry<Expect, Attributes>>;

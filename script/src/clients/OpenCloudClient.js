@@ -28,6 +28,7 @@ const dntShim = __importStar(require("../../_dnt.shims.js"));
 const BaseClient_js_1 = require("./BaseClient.js");
 const BaseUniverse_js_1 = require("../classes/opencloud/bases/BaseUniverse.js");
 const getOpenCloudRatelimitHelper_js_1 = require("../utils/getOpenCloudRatelimitHelper.js");
+const requestRetryErrorCodes = [500, 502, 504];
 /**
  * OpenCloudClient error objects.
  */
@@ -49,7 +50,7 @@ exports.OpenCloudClientError = OpenCloudClientError;
  */
 class OpenCloudClient extends BaseClient_js_1.BaseClient {
     constructor(options) {
-        const fetchFunction = (input, init) => {
+        const fetchFunction = (input, init, retryNumber = 0) => {
             const url = new URL(typeof input === "string" ? input : input.url);
             const method = (init?.method ?? "GET");
             if (!this.ratelimiter.getRequestAvailability(method, url, this.ratelimiterSubjectId)) {
@@ -62,7 +63,11 @@ class OpenCloudClient extends BaseClient_js_1.BaseClient {
             }
             // @ts-ignore: Ignore this in DNT please.
             return (options.base?.fetch ?? dntShim.fetch)(input, init).then((response) => {
-                if (response.ok || response.status === 429) {
+                if (response.status !== 429) {
+                    if (requestRetryErrorCodes.includes(response.status) &&
+                        (retryNumber < this.requestRetryCount)) {
+                        return new Promise((resolve) => dntShim.setTimeout(() => resolve(fetchFunction(input, init, retryNumber++)), this.requestRetryTimeout));
+                    }
                     this.ratelimiter.incrementRatelimits(method, url, this.ratelimiterSubjectId);
                 }
                 return response;
@@ -103,6 +108,24 @@ class OpenCloudClient extends BaseClient_js_1.BaseClient {
             configurable: true,
             writable: true,
             value: void 0
+        });
+        /**
+         * Retry timeout for 500, 502, and 504 responses in milliseconds.
+         */
+        Object.defineProperty(this, "requestRetryTimeout", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 250
+        });
+        /**
+         * Retry count for 500, 502, and 504 responses.
+         */
+        Object.defineProperty(this, "requestRetryCount", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 5
         });
         /**
          * Whether the ratelimiter should yield instead of throwing an error.

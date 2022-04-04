@@ -21,6 +21,11 @@ export interface OAuthToken {
     idToken?: string;
 }
 export declare class TokenService extends BaseService {
+    static urls: {
+        introspectToken: () => string;
+        revokeToken: () => string;
+        useCode: () => string;
+    };
     introspectToken(token: string): Promise<TokenIntrospection>;
     revokeToken(token: string): Promise<void>;
     useCode(grantType: string, code: string, refreshToken?: string, codeVerifier?: string): Promise<OAuthToken>;

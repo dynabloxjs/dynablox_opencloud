@@ -1,4 +1,6 @@
 import * as dntShim from "../../_dnt.shims.js";
+import { DataStoreService } from "../services/opencloud/DataStoreService.js";
+import { PlaceManagementService } from "../services/opencloud/PlaceManagementService.js";
 import { RatelimitHelper } from "../helpers/RatelimitHelper.js";
 /**
  * Get a new instance of a ratelimit helper for Open Cloud.
@@ -10,7 +12,7 @@ export function getOpenCloudRatelimitHelper(rest) {
         // Update a place's contents
         {
             methods: ["POST"],
-            pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:universes}/v1/:universeId/places/:placeId/versions?*")),
+            pattern: new dntShim.URLPattern(rest.formatUrl(`${PlaceManagementService.urls.updatePlaceData(":universeId", ":placeId")}?*`)),
             limitations: ["AuthenticatedIP"],
             duration: 60000,
             count: 10,
@@ -19,7 +21,7 @@ export function getOpenCloudRatelimitHelper(rest) {
         // List DataStore entries
         {
             methods: ["GET"],
-            pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries?*")),
+            pattern: new dntShim.URLPattern(rest.formatUrl(`${DataStoreService.urls.listDataStoreEntries(":universeId")}?*`)),
             limitations: ["All"],
             duration: 60000,
             count: 300,
@@ -28,7 +30,7 @@ export function getOpenCloudRatelimitHelper(rest) {
         // Get the value of a DataStore entry
         {
             methods: ["GET"],
-            pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*")),
+            pattern: new dntShim.URLPattern(rest.formatUrl(`${DataStoreService.urls.getDataStoreEntry(":universeId")}?*`)),
             limitations: ["All"],
             duration: 60000,
             count: 300,
@@ -37,7 +39,7 @@ export function getOpenCloudRatelimitHelper(rest) {
         // Update the value of a DataStore entry
         {
             methods: ["POST"],
-            pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*")),
+            pattern: new dntShim.URLPattern(rest.formatUrl(`${DataStoreService.urls.updateDataStoreEntry(":universeId")}?*`)),
             limitations: ["All"],
             duration: 60000,
             count: 300,
@@ -46,7 +48,7 @@ export function getOpenCloudRatelimitHelper(rest) {
         // Increment the value of a DataStore entry
         {
             methods: ["POST"],
-            pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment?*")),
+            pattern: new dntShim.URLPattern(rest.formatUrl(`${DataStoreService.urls.incrementDataStoreEntry(":universeId")}?*`)),
             limitations: ["All"],
             duration: 60000,
             count: 300,
@@ -55,7 +57,7 @@ export function getOpenCloudRatelimitHelper(rest) {
         // Delete DataStore entry
         {
             methods: ["DELETE"],
-            pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*")),
+            pattern: new dntShim.URLPattern(rest.formatUrl(`${DataStoreService.urls.removeDataStoreEntry(":universeId")}?*`)),
             limitations: ["All"],
             duration: 60000,
             count: 300,
@@ -64,7 +66,7 @@ export function getOpenCloudRatelimitHelper(rest) {
         // List DataStore entry versions
         {
             methods: ["GET"],
-            pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions?*")),
+            pattern: new dntShim.URLPattern(rest.formatUrl(`${DataStoreService.urls.listDataStoreEntryVersions(":universeId")}?*`)),
             limitations: ["All"],
             duration: 60000,
             count: 300,
@@ -73,7 +75,7 @@ export function getOpenCloudRatelimitHelper(rest) {
         // Get DataStore entry version
         {
             methods: ["GET"],
-            pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version?*")),
+            pattern: new dntShim.URLPattern(rest.formatUrl(`${DataStoreService.urls.getDataStoreEntryVersion(":universeId")}?*`)),
             limitations: ["All"],
             duration: 60000,
             count: 300,
@@ -82,7 +84,7 @@ export function getOpenCloudRatelimitHelper(rest) {
         // List DataStores
         {
             methods: ["GET"],
-            pattern: new dntShim.URLPattern(rest.formatUrl("{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores?*")),
+            pattern: new dntShim.URLPattern(rest.formatUrl(`${DataStoreService.urls.listDataStores(":universeId")}?*`)),
             limitations: ["All"],
             duration: 60000,
             count: 300,

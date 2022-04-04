@@ -3,7 +3,7 @@ export class TokenService extends BaseService {
     async introspectToken(token) {
         return (await this.rest.httpRequest({
             method: "POST",
-            url: "{BEDEV2Url:application-authorization}/v1/token/introspect",
+            url: TokenService.urls.introspectToken(),
             body: {
                 type: "urlencoded",
                 value: {
@@ -22,7 +22,7 @@ export class TokenService extends BaseService {
     async revokeToken(token) {
         await this.rest.httpRequest({
             method: "POST",
-            url: "{BEDEV2Url:application-authorization}/v1/token/revoke",
+            url: TokenService.urls.revokeToken(),
             body: {
                 type: "urlencoded",
                 value: {
@@ -56,7 +56,7 @@ export class TokenService extends BaseService {
             urlencoded.set("code_verifier", codeVerifier);
         return (await this.rest.httpRequest({
             method: "POST",
-            url: "{BEDEV2Url:application-authorization}/v1/token",
+            url: TokenService.urls.useCode(),
             body: {
                 type: "urlencoded",
                 value: urlencoded,
@@ -65,3 +65,13 @@ export class TokenService extends BaseService {
         })).body;
     }
 }
+Object.defineProperty(TokenService, "urls", {
+    enumerable: true,
+    configurable: true,
+    writable: true,
+    value: {
+        introspectToken: () => "{BEDEV2Url:application-authorization}/v1/token/introspect",
+        revokeToken: () => "{BEDEV2Url:application-authorization}/v1/token/revoke",
+        useCode: () => "{BEDEV2Url:application-authorization}/v1/token",
+    }
+});
