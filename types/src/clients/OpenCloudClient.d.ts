@@ -114,11 +114,11 @@ export declare class OpenCloudClient extends BaseClient {
     /**
      * Retry timeout for 500, 502, and 504 responses in milliseconds.
      */
-    readonly requestRetryTimeout = 250;
+    readonly requestRetryTimeout: number;
     /**
      * Retry count for 500, 502, and 504 responses.
      */
-    readonly requestRetryCount = 5;
+    readonly requestRetryCount: number;
     /**
      * Whether the ratelimiter should yield instead of throwing an error.
      * @private
