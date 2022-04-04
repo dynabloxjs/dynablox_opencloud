@@ -52,6 +52,14 @@ export interface OpenCloudClientOptions {
 	 */
 	ratelimiterShouldYield?: boolean;
 	/**
+	 * Retry timeout for 500, 502, and 504 responses in milliseconds.
+	 */
+	requestRetryTimeout?: number;
+	/**
+	 * Retry count for 500, 502, and 504 responses.
+	 */
+	requestRetryCount?: number;
+	/**
 	 * Base options.
 	 */
 	base?: OpenCloudClientOptionsBase;
@@ -91,6 +99,8 @@ export type Scope =
 	| UniverseDataStoresVersionsScope
 	| UniverseDataStoresControlScope;
 
+const requestRetryErrorCodes = [500, 502, 504];
+
 /**
  * OpenCloudClient error objects.
  */
@@ -125,6 +135,16 @@ export class OpenCloudClient extends BaseClient {
 	 * The ID of the ratelimiter subject.
 	 */
 	public readonly ratelimiterSubjectId: number;
+
+	/**
+	 * Retry timeout for 500, 502, and 504 responses in milliseconds.
+	 */
+	public readonly requestRetryTimeout = 250;
+
+	/**
+	 * Retry count for 500, 502, and 504 responses.
+	 */
+	public readonly requestRetryCount = 5;
 
 	/**
 	 * Whether the ratelimiter should yield instead of throwing an error.
@@ -193,6 +213,7 @@ export class OpenCloudClient extends BaseClient {
 		const fetchFunction = (
 			input: RequestInfo | string,
 			init?: RequestInit,
+			retryNumber = 0,
 		): Promise<Response> => {
 			const url = new URL(
 				typeof input === "string" ? input : input.url,
@@ -233,7 +254,23 @@ export class OpenCloudClient extends BaseClient {
 			// @ts-ignore: Ignore this in DNT please.
 			return (options.base?.fetch ?? fetch)(input, init).then(
 				(response) => {
-					if (response.ok || response.status === 429) {
+					if (response.status !== 429) {
+						if (
+							requestRetryErrorCodes.includes(response.status) &&
+							(retryNumber < this.requestRetryCount)
+						) {
+							return new Promise(
+								(resolve) =>
+									setTimeout(() =>
+										resolve(
+											fetchFunction(
+												input,
+												init,
+												retryNumber++,
+											),
+										), this.requestRetryTimeout),
+							);
+						}
 						this.ratelimiter.incrementRatelimits(
 							method,
 							url,

@@ -24,10 +24,18 @@ export interface OAuthToken {
 }
 
 export class TokenService extends BaseService {
+	public static urls = {
+		introspectToken: () =>
+			"{BEDEV2Url:application-authorization}/v1/token/introspect",
+		revokeToken: () =>
+			"{BEDEV2Url:application-authorization}/v1/token/revoke",
+		useCode: () => "{BEDEV2Url:application-authorization}/v1/token",
+	};
+
 	public async introspectToken(token: string): Promise<TokenIntrospection> {
 		return (await this.rest.httpRequest<TokenIntrospection>({
 			method: "POST",
-			url: "{BEDEV2Url:application-authorization}/v1/token/introspect",
+			url: TokenService.urls.introspectToken(),
 			body: {
 				type: "urlencoded",
 				value: {
@@ -49,7 +57,7 @@ export class TokenService extends BaseService {
 	public async revokeToken(token: string): Promise<void> {
 		await this.rest.httpRequest<void>({
 			method: "POST",
-			url: "{BEDEV2Url:application-authorization}/v1/token/revoke",
+			url: TokenService.urls.revokeToken(),
 			body: {
 				type: "urlencoded",
 				value: {
@@ -90,7 +98,7 @@ export class TokenService extends BaseService {
 
 		return (await this.rest.httpRequest<OAuthToken>({
 			method: "POST",
-			url: "{BEDEV2Url:application-authorization}/v1/token",
+			url: TokenService.urls.useCode(),
 			body: {
 				type: "urlencoded",
 				value: urlencoded,

@@ -27,16 +27,22 @@ export interface ListJwksResponse {
 }
 
 export class DiscoveryService extends BaseService {
+	public static urls = {
+		getOpenidConfiguration: () =>
+			"{BEDEV2Url:oauth}/.well-known/openid-configuration",
+		listJwks: () => "{BEDEV2Url:oauth}/v1/certs",
+	};
+
 	public async getOpenidConfiguration(): Promise<OpenidConfiguration> {
 		return (await this.rest.httpRequest<OpenidConfiguration>({
-			url: "{BEDEV2Url:oauth}/.well-known/openid-configuration",
+			url: DiscoveryService.urls.getOpenidConfiguration(),
 			errorHandling: "BEDEV2",
 		})).body;
 	}
 
 	public async listJwks(): Promise<ListJwksResponse> {
 		return (await this.rest.httpRequest<ListJwksResponse>({
-			url: "{BEDEV2Url:oauth}/v1/certs",
+			url: DiscoveryService.urls.listJwks(),
 			errorHandling: "BEDEV2",
 		})).body;
 	}

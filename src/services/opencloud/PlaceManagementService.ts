@@ -7,6 +7,11 @@ export interface UpdatePlaceDataResponse {
 export type UpdatePlaceDataVersionType = "Saved" | "Published";
 
 export class PlaceManagementService extends BaseService {
+	public static urls = {
+		updatePlaceData: (universeId: unknown, placeId: unknown) =>
+			`{BEDEV2Url:universes}/v1/${universeId}/places/${placeId}/versions`,
+	};
+
 	public async updatePlaceData(
 		universeId: number,
 		placeId: number,
@@ -15,7 +20,10 @@ export class PlaceManagementService extends BaseService {
 	): Promise<UpdatePlaceDataResponse> {
 		return (await this.rest.httpRequest<UpdatePlaceDataResponse>({
 			method: "POST",
-			url: `{BEDEV2Url:universes}/v1/${universeId}/places/${placeId}/versions`,
+			url: PlaceManagementService.urls.updatePlaceData(
+				universeId,
+				placeId,
+			),
 			query: {
 				versionType,
 			},

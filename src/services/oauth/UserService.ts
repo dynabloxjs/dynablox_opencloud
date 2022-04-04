@@ -13,9 +13,13 @@ export interface AuthenticatedUser {
 }
 
 export class UserService extends BaseService {
+	public static urls = {
+		getAuthenticatedUser: () => "{BEDEV2Url:oauth}/v1/userinfo",
+	};
+
 	public async getAuthenticatedUser(): Promise<AuthenticatedUser> {
 		return (await this.rest.httpRequest<AuthenticatedUser>({
-			url: "{BEDEV2Url:oauth}/v1/userinfo",
+			url: UserService.urls.getAuthenticatedUser(),
 			errorHandling: "BEDEV2",
 			includeCredentials: true,
 		})).body;

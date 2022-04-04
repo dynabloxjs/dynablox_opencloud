@@ -1,3 +1,5 @@
+import { DataStoreService } from "../services/opencloud/DataStoreService.ts";
+import { PlaceManagementService } from "../services/opencloud/PlaceManagementService.ts";
 import { RatelimitHelper } from "../helpers/RatelimitHelper.ts";
 import type { RESTController } from "../rest/RESTController.ts";
 
@@ -15,7 +17,12 @@ export function getOpenCloudRatelimitHelper(
 			methods: ["POST"],
 			pattern: new URLPattern(
 				rest.formatUrl(
-					"{BEDEV2Url:universes}/v1/:universeId/places/:placeId/versions?*",
+					`${
+						PlaceManagementService.urls.updatePlaceData(
+							":universeId",
+							":placeId",
+						)
+					}?*`,
 				),
 			),
 			limitations: ["AuthenticatedIP"],
@@ -28,7 +35,11 @@ export function getOpenCloudRatelimitHelper(
 			methods: ["GET"],
 			pattern: new URLPattern(
 				rest.formatUrl(
-					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries?*",
+					`${
+						DataStoreService.urls.listDataStoreEntries(
+							":universeId",
+						)
+					}?*`,
 				),
 			),
 			limitations: ["All"],
@@ -41,7 +52,9 @@ export function getOpenCloudRatelimitHelper(
 			methods: ["GET"],
 			pattern: new URLPattern(
 				rest.formatUrl(
-					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*",
+					`${
+						DataStoreService.urls.getDataStoreEntry(":universeId")
+					}?*`,
 				),
 			),
 			limitations: ["All"],
@@ -54,7 +67,11 @@ export function getOpenCloudRatelimitHelper(
 			methods: ["POST"],
 			pattern: new URLPattern(
 				rest.formatUrl(
-					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*",
+					`${
+						DataStoreService.urls.updateDataStoreEntry(
+							":universeId",
+						)
+					}?*`,
 				),
 			),
 			limitations: ["All"],
@@ -67,7 +84,11 @@ export function getOpenCloudRatelimitHelper(
 			methods: ["POST"],
 			pattern: new URLPattern(
 				rest.formatUrl(
-					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/increment?*",
+					`${
+						DataStoreService.urls.incrementDataStoreEntry(
+							":universeId",
+						)
+					}?*`,
 				),
 			),
 			limitations: ["All"],
@@ -80,7 +101,11 @@ export function getOpenCloudRatelimitHelper(
 			methods: ["DELETE"],
 			pattern: new URLPattern(
 				rest.formatUrl(
-					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry?*",
+					`${
+						DataStoreService.urls.removeDataStoreEntry(
+							":universeId",
+						)
+					}?*`,
 				),
 			),
 			limitations: ["All"],
@@ -93,7 +118,11 @@ export function getOpenCloudRatelimitHelper(
 			methods: ["GET"],
 			pattern: new URLPattern(
 				rest.formatUrl(
-					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions?*",
+					`${
+						DataStoreService.urls.listDataStoreEntryVersions(
+							":universeId",
+						)
+					}?*`,
 				),
 			),
 			limitations: ["All"],
@@ -106,7 +135,11 @@ export function getOpenCloudRatelimitHelper(
 			methods: ["GET"],
 			pattern: new URLPattern(
 				rest.formatUrl(
-					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores/datastore/entries/entry/versions/version?*",
+					`${
+						DataStoreService.urls.getDataStoreEntryVersion(
+							":universeId",
+						)
+					}?*`,
 				),
 			),
 			limitations: ["All"],
@@ -119,7 +152,7 @@ export function getOpenCloudRatelimitHelper(
 			methods: ["GET"],
 			pattern: new URLPattern(
 				rest.formatUrl(
-					"{BEDEV2Url:datastores}/v1/universes/:universeId/standard-datastores?*",
+					`${DataStoreService.urls.listDataStores(":universeId")}?*`,
 				),
 			),
 			limitations: ["All"],
