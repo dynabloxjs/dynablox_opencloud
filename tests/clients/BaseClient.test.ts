@@ -77,7 +77,7 @@ Deno.test("BaseClient", async (t) => {
                 });
             });
 
-            await t.step("unknown", (t) => { 
+            await t.step("unknown", () => { 
                 assertEquals(client.rest.formatBody({
                     type: "unknown",
                     value: "value"
