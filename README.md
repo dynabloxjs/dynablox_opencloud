@@ -123,7 +123,7 @@ const client2 = new OpenCloudClient({
 ### Retries
 By default, if a response is `500`, `502`, or `504` it will retry **5** times, each retry having a **250ms** timeout. It is possible to change it:
 ```typescript
-const client2= new OpenCloudClient({
+const client = new OpenCloudClient({
     credentialsValue: "APIKEYHERE",
     // Retry 5 more times on failed requests, if retrying is not wanted, set it to `0`.
     requestRetryCount: 5,
