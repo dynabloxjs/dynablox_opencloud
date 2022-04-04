@@ -83,7 +83,7 @@ Deno.test("BaseClient", async (t) => {
                     value: "value"
                 }), {
                     type: undefined,
-                    value: "value"
+                    body: "value"
                 });
             });
 
