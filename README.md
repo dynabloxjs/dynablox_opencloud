@@ -98,7 +98,7 @@ const client = new OpenCloudClient({
 ```
 
 #### Ratelimiting
-the OpenCloudClient also has a built-in ratelimit helper. If a ratelimit is reached, it will throw an OpenCloudClientError.
+The OpenCloudClient also has a built-in ratelimit helper. If a ratelimit is reached, it will throw an OpenCloudClientError.
 
 You can opt in for yielding behavior by setting `ratelimiterShouldYield` to `true`:
 ```typescript
@@ -117,6 +117,18 @@ const client1 = new OpenCloudClient({
 const client2 = new OpenCloudClient({
     credentialsValue: "APIKEYHERE",
     ratelimiter: client1.ratelimiter,
+});
+```
+
+### Retries
+By default, if a response is `500`, `502`, or `504` it will retry **5** times, each retry having a **250ms** timeout. It is possible to change it:
+```typescript
+const client2= new OpenCloudClient({
+    credentialsValue: "APIKEYHERE",
+    // Retry 5 more times on failed requests, if retrying is not wanted, set it to `0`.
+    requestRetryCount: 5,
+    // Each retry will take 250ms
+    requestRetryTimeout: 250
 });
 ```
 
