@@ -32,9 +32,6 @@ dntShim.Deno.test("BaseClient", async (t) => {
             type: "APIKey",
             value: "TESTVALUE"
         },
-        environmentURLOptions: {
-            BEDEV2Url: "www.roblox.com/{0}"
-        }
     });
     await t.step("authentication", () => {
         (0, asserts_js_1.assertEquals)(client.authenticationType, "APIKey");
@@ -61,18 +58,18 @@ dntShim.Deno.test("BaseClient", async (t) => {
     await t.step("inner RESTController", async (t) => {
         await t.step("aliases", () => {
             (0, asserts_js_1.assertEquals)(client.rest.aliases, {
-                "BEDEV2Url": "www.roblox.com/{0}"
+                "BEDEV2Url": "apis.roblox.com/{0}"
             });
         });
         await t.step("URL formatting", () => {
-            (0, asserts_js_1.assertEquals)(client.rest.formatWithAliases("{BEDEV2Url:test}/0"), "www.roblox.com/test/0");
-            (0, asserts_js_1.assertEquals)(client.rest.formatWithAliases("{BEDEV2Url:test}/0"), "www.roblox.com/test/0");
-            (0, asserts_js_1.assertEquals)(client.rest.formatWithAliases("{BEDEV2Url:test}/0"), "www.roblox.com/test/0");
-            (0, asserts_js_1.assertEquals)(client.rest.formatUrl("{BEDEV2Url:test}/0").href, "https://www.roblox.com/test/0");
+            (0, asserts_js_1.assertEquals)(client.rest.formatWithAliases("{BEDEV2Url:test}/0"), "apis.roblox.com/test/0");
+            (0, asserts_js_1.assertEquals)(client.rest.formatWithAliases("{BEDEV2Url:test}/0"), "apis.roblox.com/test/0");
+            (0, asserts_js_1.assertEquals)(client.rest.formatWithAliases("{BEDEV2Url:test}/0"), "apis.roblox.com/test/0");
+            (0, asserts_js_1.assertEquals)(client.rest.formatUrl("{BEDEV2Url:test}/0").href, "https://apis.roblox.com/test/0");
             (0, asserts_js_1.assertEquals)(client.rest.formatUrl("{BEDEV2Url:test}/0", {
                 test: true,
-            }).href, "https://www.roblox.com/test/0?test=true");
-            (0, asserts_js_1.assertEquals)(client.rest.formatUrl("{BEDEV2Url:test}/0", undefined, "wss").href, "wss://www.roblox.com/test/0");
+            }).href, "https://apis.roblox.com/test/0?test=true");
+            (0, asserts_js_1.assertEquals)(client.rest.formatUrl("{BEDEV2Url:test}/0", undefined, "wss").href, "wss://apis.roblox.com/test/0");
         });
         await t.step("body formatting", async (t) => {
             await t.step("JSON", () => {
@@ -93,6 +90,24 @@ dntShim.Deno.test("BaseClient", async (t) => {
                 }), {
                     type: undefined,
                     body: new Uint8Array([1, 2, 3])
+                });
+            });
+            await t.step("unknown", () => {
+                (0, asserts_js_1.assertEquals)(client.rest.formatBody({
+                    type: "unknown",
+                    value: "value"
+                }), {
+                    type: undefined,
+                    body: "value"
+                });
+            });
+            await t.step("text", () => {
+                (0, asserts_js_1.assertEquals)(client.rest.formatBody({
+                    type: "text",
+                    value: "value"
+                }), {
+                    type: undefined,
+                    body: "value"
                 });
             });
             await t.step("formdata", async (t) => {

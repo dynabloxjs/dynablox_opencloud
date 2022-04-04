@@ -266,3 +266,6 @@ const datastore = client.getBaseUniverse(13058).getStandardDataStore("TestStore"
 ```
 
 </details>
+
+## License
+[MIT License](https://github.com/dynabloxjs/dynablox_opencloud/blob/main/LICENSE)
