@@ -139,12 +139,12 @@ export class OpenCloudClient extends BaseClient {
 	/**
 	 * Retry timeout for 500, 502, and 504 responses in milliseconds.
 	 */
-	public readonly requestRetryTimeout = 250;
+	public readonly requestRetryTimeout: number = 250;
 
 	/**
 	 * Retry count for 500, 502, and 504 responses.
 	 */
-	public readonly requestRetryCount = 5;
+	public readonly requestRetryCount: number = 5;
 
 	/**
 	 * Whether the ratelimiter should yield instead of throwing an error.
@@ -293,6 +293,8 @@ export class OpenCloudClient extends BaseClient {
 		});
 		if (options.scopes) this._scopes = options.scopes;
 		if (options.ratelimiterShouldYield) this._ratelimiterShouldYield = true;
+		if (options.requestRetryCount !== undefined) this.requestRetryCount = options.requestRetryCount;
+		if (options.requestRetryTimeout !== undefined) this.requestRetryTimeout = options.requestRetryTimeout;
 
 		this.ratelimiter = options.ratelimiter ??
 			getOpenCloudRatelimitHelper(this.rest);
