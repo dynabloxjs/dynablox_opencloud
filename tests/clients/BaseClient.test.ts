@@ -87,7 +87,7 @@ Deno.test("BaseClient", async (t) => {
                 });
             });
 
-            await t.step("text", (t) => { 
+            await t.step("text", () => { 
                 assertEquals(client.rest.formatBody({
                     type: "text",
                     value: "value"
