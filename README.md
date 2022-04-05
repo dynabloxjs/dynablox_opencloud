@@ -15,20 +15,48 @@ This is a stripped-down version of the original library, for Open Cloud.
 ### Installation
 #### Node Installation
 Steps to install Node can be found [here](https://nodejs.org).<br />
-Run `npm install @dynabloxjs/opencloud` to install.
+
+Run
+
+```
+npm install @dynabloxjs/opencloud
+```
+
+or
+
+```
+yarn add @dynabloxjs/opencloud
+```
+
+to install. (**yarn add** requires [yarn](https://yarnpkg.com))
 
 Import it with CommonJS:
+
 ```js
 const dynablox = require("@dynabloxjs/opencloud");
 ```
+
 or ESModule:
+
 ```js
 import * as dynablox from "@dynabloxjs/opencloud";
 ```
 
 For pre-release builds:
 
-Run `npm install dynabloxjs/dynablox_opencloud#node` to install the current pre-release build.
+Run
+
+```
+npm install dynabloxjs/dynablox_opencloud#node
+```
+
+or
+
+```
+yarn add dynabloxjs/dynablox_opencloud#node
+```
+
+to install the current pre-release build. (**yarn add** requires [yarn](https://yarnpkg.com))
 
 #### Deno Installation
 Steps to install Deno can be found [here](https://github.com/denoland/deno_install).
@@ -36,9 +64,11 @@ Steps to install Deno can be found [here](https://github.com/denoland/deno_insta
 Unlike Node or Python, Deno modules only need to be imported via a path (and then cached).
 
 Once you have done the necessary steps, import it:
+
 ```ts
 import * as dynablox from "https://deno.land/x/dynablox_opencloud/mod.ts";
 ``` 
+
 *NOTE*: You can also specify a version by appending `@{version}` to the module name.
 
 ... and it's done! Only the `--allow-net` flag is needed for Dynablox Open Cloud, see [more information about flags in the Deno manual](https://deno.land/manual/getting_started/permissions).
