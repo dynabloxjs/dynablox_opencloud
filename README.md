@@ -9,7 +9,11 @@
 | <a href="https://github.com/dynabloxjs/dynablox_opencloud/releases">release notes</a>
 </p>
 
-An API wrapper for the OpenCloud Roblox API using the Deno runtime (with full web compatibility and mostly NodeJS compatbility).
+An API wrapper for the OpenCloud Roblox API built using the Deno runtime, with support for NodeJS via transpilation.
+
+* **Compatible**: Built in TypeScript using Deno. Supported in NodeJS as a ES and CommonJS module via transpilation.
+* **Error handling**: No matter the OpenCloud endpoint, errors are formatted into the same object format.
+* **Permission checked** (optional): Optional behavior to check if the current client has permissions for a resource before performing a request.
 
 This is a stripped-down version of the original library, for Open Cloud.
 
