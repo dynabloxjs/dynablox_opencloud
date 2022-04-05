@@ -6,6 +6,7 @@
 <a href="https://doc.deno.land/https://deno.land/x/dynablox_opencloud/mod.ts">docs</a>
 | <a href="https://deno.land/x/dynablox_opencloud">deno.land/x</a>
 | <a href="https://www.npmjs.com/package/@dynabloxjs/opencloud">npm</a>
+| <a href="https://github.com/dynabloxjs/dynablox_opencloud/releases">release notes</a>
 </p>
 
 An API wrapper for the OpenCloud Roblox API using the Deno runtime (with full web compatibility and mostly NodeJS compatbility).
