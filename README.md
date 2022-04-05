@@ -1,8 +1,11 @@
 > ### Active Development
 > This module is currently in the initial development phase. Breaking changes may be introduced without warning before a stable 1.0.0 release. Check release notes of every release before updating.
 
-### <p align="center">Dynablox</p>
+### <p align="center">dynablox opencloud</p>
 <p align="center">
+<img src="https://img.shields.io/github/license/dynabloxjs/dynablox_opencloud?style=flat-square" />
+<img src="https://img.shields.io/github/v/release/dynabloxjs/dynablox_opencloud?style=flat-square" />
+<br />
 <a href="https://doc.deno.land/https://deno.land/x/dynablox_opencloud/mod.ts">docs</a>
 | <a href="https://deno.land/x/dynablox_opencloud">deno.land/x</a>
 | <a href="https://www.npmjs.com/package/@dynabloxjs/opencloud">npm</a>
@@ -12,10 +15,12 @@
 An API wrapper for the OpenCloud Roblox API built using the Deno runtime, with support for NodeJS via transpilation.
 
 * **Compatible**: Built in TypeScript using Deno. Supported in NodeJS as a ES and CommonJS module via transpilation.
-* **Error handling**: No matter the OpenCloud endpoint, errors are formatted into the same object format.
+* **API Error handling**: No matter the endpoint, errors are formatted into the same object format.
 * **Permission checked** (optional): Optional behavior to check if the current client has permissions for a resource before performing a request.
 
 This is a stripped-down version of the original library, for Open Cloud.
+
+<br /><br />
 
 ### Installation
 #### Node Installation
