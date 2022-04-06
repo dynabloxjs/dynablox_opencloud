@@ -1,10 +1,6 @@
 import { OpenCloudClientError } from "../../../clients/OpenCloudClient.ts";
 import { type OpenCloudClient } from "../../../clients/OpenCloudClient.ts";
-
-export enum PlaceVersionType {
-	Saved = "Saved",
-	Published = "Published",
-}
+import { type UpdatePlaceDataVersionType } from "../../../services/opencloud/PlaceManagementService.ts";
 
 /**
  * Base Place class for Open Cloud.
@@ -49,7 +45,7 @@ export class BasePlace {
 	 */
 	public async updateContents(
 		data: Uint8Array,
-		placeVersionType: keyof typeof PlaceVersionType = "Saved",
+		placeVersionType: UpdatePlaceDataVersionType = "Saved",
 	): Promise<number> {
 		if (!this.parentUniverseId) {
 			throw new OpenCloudClientError(
