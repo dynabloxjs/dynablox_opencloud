@@ -1,9 +1,4 @@
 import { OpenCloudClientError } from "../../../clients/OpenCloudClient.js";
-export var PlaceVersionType;
-(function (PlaceVersionType) {
-    PlaceVersionType["Saved"] = "Saved";
-    PlaceVersionType["Published"] = "Published";
-})(PlaceVersionType || (PlaceVersionType = {}));
 /**
  * Base Place class for Open Cloud.
  */

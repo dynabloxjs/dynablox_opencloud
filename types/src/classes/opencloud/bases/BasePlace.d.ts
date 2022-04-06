@@ -1,8 +1,5 @@
 import { type OpenCloudClient } from "../../../clients/OpenCloudClient.js";
-export declare enum PlaceVersionType {
-    Saved = "Saved",
-    Published = "Published"
-}
+import { type UpdatePlaceDataVersionType } from "../../../services/opencloud/PlaceManagementService.js";
 /**
  * Base Place class for Open Cloud.
  */
@@ -32,5 +29,5 @@ export declare class BasePlace {
      * @param data
      * @param placeVersionType
      */
-    updateContents(data: Uint8Array, placeVersionType?: keyof typeof PlaceVersionType): Promise<number>;
+    updateContents(data: Uint8Array, placeVersionType?: UpdatePlaceDataVersionType): Promise<number>;
 }

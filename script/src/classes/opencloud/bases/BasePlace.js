@@ -1,12 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BasePlace = exports.PlaceVersionType = void 0;
+exports.BasePlace = void 0;
 const OpenCloudClient_js_1 = require("../../../clients/OpenCloudClient.js");
-var PlaceVersionType;
-(function (PlaceVersionType) {
-    PlaceVersionType["Saved"] = "Saved";
-    PlaceVersionType["Published"] = "Published";
-})(PlaceVersionType = exports.PlaceVersionType || (exports.PlaceVersionType = {}));
 /**
  * Base Place class for Open Cloud.
  */
