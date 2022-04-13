@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "whatwg-mimetype": "^3.0.0",
-    "@deno/shim-deno": "~0.4.3",
+    "@deno/shim-deno": "~0.5.0",
     "@deno/shim-crypto": "~0.2.0",
     "@deno/shim-timers": "~0.1.0",
     "undici": "^4.12.1"
