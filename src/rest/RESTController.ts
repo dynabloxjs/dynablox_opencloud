@@ -55,6 +55,7 @@ export interface FormDataSetRequest {
  */
 export type HTTPRequestBodyContent = {
 	type: "json";
+	lua?: boolean;
 	value: unknown;
 } | {
 	type: "text";
@@ -575,7 +576,7 @@ export class RESTController {
 			}
 
 			case "json": {
-				newBody = JSONv2.serialize(body.value);
+				newBody = JSONv2.serialize(body.value, undefined,  body.lua);
 				contentType = "application/json";
 				break;
 			}
