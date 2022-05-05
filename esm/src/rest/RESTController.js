@@ -286,7 +286,7 @@ export class RESTController {
                 break;
             }
             case "json": {
-                newBody = JSONv2.serialize(body.value);
+                newBody = JSONv2.serialize(body.value, undefined, body.lua);
                 contentType = "application/json";
                 break;
             }

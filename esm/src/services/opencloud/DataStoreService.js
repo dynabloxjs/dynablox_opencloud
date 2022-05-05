@@ -45,10 +45,10 @@ export class DataStoreService extends BaseService {
             versionCreatedTime: response.headers.get("last-modified"),
             versionId: response.headers.get("roblox-entry-version"),
             attributes: response.headers.has("roblox-entry-attributes")
-                ? JSON.parse(response.headers.get("roblox-entry-attributes"))
+                ? JSONv2.deserialize(response.headers.get("roblox-entry-attributes"))
                 : null,
             userIds: response.headers.has("roblox-entry-userids")
-                ? JSON.parse(response.headers.get("roblox-entry-userids"))
+                ? JSONv2.deserialize(response.headers.get("roblox-entry-userids"))
                 : null,
             value: response.body,
         };
@@ -65,8 +65,8 @@ export class DataStoreService extends BaseService {
                 exclusiveCreate: createOnly,
             },
             headers: {
-                "roblox-entry-userids": JSON.stringify(userIds),
-                "roblox-entry-attributes": JSON.stringify(attributes),
+                "roblox-entry-userids": JSONv2.serialize(userIds, undefined, true),
+                "roblox-entry-attributes": JSONv2.serialize(attributes, undefined, true),
                 "content-md5": Base64Encode(new Md5().update(data).digest()),
             },
             body: {
@@ -88,8 +88,8 @@ export class DataStoreService extends BaseService {
                 incrementBy,
             },
             headers: {
-                "roblox-entry-userids": JSON.stringify(userIds),
-                "roblox-entry-attributes": JSON.stringify(attributes),
+                "roblox-entry-userids": JSONv2.serialize(userIds, undefined, true),
+                "roblox-entry-attributes": JSONv2.serialize(attributes, undefined, true),
             },
             errorHandling: "BEDEV2",
             includeCredentials: true,

@@ -31,6 +31,7 @@ export interface FormDataSetRequest {
  */
 export declare type HTTPRequestBodyContent = {
     type: "json";
+    lua?: boolean;
     value: unknown;
 } | {
     type: "text";
