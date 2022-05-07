@@ -26,5 +26,3 @@ export function serialize(value: unknown, space?: number, lua?: boolean): string
 		return v;
 	}, space).replace(/:"_NUMBER_(.+?)n?"/g, ":$1");
 }
-
-console.log(serialize(deserialize('{"tesinft": 640224786366201856}')));
