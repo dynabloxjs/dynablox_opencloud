@@ -90,9 +90,19 @@ export function camelizeObject(
 			return [key, value];
 		};
 
-	return Object.fromEntries(
-		Object.entries(input).map(([key, value]) =>
-			makeMapper(undefined)(key, value)
-		),
-	);
+	if (Array.isArray(input)) {
+		const newInput = input.map((value, index) =>
+			Array.from(makeMapper(undefined)(index, value))
+		);
+		const output: unknown[] = [];
+		newInput.forEach(([index, value]) => output[index as number] = value);
+
+		return output;
+	} else {
+		return Object.fromEntries(
+			Object.entries(input).map(([key, value]) =>
+				makeMapper(undefined)(key, value)
+			),
+		);
+	}
 }
