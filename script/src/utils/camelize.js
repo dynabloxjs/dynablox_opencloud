@@ -59,6 +59,14 @@ function camelizeObject(input, options = { deep: false, pascalCase: false }) {
         }
         return [key, value];
     };
-    return Object.fromEntries(Object.entries(input).map(([key, value]) => makeMapper(undefined)(key, value)));
+    if (Array.isArray(input)) {
+        const newInput = input.map((value, index) => Array.from(makeMapper(undefined)(index, value)));
+        const output = [];
+        newInput.forEach(([index, value]) => output[index] = value);
+        return output;
+    }
+    else {
+        return Object.fromEntries(Object.entries(input).map(([key, value]) => makeMapper(undefined)(key, value)));
+    }
 }
 exports.camelizeObject = camelizeObject;
