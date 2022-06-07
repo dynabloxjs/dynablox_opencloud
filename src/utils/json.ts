@@ -3,7 +3,10 @@ const infinity = "1e309";
 /** JSON.parse with BigInt support */
 export function deserialize(text: string): unknown {
 	return JSON.parse(
-		text.replace(/([^"]+":\s*)(\d{16,})/g, '$1"$2n"').replace(/([^"]+":\s*)inf/g, `$1${infinity}`),
+		text.replace(/([^"]+":\s*)(\d{16,})/g, '$1"$2n"').replace(
+			/([^"]+":\s*)inf/g,
+			`$1${infinity}`,
+		),
 		(_, v) => {
 			if (typeof v === "string" && /^\d{16,}n$/.test(v)) {
 				v = BigInt(v.slice(0, -1));
@@ -15,7 +18,11 @@ export function deserialize(text: string): unknown {
 }
 
 /** JSON.stringify with BigInt support */
-export function serialize(value: unknown, space?: number, lua?: boolean): string {
+export function serialize(
+	value: unknown,
+	space?: number,
+	lua?: boolean,
+): string {
 	return JSON.stringify(value, (_, v) => {
 		if (typeof v === "bigint") {
 			v = `_NUMBER_${v.toString()}n`;

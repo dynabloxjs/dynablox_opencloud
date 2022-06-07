@@ -434,9 +434,7 @@ export class RESTController {
 			const errorsToString = errors.map((error) => {
 				return Object.entries(error).map(([key, value]) =>
 					`${key}: "${
-						Array.isArray(value)
-							? JSONv2.serialize(value)
-							: value
+						Array.isArray(value) ? JSONv2.serialize(value) : value
 					}"`
 				).join(", ");
 			}).join("\n");
@@ -576,7 +574,7 @@ export class RESTController {
 			}
 
 			case "json": {
-				newBody = JSONv2.serialize(body.value, undefined,  body.lua);
+				newBody = JSONv2.serialize(body.value, undefined, body.lua);
 				contentType = "application/json";
 				break;
 			}

@@ -8,6 +8,8 @@ export interface OpenidConfiguration {
 	revocationEndpoint: string;
 	userinfoEndpoint: string;
 	jwksUri: string;
+	registrationEndpoint: string;
+	serviceDocumentation: string;
 	scopesSupported: string[];
 	responseTypesSupported: string[];
 	subjectTypesSupported: string[];
@@ -20,10 +22,14 @@ export interface OAuthKey {
 	alg: string;
 	kty: string;
 	kid: string;
+	use: string;
+	crv: string;
+	x: string;
+	y: string;
 }
 
 export interface ListJwksResponse {
-	keys: OAuthKey;
+	keys: OAuthKey[];
 }
 
 export class DiscoveryService extends BaseService {
@@ -31,6 +37,10 @@ export class DiscoveryService extends BaseService {
 		getOpenidConfiguration: () =>
 			"{BEDEV2Url:oauth}/.well-known/openid-configuration",
 		listJwks: () => "{BEDEV2Url:oauth}/v1/certs",
+		listAccessTokenJwks: () =>
+			"{BEDEV2Url:oauth}/v1/certificates/access-tokens",
+		listIdentityTokenJwks: () =>
+			"{BEDEV2Url:oauth}/v1/certificates/identity-tokens",
 	};
 
 	public async getOpenidConfiguration(): Promise<OpenidConfiguration> {
@@ -43,6 +53,20 @@ export class DiscoveryService extends BaseService {
 	public async listJwks(): Promise<ListJwksResponse> {
 		return (await this.rest.httpRequest<ListJwksResponse>({
 			url: DiscoveryService.urls.listJwks(),
+			errorHandling: "BEDEV2",
+		})).body;
+	}
+
+	public async listAccessTokenJwks(): Promise<ListJwksResponse> {
+		return (await this.rest.httpRequest<ListJwksResponse>({
+			url: DiscoveryService.urls.listAccessTokenJwks(),
+			errorHandling: "BEDEV2",
+		})).body;
+	}
+
+	public async listIdentityTokenJwks(): Promise<ListJwksResponse> {
+		return (await this.rest.httpRequest<ListJwksResponse>({
+			url: DiscoveryService.urls.listIdentityTokenJwks(),
 			errorHandling: "BEDEV2",
 		})).body;
 	}
