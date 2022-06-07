@@ -4,65 +4,61 @@ exports.TokenService = void 0;
 const BaseService_js_1 = require("../BaseService.js");
 class TokenService extends BaseService_js_1.BaseService {
     async introspectToken(token) {
+        const params = new URLSearchParams({
+            token,
+        });
+        if (this.rest.credentials.type === "OAuthApplication") {
+            params.set("client_id", this.rest.credentials.value.id);
+            params.set("client_secret", this.rest.credentials.value.secret);
+        }
         return (await this.rest.httpRequest({
             method: "POST",
             url: TokenService.urls.introspectToken(),
             body: {
                 type: "urlencoded",
-                value: {
-                    "client_id": this.rest.credentials.type === "OAuthApplication"
-                        ? (this.rest.credentials.value?.id) ?? ""
-                        : "",
-                    "client_secret": this.rest.credentials.type === "OAuthApplication"
-                        ? (this.rest.credentials.value?.secret) ?? ""
-                        : "",
-                    token,
-                },
+                value: params,
             },
             errorHandling: "BEDEV2",
         })).body;
     }
     async revokeToken(token) {
+        const params = new URLSearchParams({
+            token,
+        });
+        if (this.rest.credentials.type === "OAuthApplication") {
+            params.set("client_id", this.rest.credentials.value.id);
+            params.set("client_secret", this.rest.credentials.value.secret);
+        }
         await this.rest.httpRequest({
             method: "POST",
             url: TokenService.urls.revokeToken(),
             body: {
                 type: "urlencoded",
-                value: {
-                    "client_id": this.rest.credentials.type === "OAuthApplication"
-                        ? (this.rest.credentials.value?.id) ?? ""
-                        : "",
-                    "client_secret": this.rest.credentials.type === "OAuthApplication"
-                        ? (this.rest.credentials.value?.secret) ?? ""
-                        : "",
-                    token,
-                },
+                value: params,
             },
             expect: "none",
             errorHandling: "BEDEV2",
         });
     }
     async useCode(grantType, code, refreshToken, codeVerifier) {
-        const urlencoded = new URLSearchParams({
-            "client_id": this.rest.credentials.type === "OAuthApplication"
-                ? (this.rest.credentials.value?.id) ?? ""
-                : "",
-            "client_secret": this.rest.credentials.type === "OAuthApplication"
-                ? (this.rest.credentials.value?.secret) ?? ""
-                : "",
+        const params = new URLSearchParams({
             grantType,
             code,
         });
+        if (this.rest.credentials.type === "OAuthApplication") {
+            params.set("client_id", this.rest.credentials.value.id);
+            params.set("client_secret", this.rest.credentials.value.secret);
+        }
         if (refreshToken)
-            urlencoded.set("refresh_token", refreshToken);
+            params.set("refresh_token", refreshToken);
         if (codeVerifier)
-            urlencoded.set("code_verifier", codeVerifier);
+            params.set("code_verifier", codeVerifier);
         return (await this.rest.httpRequest({
             method: "POST",
             url: TokenService.urls.useCode(),
             body: {
                 type: "urlencoded",
-                value: urlencoded,
+                value: params,
             },
             errorHandling: "BEDEV2",
         })).body;
@@ -74,8 +70,8 @@ Object.defineProperty(TokenService, "urls", {
     configurable: true,
     writable: true,
     value: {
-        introspectToken: () => "{BEDEV2Url:application-authorization}/v1/token/introspect",
-        revokeToken: () => "{BEDEV2Url:application-authorization}/v1/token/revoke",
-        useCode: () => "{BEDEV2Url:application-authorization}/v1/token",
+        introspectToken: () => "{BEDEV2Url:oauth}/v1/token/introspect",
+        revokeToken: () => "{BEDEV2Url:oauth}/v1/token/revoke",
+        useCode: () => "{BEDEV2Url:oauth}/v1/token",
     }
 });

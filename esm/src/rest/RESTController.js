@@ -201,9 +201,7 @@ export class RESTController {
                 ? parseBEDEV1Error
                 : parseBEDEV2Error)(response);
             const errorsToString = errors.map((error) => {
-                return Object.entries(error).map(([key, value]) => `${key}: "${Array.isArray(value)
-                    ? JSONv2.serialize(value)
-                    : value}"`).join(", ");
+                return Object.entries(error).map(([key, value]) => `${key}: "${Array.isArray(value) ? JSONv2.serialize(value) : value}"`).join(", ");
             }).join("\n");
             throw new RESTControllerError(`HTTP ${response.status.code} "${response.status.text}" from ${request.method ?? "GET"} ${response.url}${errorsToString.length
                 ? `\n\n${request.errorHandling ?? "BEDEV1"} errors:\n${errorsToString}`

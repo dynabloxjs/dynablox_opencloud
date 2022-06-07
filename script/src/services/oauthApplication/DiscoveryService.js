@@ -15,6 +15,18 @@ class DiscoveryService extends BaseService_js_1.BaseService {
             errorHandling: "BEDEV2",
         })).body;
     }
+    async listAccessTokenJwks() {
+        return (await this.rest.httpRequest({
+            url: DiscoveryService.urls.listAccessTokenJwks(),
+            errorHandling: "BEDEV2",
+        })).body;
+    }
+    async listIdentityTokenJwks() {
+        return (await this.rest.httpRequest({
+            url: DiscoveryService.urls.listIdentityTokenJwks(),
+            errorHandling: "BEDEV2",
+        })).body;
+    }
 }
 exports.DiscoveryService = DiscoveryService;
 Object.defineProperty(DiscoveryService, "urls", {
@@ -24,5 +36,7 @@ Object.defineProperty(DiscoveryService, "urls", {
     value: {
         getOpenidConfiguration: () => "{BEDEV2Url:oauth}/.well-known/openid-configuration",
         listJwks: () => "{BEDEV2Url:oauth}/v1/certs",
+        listAccessTokenJwks: () => "{BEDEV2Url:oauth}/v1/certificates/access-tokens",
+        listIdentityTokenJwks: () => "{BEDEV2Url:oauth}/v1/certificates/identity-tokens",
     }
 });

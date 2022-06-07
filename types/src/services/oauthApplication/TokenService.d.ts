@@ -7,8 +7,6 @@ export interface TokenIntrospection {
     clientId: string;
     aud: string;
     sub: string;
-    subType: string;
-    auid: string;
     scope: string;
     exp: number;
     iat: string;
@@ -19,6 +17,7 @@ export interface OAuthToken {
     tokenType: string;
     expiresIn: number;
     idToken?: string;
+    scope?: string;
 }
 export declare class TokenService extends BaseService {
     static urls: {

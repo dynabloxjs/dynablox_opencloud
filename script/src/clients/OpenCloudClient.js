@@ -141,10 +141,12 @@ class OpenCloudClient extends BaseClient_js_1.BaseClient {
             this._scopes = options.scopes;
         if (options.ratelimiterShouldYield)
             this._ratelimiterShouldYield = true;
-        if (options.requestRetryCount !== undefined)
+        if (options.requestRetryCount !== undefined) {
             this.requestRetryCount = options.requestRetryCount;
-        if (options.requestRetryTimeout !== undefined)
+        }
+        if (options.requestRetryTimeout !== undefined) {
             this.requestRetryTimeout = options.requestRetryTimeout;
+        }
         this.ratelimiter = options.ratelimiter ??
             (0, getOpenCloudRatelimitHelper_js_1.getOpenCloudRatelimitHelper)(this.rest);
         this.ratelimiterSubjectId = options.ratelimiterSubjectId ??
