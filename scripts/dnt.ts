@@ -1,4 +1,4 @@
-import { build } from "https://deno.land/x/dnt@0.23.0/mod.ts";
+import { build } from "https://deno.land/x/dnt@0.25.2/mod.ts";
 
 await build({
     entryPoints: ["./mod.ts"],
@@ -38,8 +38,8 @@ await build({
     },
     package: {
         name: "@dynabloxjs/opencloud",
-        version: "0.2.0",
-        description: "A Roblox OpenCloud API wrapper for Deno (and NodeJS) written in TypeScript. This is an automatically generated Node port.",
+        version: "0.2.1",
+        description: "A Roblox OpenCloud API wrapper for Deno and NodeJS written in TypeScript. This is an automatically generated Node port.",
         homepage: "https://github.com/dynabloxjs/dynablox_opencloud",
         author: "Julli4n",
         bugs: {
