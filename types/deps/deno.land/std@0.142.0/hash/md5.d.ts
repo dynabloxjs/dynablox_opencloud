@@ -3,8 +3,6 @@ export declare type Message = string | ArrayBuffer;
 export declare class Md5 {
     #private;
     constructor();
-    private addLength;
-    private hash;
     /**
      * Update internal state
      * @param data data to update, data cannot exceed 2^32 bytes

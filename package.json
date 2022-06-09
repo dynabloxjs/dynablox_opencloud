@@ -3,8 +3,8 @@
   "main": "./script/mod.js",
   "types": "./types/mod.d.ts",
   "name": "@dynabloxjs/opencloud",
-  "version": "0.2.0",
-  "description": "A Roblox OpenCloud API wrapper for Deno (and NodeJS) written in TypeScript. This is an automatically generated Node port.",
+  "version": "0.2.1",
+  "description": "A Roblox OpenCloud API wrapper for Deno and NodeJS written in TypeScript. This is an automatically generated Node port.",
   "homepage": "https://github.com/dynabloxjs/dynablox_opencloud",
   "author": "Julli4n",
   "bugs": {
