@@ -1,4 +1,9 @@
-import { build } from "https://deno.land/x/dnt@0.25.2/mod.ts";
+/*
+❗❗❗
+Do not upgrade to >0.23.0, typechecking becomes whack.
+❗❗❗
+*/
+import { build } from "https://deno.land/x/dnt@0.23.0/mod.ts";
 
 await build({
     entryPoints: ["./mod.ts"],
