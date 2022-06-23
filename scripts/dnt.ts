@@ -1,13 +1,11 @@
-/*
-❗❗❗
-Do not upgrade to >0.23.0, typechecking becomes whack.
-❗❗❗
-*/
-import { build } from "https://deno.land/x/dnt@0.23.0/mod.ts";
+import { build } from "https://deno.land/x/dnt@0.26.0/mod.ts";
 
 await build({
     entryPoints: ["./mod.ts"],
     outDir: "./npm",
+    compilerOptions: {
+        lib: ["es2021", "dom"],
+    },
     skipSourceOutput: true,
     shims: {
         deno: true,
