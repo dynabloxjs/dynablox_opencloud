@@ -33,20 +33,20 @@ async function main() {
 }
 async function runTestDefinitions(testDefinitions, options) {
     const testFailures = [];
-    for (const definition of testDefinitions) {
-        options.process.stdout.write("test " + definition.name + " ...");
-        if (definition.ignore) {
+    for (const definition1 of testDefinitions) {
+        options.process.stdout.write("test " + definition1.name + " ...");
+        if (definition1.ignore) {
             options.process.stdout.write(` ${options.chalk.gray("ignored")}\n`);
             continue;
         }
         const context = getTestContext();
         let pass = false;
         try {
-            await definition.fn(context);
+            await definition1.fn(context);
             if (context.hasFailingChild) {
                 testFailures.push({
-                    name: definition.name,
-                    err: new Error("Had failing test step."),
+                    name: definition1.name,
+                    err: new Error("Had failing test step.")
                 });
             }
             else {
@@ -54,7 +54,10 @@ async function runTestDefinitions(testDefinitions, options) {
             }
         }
         catch (err) {
-            testFailures.push({ name: definition.name, err });
+            testFailures.push({
+                name: definition1.name,
+                err
+            });
         }
         const testStepOutput = context.getOutput();
         if (testStepOutput.length > 0) {
@@ -78,7 +81,7 @@ async function runTestDefinitions(testDefinitions, options) {
     function getTestContext() {
         return {
             name: undefined,
-            err: undefined,
+            /** @type {any} */ err: undefined,
             status: "ok",
             children: [],
             get hasFailingChild() {
@@ -134,14 +137,14 @@ async function runTestDefinitions(testDefinitions, options) {
                     context.err = err;
                     return false;
                 }
-                function getDefinition() {
+                /** @returns {TestDefinition} */ function getDefinition() {
                     if (typeof nameOrTestDefinition === "string") {
                         if (!(fn instanceof Function)) {
                             throw new TypeError("Expected function for second argument.");
                         }
                         return {
                             name: nameOrTestDefinition,
-                            fn,
+                            fn
                         };
                     }
                     else if (typeof nameOrTestDefinition === "object") {
@@ -151,7 +154,7 @@ async function runTestDefinitions(testDefinitions, options) {
                         throw new TypeError("Expected a test definition or name and function.");
                     }
                 }
-            },
+            }
         };
     }
     function getStatusText(status) {
@@ -163,10 +166,11 @@ async function runTestDefinitions(testDefinitions, options) {
                 return options.chalk.red(status);
             case "ignored":
                 return options.chalk.gray(status);
-            default: {
-                const _assertNever = status;
-                return status;
-            }
+            default:
+                {
+                    const _assertNever = status;
+                    return status;
+                }
         }
     }
     function indentText(text, indentLevel) {
@@ -179,9 +183,7 @@ async function runTestDefinitions(testDefinitions, options) {
         else {
             text = text.toString();
         }
-        return text.split(/\r?\n/)
-            .map((line) => "  ".repeat(indentLevel) + line)
-            .join("\n");
+        return text.split(/\r?\n/).map((line) => "  ".repeat(indentLevel) + line).join("\n");
     }
 }
 main();
