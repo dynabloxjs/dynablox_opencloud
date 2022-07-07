@@ -83,7 +83,8 @@ class BaseUniverse {
         if (serializedDataLength > 1000) {
             throw new OpenCloudClient_js_1.OpenCloudClientError(`Serialized data exceeds the maximum allowed 1KB (${serializedDataLength})`);
         }
-        return this._client.services.opencloud.MessagingService.publishTopicMessage(this.id, topicName, data);
+        return this._client.services.opencloud.MessagingService
+            .publishTopicMessage(this.id, topicName, data);
     }
     /**
      * Gets a standard DataStore by the name and scope.

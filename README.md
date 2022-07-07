@@ -319,5 +319,57 @@ const datastore = client.getBaseUniverse(13058).getStandardDataStore("TestStore"
 
 </details>
 
+##### Posting a message to be read by MessagingService
+<details>
+    <summary>Deno</summary>
+
+```typescript
+import { OpenCloudClient } from "https://deno.land/x/dynablox_opencloud/mod.ts";
+
+const client = new OpenCloudClient({
+    credentialsValue: "APIKEYHERE",
+    scopes: [{
+        // Tell the client we have access to publishing messages on universe 13058 and not any other universe.
+        type: "universe-messaging-service",
+        targetParts: ["13058"],
+        operations: ["publish"],
+    }],
+});
+
+// The method has "base" because it doesn't actually make any HTTP requests.
+const universe = client.getBaseUniverse(13058);
+
+// Post the message to the universe.
+await universe.postMessage("CoolTopic", { coolData: true });
+```
+</details>
+
+<details>
+    <summary>NodeJS</summary>
+
+```javascript
+const { OpenCloudClient } = require("@dynabloxjs/opencloud");
+
+const client = new OpenCloudClient({
+    credentialsValue: "APIKEYHERE",
+    scopes: [{
+        // Tell the client we have access to publishing messages on universe 13058 and not any other universe.
+        type: "universe-messaging-service",
+        targetParts: ["13058"],
+        operations: ["publish"],
+    }],
+});
+
+// The method has "base" because it doesn't actually make any HTTP requests.
+const universe = client.getBaseUniverse(13058);
+
+(async() => {
+    // Post the message to the universe.
+    await universe.postMessage("CoolTopic", { coolData: true });
+})();
+```
+
+</details>
+
 ## License
 [MIT License](https://github.com/dynabloxjs/dynablox_opencloud/blob/main/LICENSE)
