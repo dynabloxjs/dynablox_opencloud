@@ -1,3 +1,4 @@
+import * as JSONv2 from "../../utils/json.js";
 import { BaseService } from "../BaseService.js";
 export class MessagingService extends BaseService {
     async publishTopicMessage(universeId, topicName, data) {
@@ -7,7 +8,7 @@ export class MessagingService extends BaseService {
             body: {
                 type: "json",
                 value: {
-                    message: data,
+                    message: JSONv2.serialize(data),
                 },
             },
             expect: "none",
