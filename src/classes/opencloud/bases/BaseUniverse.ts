@@ -1,8 +1,12 @@
+import * as JSONv2 from "../../../utils/json.ts";
 import { BasePlace } from "./BasePlace.ts";
 import { StandardDataStore } from "./../StandardDataStore.ts";
 import { StandardDataStoreKeyInfo } from "../StandardDataStoreKeyInfo.ts";
 import { ServicePage } from "../../../helpers/ServicePaging.ts";
-import { type OpenCloudClient } from "../../../clients/OpenCloudClient.ts";
+import {
+	type OpenCloudClient,
+	OpenCloudClientError,
+} from "../../../clients/OpenCloudClient.ts";
 
 /**
  * Base Universe class for Open Cloud.
@@ -35,6 +39,36 @@ export class BaseUniverse {
 	 */
 	public getBasePlace(placeId: number): BasePlace {
 		return new BasePlace(this._client, placeId, this.id);
+	}
+
+	/**
+	 * Post a message to a MessagingService topicName.
+	 * @param topicName - The topic name to publish to.
+	 * @param data - The data to provide to the listeners.
+	 */
+	public postMessage(topicName: string, data: unknown): Promise<void> {
+		this._client.canAccessResource(
+			"universe-messaging-service",
+			[this.id.toString()],
+			"publish",
+			[false],
+		);
+
+		if (topicName.length > 50) {
+			throw new OpenCloudClientError(
+				`topicName exceeds the maximum allowed 80 characters in length (${topicName.length})`,
+			);
+		}
+
+		const serializedDataLength = JSONv2.serialize(data).length;
+
+		if (serializedDataLength > 1_000) {
+			throw new OpenCloudClientError(
+				`Serialized data exceeds the maximum allowed 1KB (${serializedDataLength})`,
+			);
+		}
+
+		return this._client.services.opencloud.MessagingService.publishTopicMessage(this.id, topicName, data);
 	}
 
 	/**

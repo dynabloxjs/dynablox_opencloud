@@ -30,7 +30,7 @@ export class ServicePage<
 	private readonly _nextPageFunction: (
 		parameters: Parameters<PageFunction>,
 		data?: Awaited<ReturnType<PageFunction>>,
-	) => (Parameters<PageFunction> | undefined);
+	) => Parameters<PageFunction> | undefined;
 
 	/**
 	 * The previous page function to refer to for parameters.
@@ -226,11 +226,11 @@ export class ServicePage<
 		nextPageFunction: (
 			parameters: Parameters<PageFunction>,
 			data?: Awaited<ReturnType<PageFunction>>,
-		) => (Parameters<PageFunction> | undefined),
-		previousPageFunction?: ((
+		) => Parameters<PageFunction> | undefined,
+		previousPageFunction?: (
 			parameters: Parameters<PageFunction>,
 			data?: Awaited<ReturnType<PageFunction>>,
-		) => Parameters<PageFunction> | undefined),
+		) => Parameters<PageFunction> | undefined,
 		dataTransformer?: (
 			data: Awaited<ReturnType<PageFunction>>,
 		) => DataTransformed,

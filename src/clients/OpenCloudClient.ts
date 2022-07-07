@@ -93,11 +93,19 @@ export interface UniverseDataStoresControlScope {
 	allowAllOperations?: boolean;
 }
 
+export interface UniverseMessagingServiceScope {
+	scopeType: "universe-messaging-service";
+	targetParts: [string];
+	operations: ("publish")[];
+	allowAllOperations?: boolean;
+}
+
 export type Scope =
 	| UniversePlacesScope
 	| UniverseDataStoresObjectsScope
 	| UniverseDataStoresVersionsScope
-	| UniverseDataStoresControlScope;
+	| UniverseDataStoresControlScope
+	| UniverseMessagingServiceScope;
 
 const requestRetryErrorCodes = [500, 502, 504];
 
