@@ -184,7 +184,7 @@ const client = new OpenCloudClient({
     credentialsValue: "APIKEYHERE",
     scopes: [{
         // Tell the client we have access to updating place data in the universe 13058, and no other universe.
-        type: "universe-places",
+        scopeType: "universe-places",
         targetParts: ["13058"],
         operations: ["write"],
     }],
@@ -214,7 +214,7 @@ const client = new OpenCloudClient({
     credentialsValue: "APIKEYHERE",
     scopes: [{
         // Tell the client we have access to updating place data in the universe 13058, and no other universe.
-        type: "universe-places",
+        scopeType: "universe-places",
         targetParts: ["13058"],
         operations: ["write"],
     }],
@@ -246,7 +246,7 @@ const client = new OpenCloudClient({
     credentialsValue: "APIKEYHERE",
     scopes: [{
         // Tell the client we have access to reading and listing DataStore objects on universe 13058 and not any other universe.
-        type: "universe-datastores.objects",
+        scopeType: "universe-datastores.objects",
         targetParts: ["13058"],
         operations: ["read", "list"],
     }],
@@ -286,7 +286,7 @@ const client = new OpenCloudClient({
     credentialsValue: "APIKEYHERE",
     scopes: [{
         // Tell the client we have access to reading and listing DataStore objects on universe 13058 and not any other universe.
-        type: "universe-datastores.objects",
+        scopeType: "universe-datastores.objects",
         targetParts: ["13058"],
         operations: ["read", "list"],
     }],
@@ -330,7 +330,7 @@ const client = new OpenCloudClient({
     credentialsValue: "APIKEYHERE",
     scopes: [{
         // Tell the client we have access to publishing messages on universe 13058 and not any other universe.
-        type: "universe-messaging-service",
+        scopeType: "universe-messaging-service",
         targetParts: ["13058"],
         operations: ["publish"],
     }],
@@ -354,7 +354,7 @@ const client = new OpenCloudClient({
     credentialsValue: "APIKEYHERE",
     scopes: [{
         // Tell the client we have access to publishing messages on universe 13058 and not any other universe.
-        type: "universe-messaging-service",
+        scopeType: "universe-messaging-service",
         targetParts: ["13058"],
         operations: ["publish"],
     }],
