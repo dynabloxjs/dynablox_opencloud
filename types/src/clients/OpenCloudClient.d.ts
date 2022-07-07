@@ -85,7 +85,13 @@ export interface UniverseDataStoresControlScope {
     operations: ("list" | "create")[];
     allowAllOperations?: boolean;
 }
-export declare type Scope = UniversePlacesScope | UniverseDataStoresObjectsScope | UniverseDataStoresVersionsScope | UniverseDataStoresControlScope;
+export interface UniverseMessagingServiceScope {
+    scopeType: "universe-messaging-service";
+    targetParts: [string];
+    operations: ("publish")[];
+    allowAllOperations?: boolean;
+}
+export declare type Scope = UniversePlacesScope | UniverseDataStoresObjectsScope | UniverseDataStoresVersionsScope | UniverseDataStoresControlScope | UniverseMessagingServiceScope;
 /**
  * OpenCloudClient error objects.
  */

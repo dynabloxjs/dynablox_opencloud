@@ -1,7 +1,9 @@
+import * as JSONv2 from "../../../utils/json.js";
 import { BasePlace } from "./BasePlace.js";
 import { StandardDataStore } from "../StandardDataStore.js";
 import { StandardDataStoreKeyInfo } from "../StandardDataStoreKeyInfo.js";
 import { ServicePage } from "../../../helpers/ServicePaging.js";
+import { OpenCloudClientError, } from "../../../clients/OpenCloudClient.js";
 /**
  * Base Universe class for Open Cloud.
  */
@@ -40,6 +42,22 @@ export class BaseUniverse {
      */
     getBasePlace(placeId) {
         return new BasePlace(this._client, placeId, this.id);
+    }
+    /**
+     * Post a message to a MessagingService topicName.
+     * @param topicName - The topic name to publish to.
+     * @param data - The data to provide to the listeners.
+     */
+    postMessage(topicName, data) {
+        this._client.canAccessResource("universe-messaging-service", [this.id.toString()], "publish", [false]);
+        if (topicName.length > 50) {
+            throw new OpenCloudClientError(`topicName exceeds the maximum allowed 80 characters in length (${topicName.length})`);
+        }
+        const serializedDataLength = JSONv2.serialize(data).length;
+        if (serializedDataLength > 1000) {
+            throw new OpenCloudClientError(`Serialized data exceeds the maximum allowed 1KB (${serializedDataLength})`);
+        }
+        return this._client.services.opencloud.MessagingService.publishTopicMessage(this.id, topicName, data);
     }
     /**
      * Gets a standard DataStore by the name and scope.

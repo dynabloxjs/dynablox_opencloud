@@ -28,6 +28,12 @@ export declare class BaseUniverse {
      */
     getBasePlace(placeId: number): BasePlace;
     /**
+     * Post a message to a MessagingService topicName.
+     * @param topicName - The topic name to publish to.
+     * @param data - The data to provide to the listeners.
+     */
+    postMessage(topicName: string, data: unknown): Promise<void>;
+    /**
      * Gets a standard DataStore by the name and scope.
      * @param dataStoreName - The name of the data store.
      * @param scope - The scope of the data store.

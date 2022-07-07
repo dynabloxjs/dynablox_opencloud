@@ -5,9 +5,11 @@ const DiscoveryService_js_1 = require("./services/oauthApplication/DiscoveryServ
 const TokenService_js_1 = require("./services/oauthApplication/TokenService.js");
 const UserService_js_1 = require("./services/oauth/UserService.js");
 const DataStoreService_js_1 = require("./services/opencloud/DataStoreService.js");
+const MessagingService_js_1 = require("./services/opencloud/MessagingService.js");
 const PlaceManagementService_js_1 = require("./services/opencloud/PlaceManagementService.js");
 exports.opencloud = {
     DataStoreService: DataStoreService_js_1.DataStoreService,
+    MessagingService: MessagingService_js_1.MessagingService,
     PlaceManagementService: PlaceManagementService_js_1.PlaceManagementService,
 };
 exports.oauthApplication = {

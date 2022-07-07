@@ -88,5 +88,5 @@ export declare class ServicePage<PageFunction extends (...args: any[]) => Promis
      * @param data - The data returned from the last call, or undefined.
      * @param pageNumber - The current page number.
      */
-    constructor(service: BaseService, pageFunction: PageFunction, parameters: Parameters<PageFunction>, nextPageFunction: (parameters: Parameters<PageFunction>, data?: Awaited<ReturnType<PageFunction>>) => (Parameters<PageFunction> | undefined), previousPageFunction?: ((parameters: Parameters<PageFunction>, data?: Awaited<ReturnType<PageFunction>>) => Parameters<PageFunction> | undefined), dataTransformer?: (data: Awaited<ReturnType<PageFunction>>) => DataTransformed, data?: Awaited<ReturnType<PageFunction>>, pageNumber?: number);
+    constructor(service: BaseService, pageFunction: PageFunction, parameters: Parameters<PageFunction>, nextPageFunction: (parameters: Parameters<PageFunction>, data?: Awaited<ReturnType<PageFunction>>) => Parameters<PageFunction> | undefined, previousPageFunction?: (parameters: Parameters<PageFunction>, data?: Awaited<ReturnType<PageFunction>>) => Parameters<PageFunction> | undefined, dataTransformer?: (data: Awaited<ReturnType<PageFunction>>) => DataTransformed, data?: Awaited<ReturnType<PageFunction>>, pageNumber?: number);
 }
