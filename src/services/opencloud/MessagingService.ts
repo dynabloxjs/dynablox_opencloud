@@ -1,3 +1,4 @@
+import * as JSONv2 from "../../utils/json.ts";
 import { BaseService } from "../BaseService.ts";
 
 export class MessagingService extends BaseService {
@@ -20,7 +21,7 @@ export class MessagingService extends BaseService {
 			body: {
 				type: "json",
 				value: {
-					message: data,
+					message: JSONv2.serialize(data),
 				},
 			},
 			expect: "none",
