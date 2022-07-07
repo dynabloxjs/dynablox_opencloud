@@ -33,19 +33,19 @@ async function main() {
 }
 async function runTestDefinitions(testDefinitions, options) {
     const testFailures = [];
-    for (const definition1 of testDefinitions) {
-        options.process.stdout.write("test " + definition1.name + " ...");
-        if (definition1.ignore) {
+    for (const definition of testDefinitions) {
+        options.process.stdout.write("test " + definition.name + " ...");
+        if (definition.ignore) {
             options.process.stdout.write(` ${options.chalk.gray("ignored")}\n`);
             continue;
         }
         const context = getTestContext();
         let pass = false;
         try {
-            await definition1.fn(context);
+            await definition.fn(context);
             if (context.hasFailingChild) {
                 testFailures.push({
-                    name: definition1.name,
+                    name: definition.name,
                     err: new Error("Had failing test step.")
                 });
             }
@@ -55,7 +55,7 @@ async function runTestDefinitions(testDefinitions, options) {
         }
         catch (err) {
             testFailures.push({
-                name: definition1.name,
+                name: definition.name,
                 err
             });
         }
