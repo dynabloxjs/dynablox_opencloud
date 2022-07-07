@@ -1,5 +1,4 @@
 import { BaseService } from "../BaseService.ts";
-import * as JSONv2 from "../../utils/json.ts";
 
 export class DataStoreService extends BaseService {
 	static urls = {
