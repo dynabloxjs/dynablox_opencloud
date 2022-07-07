@@ -68,7 +68,8 @@ export class BaseUniverse {
 			);
 		}
 
-		return this._client.services.opencloud.MessagingService.publishTopicMessage(this.id, topicName, data);
+		return this._client.services.opencloud.MessagingService
+			.publishTopicMessage(this.id, topicName, data);
 	}
 
 	/**
