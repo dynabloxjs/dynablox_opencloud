@@ -4,12 +4,18 @@ export interface UpdatePlaceDataResponse {
 	versionNumber: number;
 }
 
+export interface GetPlaceUniverseIdResponse {
+	universeId: number | null;
+}
+
 export type UpdatePlaceDataVersionType = "Saved" | "Published";
 
 export class PlaceManagementService extends BaseService {
 	public static urls = {
 		updatePlaceData: (universeId: unknown, placeId: unknown) =>
 			`{BEDEV2Url:universes}/v1/${universeId}/places/${placeId}/versions`,
+		getPlaceUniverseId: (placeId: number) =>
+			`{BEDEV2Url:universes}/v1/places/${placeId}/universe`,
 	};
 
 	public async updatePlaceData(
@@ -33,6 +39,17 @@ export class PlaceManagementService extends BaseService {
 			},
 			errorHandling: "BEDEV2",
 			includeCredentials: true,
+		})).body;
+	}
+
+	public async getPlaceUniverseId(
+		placeId: number,
+	): Promise<GetPlaceUniverseIdResponse> {
+		return (await this.rest.httpRequest<GetPlaceUniverseIdResponse>({
+			url: PlaceManagementService.urls.getPlaceUniverseId(
+				placeId,
+			),
+			errorHandling: "BEDEV2",
 		})).body;
 	}
 }

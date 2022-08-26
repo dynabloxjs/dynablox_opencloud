@@ -42,8 +42,8 @@ export function camelizeObject(
 
 	const stopPathsSet = new Set(stopPaths);
 
-	const makeMapper = (parentPath?: string) =>
-		(key: string | number, value: unknown) => {
+	const makeMapper =
+		(parentPath?: string) => (key: string | number, value: unknown) => {
 			if (deep && isObject(value)) {
 				const path = parentPath === undefined
 					? key.toString()
