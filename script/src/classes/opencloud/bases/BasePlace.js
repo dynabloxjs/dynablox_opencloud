@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BasePlace = void 0;
 const OpenCloudClient_js_1 = require("../../../clients/OpenCloudClient.js");
+const BaseUniverse_js_1 = require("./BaseUniverse.js");
 /**
  * Base Place class for Open Cloud.
  */
@@ -33,7 +34,6 @@ class BasePlace {
         });
         /**
          * The client to use services from.
-         * @private
          */
         Object.defineProperty(this, "_client", {
             enumerable: true,
@@ -60,6 +60,20 @@ class BasePlace {
         }
         return (await this._client.services.opencloud.PlaceManagementService
             .updatePlaceData(this.parentUniverseId, this.id, data, placeVersionType)).versionNumber;
+    }
+    /**
+     * Gets the parent universe of the Place.
+     *
+     * This will also update the place's `parentUniverseId` field.
+     */
+    async getParentUniverse() {
+        const { universeId } = await this._client.services.opencloud
+            .PlaceManagementService.getPlaceUniverseId(this.id);
+        if (!universeId) {
+            throw new OpenCloudClient_js_1.OpenCloudClientError(`Place ID ${this.id} does not have a parent Universe.`);
+        }
+        this.parentUniverseId = universeId;
+        return new BaseUniverse_js_1.BaseUniverse(this._client, universeId);
     }
 }
 exports.BasePlace = BasePlace;

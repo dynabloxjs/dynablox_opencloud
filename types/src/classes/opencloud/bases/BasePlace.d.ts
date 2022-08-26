@@ -1,3 +1,4 @@
+import { BaseUniverse } from "./BaseUniverse.js";
 import { type OpenCloudClient } from "../../../clients/OpenCloudClient.js";
 import { type UpdatePlaceDataVersionType } from "../../../services/opencloud/PlaceManagementService.js";
 /**
@@ -11,10 +12,9 @@ export declare class BasePlace {
     /**
      * The parent universe ID of the place.
      */
-    readonly parentUniverseId: number | undefined;
+    parentUniverseId: number | undefined;
     /**
      * The client to use services from.
-     * @private
      */
     private readonly _client;
     /**
@@ -30,4 +30,10 @@ export declare class BasePlace {
      * @param placeVersionType
      */
     updateContents(data: Uint8Array, placeVersionType?: UpdatePlaceDataVersionType): Promise<number>;
+    /**
+     * Gets the parent universe of the Place.
+     *
+     * This will also update the place's `parentUniverseId` field.
+     */
+    getParentUniverse(): Promise<BaseUniverse>;
 }

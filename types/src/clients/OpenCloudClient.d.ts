@@ -1,6 +1,7 @@
 import * as dntShim from "../../_dnt.shims.js";
 import { BaseClient } from "./BaseClient.js";
 import { BaseUniverse } from "../classes/opencloud/bases/BaseUniverse.js";
+import { BasePlace } from "../classes/opencloud/bases/BasePlace.js";
 import { type RatelimitHelper } from "../helpers/RatelimitHelper.js";
 import { type EnvironmentURLOptions } from "../types.js";
 /**
@@ -153,4 +154,9 @@ export declare class OpenCloudClient extends BaseClient {
      * @param universeId - The universe to fetch.
      */
     getBaseUniverse(universeId: number): BaseUniverse;
+    /**
+     * Gets a base Place by id.
+     * @param placeId - The place to fetch.
+     */
+    getBasePlace(placeId: number): BasePlace;
 }

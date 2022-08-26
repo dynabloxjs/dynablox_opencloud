@@ -27,6 +27,7 @@ exports.OpenCloudClient = exports.OpenCloudClientError = void 0;
 const dntShim = __importStar(require("../../_dnt.shims.js"));
 const BaseClient_js_1 = require("./BaseClient.js");
 const BaseUniverse_js_1 = require("../classes/opencloud/bases/BaseUniverse.js");
+const BasePlace_js_1 = require("../classes/opencloud/bases/BasePlace.js");
 const getOpenCloudRatelimitHelper_js_1 = require("../utils/getOpenCloudRatelimitHelper.js");
 const requestRetryErrorCodes = [500, 502, 504];
 /**
@@ -197,6 +198,13 @@ class OpenCloudClient extends BaseClient_js_1.BaseClient {
      */
     getBaseUniverse(universeId) {
         return new BaseUniverse_js_1.BaseUniverse(this, universeId);
+    }
+    /**
+     * Gets a base Place by id.
+     * @param placeId - The place to fetch.
+     */
+    getBasePlace(placeId) {
+        return new BasePlace_js_1.BasePlace(this, placeId);
     }
 }
 exports.OpenCloudClient = OpenCloudClient;

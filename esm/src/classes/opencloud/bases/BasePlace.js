@@ -1,4 +1,5 @@
 import { OpenCloudClientError } from "../../../clients/OpenCloudClient.js";
+import { BaseUniverse } from "./BaseUniverse.js";
 /**
  * Base Place class for Open Cloud.
  */
@@ -30,7 +31,6 @@ export class BasePlace {
         });
         /**
          * The client to use services from.
-         * @private
          */
         Object.defineProperty(this, "_client", {
             enumerable: true,
@@ -57,5 +57,19 @@ export class BasePlace {
         }
         return (await this._client.services.opencloud.PlaceManagementService
             .updatePlaceData(this.parentUniverseId, this.id, data, placeVersionType)).versionNumber;
+    }
+    /**
+     * Gets the parent universe of the Place.
+     *
+     * This will also update the place's `parentUniverseId` field.
+     */
+    async getParentUniverse() {
+        const { universeId } = await this._client.services.opencloud
+            .PlaceManagementService.getPlaceUniverseId(this.id);
+        if (!universeId) {
+            throw new OpenCloudClientError(`Place ID ${this.id} does not have a parent Universe.`);
+        }
+        this.parentUniverseId = universeId;
+        return new BaseUniverse(this._client, universeId);
     }
 }

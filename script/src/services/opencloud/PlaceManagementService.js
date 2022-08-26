@@ -18,6 +18,12 @@ class PlaceManagementService extends BaseService_js_1.BaseService {
             includeCredentials: true,
         })).body;
     }
+    async getPlaceUniverseId(placeId) {
+        return (await this.rest.httpRequest({
+            url: PlaceManagementService.urls.getPlaceUniverseId(placeId),
+            errorHandling: "BEDEV2",
+        })).body;
+    }
 }
 exports.PlaceManagementService = PlaceManagementService;
 Object.defineProperty(PlaceManagementService, "urls", {
@@ -26,5 +32,6 @@ Object.defineProperty(PlaceManagementService, "urls", {
     writable: true,
     value: {
         updatePlaceData: (universeId, placeId) => `{BEDEV2Url:universes}/v1/${universeId}/places/${placeId}/versions`,
+        getPlaceUniverseId: (placeId) => `{BEDEV2Url:universes}/v1/places/${placeId}/universe`,
     }
 });
