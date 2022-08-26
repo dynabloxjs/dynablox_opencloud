@@ -1,5 +1,6 @@
 import { BaseClient } from "./BaseClient.ts";
 import { BaseUniverse } from "../classes/opencloud/bases/BaseUniverse.ts";
+import { BasePlace } from "../classes/opencloud/bases/BasePlace.ts";
 import { getOpenCloudRatelimitHelper } from "../utils/getOpenCloudRatelimitHelper.ts";
 import { type RatelimitHelper } from "../helpers/RatelimitHelper.ts";
 import { type EnvironmentURLOptions } from "../types.ts";
@@ -320,5 +321,13 @@ export class OpenCloudClient extends BaseClient {
 	 */
 	public getBaseUniverse(universeId: number): BaseUniverse {
 		return new BaseUniverse(this, universeId);
+	}
+
+	/**
+	 * Gets a base Place by id.
+	 * @param placeId - The place to fetch.
+	 */
+	public getBasePlace(placeId: number): BasePlace {
+		return new BasePlace(this, placeId);
 	}
 }
