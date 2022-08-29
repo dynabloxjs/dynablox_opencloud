@@ -22,11 +22,33 @@ export interface OAuthToken {
 	scope?: string;
 }
 
+export type ApplicationOwnerType = "User" | "Group";
+
+export interface ApplicationOwner {
+	id: number;
+	type: ApplicationOwnerType;
+}
+
+export interface TokenAuthorizationResourceIds {
+	ids: number[];
+}
+
+export interface TokenAuthorizationResource {
+	owner: ApplicationOwner;
+	resources: TokenAuthorizationResourceIds;
+}
+
+export interface TokenAuthorizationResources {
+	resourceInfos: TokenAuthorizationResource[];
+}
+
 export class TokenService extends BaseService {
 	public static urls = {
 		introspectToken: () => "{BEDEV2Url:oauth}/v1/token/introspect",
 		revokeToken: () => "{BEDEV2Url:oauth}/v1/token/revoke",
 		useCode: () => "{BEDEV2Url:oauth}/v1/token",
+		listAuthorizationResources: () =>
+			"{BEDEV2Url:oauth}/v1/token/resources",
 	};
 
 	public async introspectToken(token: string): Promise<TokenIntrospection> {
@@ -91,6 +113,27 @@ export class TokenService extends BaseService {
 		return (await this.rest.httpRequest<OAuthToken>({
 			method: "POST",
 			url: TokenService.urls.useCode(),
+			body: {
+				type: "urlencoded",
+				value: params,
+			},
+			errorHandling: "BEDEV2",
+		})).body;
+	}
+
+	public async listAuthorizationResources(
+		token?: string,
+	): Promise<TokenAuthorizationResources> {
+		const params = new URLSearchParams();
+		if (this.rest.credentials.type === "OAuthApplication") {
+			params.set("client_id", this.rest.credentials.value.id);
+			params.set("client_secret", this.rest.credentials.value.secret);
+		}
+		if (token) params.append("token", token);
+
+		return (await this.rest.httpRequest<TokenAuthorizationResources>({
+			method: "POST",
+			url: TokenService.urls.listAuthorizationResources(),
 			body: {
 				type: "urlencoded",
 				value: params,

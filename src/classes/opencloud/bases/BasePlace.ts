@@ -77,7 +77,7 @@ export class BasePlace {
 
 	/**
 	 * Gets the parent universe of the Place.
-	 * 
+	 *
 	 * This will also update the place's `parentUniverseId` field.
 	 */
 	public async getParentUniverse() {
