@@ -18,12 +18,22 @@ export interface OpenidConfiguration {
 }
 export interface OAuthKey {
     alg: string;
+    enc?: string;
     kty: string;
     kid: string;
     use: string;
+    n?: string;
+    e?: string;
+    d?: string;
+    p?: string;
+    q?: string;
+    dp?: string;
+    dq?: string;
+    di?: string;
     crv: string;
     x: string;
     y: string;
+    k?: string;
 }
 export interface ListJwksResponse {
     keys: OAuthKey[];

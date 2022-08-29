@@ -63,6 +63,24 @@ class TokenService extends BaseService_js_1.BaseService {
             errorHandling: "BEDEV2",
         })).body;
     }
+    async listAuthorizationResources(token) {
+        const params = new URLSearchParams();
+        if (this.rest.credentials.type === "OAuthApplication") {
+            params.set("client_id", this.rest.credentials.value.id);
+            params.set("client_secret", this.rest.credentials.value.secret);
+        }
+        if (token)
+            params.append("token", token);
+        return (await this.rest.httpRequest({
+            method: "POST",
+            url: TokenService.urls.listAuthorizationResources(),
+            body: {
+                type: "urlencoded",
+                value: params,
+            },
+            errorHandling: "BEDEV2",
+        })).body;
+    }
 }
 exports.TokenService = TokenService;
 Object.defineProperty(TokenService, "urls", {
@@ -73,5 +91,6 @@ Object.defineProperty(TokenService, "urls", {
         introspectToken: () => "{BEDEV2Url:oauth}/v1/token/introspect",
         revokeToken: () => "{BEDEV2Url:oauth}/v1/token/revoke",
         useCode: () => "{BEDEV2Url:oauth}/v1/token",
+        listAuthorizationResources: () => "{BEDEV2Url:oauth}/v1/token/resources",
     }
 });

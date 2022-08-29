@@ -4,10 +4,13 @@ export interface AuthenticatedUser {
     name: string;
     nickname: string;
     preferredUsername: string;
+    createdAt: string;
     profile?: string;
     email?: string;
     emailVerified?: boolean;
     verified?: boolean;
+    ageBracket?: number;
+    premium?: boolean;
 }
 export declare class UserService extends BaseService {
     static urls: {
