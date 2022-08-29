@@ -101,12 +101,20 @@ export interface UniverseMessagingServiceScope {
 	allowAllOperations?: boolean;
 }
 
+export interface CreatorAssetsScope {
+	scopeType: "creator-assets";
+	targetParts: [string];
+	operations: ("create")[];
+	allowAllOperations?: boolean;
+}
+
 export type Scope =
 	| UniversePlacesScope
 	| UniverseDataStoresObjectsScope
 	| UniverseDataStoresVersionsScope
 	| UniverseDataStoresControlScope
-	| UniverseMessagingServiceScope;
+	| UniverseMessagingServiceScope
+	| CreatorAssetsScope;
 
 const requestRetryErrorCodes = [500, 502, 504];
 
