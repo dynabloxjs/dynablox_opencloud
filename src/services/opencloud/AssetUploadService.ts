@@ -161,7 +161,7 @@ export class AssetUploadService extends BaseService {
 		operationId: string,
 	): Promise<CompleteMultipartUploadResponse> {
 		return (await this.rest.httpRequest<CompleteMultipartUploadResponse>({
-			method: "DELETE",
+			method: "POST",
 			url: AssetUploadService.urls.completeMultipartUpload(operationId),
 			errorHandling: "BEDEV2",
 			includeCredentials: true,
