@@ -141,17 +141,6 @@ export class AssetUploadService extends BaseService {
 		});
 	}
 
-	public async completeMultipartUpload(
-		operationId: string,
-	): Promise<CompleteMultipartUploadResponse> {
-		return (await this.rest.httpRequest<CompleteMultipartUploadResponse>({
-			method: "DELETE",
-			url: AssetUploadService.urls.completeMultipartUpload(operationId),
-			errorHandling: "BEDEV2",
-			includeCredentials: true,
-		})).body;
-	}
-
 	public async completeMultipartUploadChunk(
 		request: CompleteMultipartUploadChunkRequest,
 	): Promise<void> {
@@ -167,4 +156,16 @@ export class AssetUploadService extends BaseService {
 			includeCredentials: true,
 		});
 	}
+
+	public async completeMultipartUpload(
+		operationId: string,
+	): Promise<CompleteMultipartUploadResponse> {
+		return (await this.rest.httpRequest<CompleteMultipartUploadResponse>({
+			method: "DELETE",
+			url: AssetUploadService.urls.completeMultipartUpload(operationId),
+			errorHandling: "BEDEV2",
+			includeCredentials: true,
+		})).body;
+	}
+
 }
