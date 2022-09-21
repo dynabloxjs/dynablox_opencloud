@@ -1,5 +1,4 @@
 import { BaseService } from "../BaseService.ts";
-import * as JSONv2 from "../../utils/json.ts";
 
 /*
 TODO: Verify typings.
@@ -7,11 +6,7 @@ TODO: Verify typings.
 
 export interface UploadRequest {
 	request: unknown;
-	contentType: string;
-	contentDeposition: string;
-	length: string;
-	name: string;
-	fileName: string;
+	fileContent: Uint8Array;
 }
 
 export interface UploadResponse {
@@ -32,23 +27,52 @@ export interface AssetCreationResult {
 	assetInfo: AssetCreationInfo;
 }
 
-export interface UploadStatus {
-	status: number;
-	result: AssetCreationResult | null;
+export type OperationErrorCode =
+	| "Invalid"
+	| "CorruptedData"
+	| "ContentModerated";
+
+export interface OperationError {
+	errorCode: OperationErrorCode;
+	errorMessage: string;
 }
 
-export interface AssetUploadContext {
+export interface PublicError {
+	errors: OperationError[];
+}
+
+export type OperationStatus = "Invalid" | "Failed" | "Pending" | "Success";
+
+export interface UploadStatus {
+	status: OperationStatus;
+	result: AssetCreationResult | null;
+	publicError: PublicError | null;
+}
+
+export type CreatorType = "Invalid" | "User" | "Group";
+
+export type CreationContextCreator = {
+	creatorType: CreatorType;
+	creatorId: number;
+};
+
+export interface CreationContext {
 	assetId: number;
 	assetName: string;
 	assetDescription: string | null;
-	creatorType: number;
-	creatorId: number;
+	creator: CreationContextCreator;
 }
 
+export type AssetCreationTargetType =
+	| "Unknown"
+	| "Audio"
+	| "Decal"
+	| "ModelFromFbx";
+
 export interface StartMultipartUploadRequest {
-	targetType: string;
+	targetType: AssetCreationTargetType;
 	file: unknown;
-	assetUploadContext: AssetUploadContext;
+	creationContext: CreationContext;
 }
 
 export interface MultipartUploadUrl {
@@ -73,9 +97,9 @@ export interface CompleteMultipartUploadChunkRequest {
 
 export class AssetUploadService extends BaseService {
 	static urls = {
-		upload: () => "{BEDEV2Url:assets-upload}/v1/upload",
+		upload: () => "{BEDEV2Url:assets-upload}/v1/create",
 		getUploadStatus: (operationId: string) =>
-			`{BEDEV2Url:assets-upload}/v1/status/${operationId}`,
+			`{BEDEV2Url:assets-upload}/v1/create/status/${operationId}`,
 		startMultipartUpload: () =>
 			"{BEDEV2Url:assets-upload}/v1/multipart-upload/start",
 		abortMultipartUpload: (operationId: string) =>
@@ -90,17 +114,13 @@ export class AssetUploadService extends BaseService {
 		return (await this.rest.httpRequest<UploadResponse>({
 			method: "POST",
 			url: AssetUploadService.urls.upload(),
+			query: {
+				request: request.request,
+			},
 			body: {
 				type: "formdata",
 				value: {
-					request: {
-						value: new Blob([JSONv2.serialize(request.request)]),
-					},
-					ContentType: { value: request.contentType },
-					ContentDeposition: { value: request.contentDeposition },
-					Length: { value: request.length },
-					Name: { value: request.name },
-					FileName: { value: request.fileName },
+					fileContent: { value: new Blob([request.fileContent]) },
 				},
 			},
 			errorHandling: "BEDEV2",
@@ -167,5 +187,4 @@ export class AssetUploadService extends BaseService {
 			includeCredentials: true,
 		})).body;
 	}
-
 }
