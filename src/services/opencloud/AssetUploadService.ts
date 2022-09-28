@@ -1,3 +1,4 @@
+import * as JSONv2 from "../../utils/json.ts";
 import { BaseService } from "../BaseService.ts";
 
 /*
@@ -5,7 +6,7 @@ TODO: Verify typings.
 */
 
 export interface UploadRequest {
-	request: unknown;
+	request: UploadRequestRequest;
 	fileContent: Uint8Array;
 }
 
@@ -67,11 +68,17 @@ export type AssetCreationTargetType =
 	| "Unknown"
 	| "Audio"
 	| "Decal"
-	| "ModelFromFbx";
+	| "ModelFromFbx"
+	| "AnimationFromVideo";
 
 export interface StartMultipartUploadRequest {
 	targetType: AssetCreationTargetType;
 	file: unknown;
+	creationContext: CreationContext;
+}
+
+export interface UploadRequestRequest {
+	targetType: AssetCreationTargetType;
 	creationContext: CreationContext;
 }
 
@@ -120,6 +127,9 @@ export class AssetUploadService extends BaseService {
 			body: {
 				type: "formdata",
 				value: {
+					request: {value: new Blob([JSONv2.serialize(request.request)], {
+						type: "application/json"
+					})},
 					fileContent: { value: new Blob([request.fileContent]) },
 				},
 			},
