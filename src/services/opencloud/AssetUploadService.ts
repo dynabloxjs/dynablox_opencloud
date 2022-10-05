@@ -123,9 +123,6 @@ export class AssetUploadService extends BaseService {
 		return (await this.rest.httpRequest<UploadResponse>({
 			method: "POST",
 			url: AssetUploadService.urls.upload(),
-			query: {
-				request: request.request,
-			},
 			body: {
 				type: "formdata",
 				value: {
