@@ -1,10 +1,6 @@
 import * as JSONv2 from "../../utils/json.ts";
 import { BaseService } from "../BaseService.ts";
 
-/*
-TODO: Verify typings.
-*/
-
 export interface UploadRequest {
 	request: UploadRequestRequest;
 	fileContent: Uint8Array;
@@ -58,7 +54,7 @@ export type CreationContextCreator = {
 };
 
 export interface CreationContext {
-	assetId: number;
+	assetId?: number;
 	assetName: string;
 	assetDescription: string | null;
 	creator: CreationContextCreator;
@@ -71,9 +67,15 @@ export type AssetCreationTargetType =
 	| "ModelFromFbx"
 	| "AnimationFromVideo";
 
+export interface MultipartUploadFile {
+	filesize: number;
+	md5Checksum: string;
+	chunkPlan: number[];
+}
+
 export interface StartMultipartUploadRequest {
 	targetType: AssetCreationTargetType;
-	file: unknown;
+	file: MultipartUploadFile;
 	creationContext: CreationContext;
 }
 
@@ -127,9 +129,7 @@ export class AssetUploadService extends BaseService {
 			body: {
 				type: "formdata",
 				value: {
-					request: {value: new Blob([JSONv2.serialize(request.request)], {
-						type: "application/json"
-					})},
+					request: { value: JSONv2.serialize(request.request) },
 					fileContent: { value: new Blob([request.fileContent]) },
 				},
 			},
