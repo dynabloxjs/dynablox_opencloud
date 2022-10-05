@@ -56,7 +56,7 @@ export type CreationContextCreator = {
 export interface CreationContext {
 	assetId?: number;
 	assetName: string;
-	assetDescription: string | null;
+	assetDescription?: string;
 	creator: CreationContextCreator;
 }
 
@@ -85,12 +85,12 @@ export interface UploadRequestRequest {
 }
 
 export interface MultipartUploadUrl {
-	httpVerb?: string;
-	url?: string;
-	expirationTime?: string;
-	chunkNum?: number;
-	contentStart?: number;
-	contentLength?: number;
+	httpVerb: string;
+	url: string;
+	expirationTime: string;
+	chunkNum: number;
+	contentStart: number;
+	contentLength: number;
 }
 
 export interface StartMultipartUploadResponse {
