@@ -104,17 +104,17 @@ export interface CompleteMultipartUploadChunkRequest {
 
 export class AssetUploadService extends BaseService {
 	static urls = {
-		upload: () => "{BEDEV2Url:assets-upload}/v1/create",
+		upload: () => "{BEDEV2Url:assets}/v1/create",
 		getUploadStatus: (operationId: string) =>
-			`{BEDEV2Url:assets-upload}/v1/create/status/${operationId}`,
+			`{BEDEV2Url:assets}/v1/create/status/${operationId}`,
 		startMultipartUpload: () =>
-			"{BEDEV2Url:assets-upload}/v1/multipart-upload/start",
+			"{BEDEV2Url:assets}/v1/multipart-upload/start",
 		abortMultipartUpload: (operationId: string) =>
-			`{BEDEV2Url:assets-upload}/v1/multipart-upload/${operationId}/abort`,
+			`{BEDEV2Url:assets}/v1/multipart-upload/${operationId}/abort`,
 		completeMultipartUploadChunk: () =>
-			"{BEDEV2Url:assets-upload}/v1/multipart-upload/chunk-complete",
+			"{BEDEV2Url:assets}/v1/multipart-upload/chunk-complete",
 		completeMultipartUpload: (operationId: string) =>
-			`{BEDEV2Url:assets-upload}/v1/multipart-upload/${operationId}/complete`,
+			`{BEDEV2Url:assets}/v1/multipart-upload/${operationId}/complete`,
 	};
 
 	public async upload(request: UploadRequest): Promise<UploadResponse> {
