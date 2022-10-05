@@ -143,9 +143,9 @@ export async function parseBEDEV2Error(
 						if (typeof json.Error === "string") {
 							return [{
 								code: json.Error,
-								// @ts-ignore: fine 
+								// @ts-ignore: fine
 								message: (json.Message as string),
-							}]
+							}];
 						} else if (
 							("Code" in json.Error!) &&
 							("Message" in json.Error!)

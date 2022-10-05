@@ -103,7 +103,7 @@ export interface UniverseMessagingServiceScope {
 
 export interface CreatorAssetsScope {
 	scopeType: "creator-assets";
-	targetParts: [string];
+	targetParts: ["U" | `G${number}`];
 	operations: ("create")[];
 	allowAllOperations?: boolean;
 }
