@@ -21,15 +21,15 @@ export interface OAuthToken {
 }
 export declare type ApplicationOwnerType = "User" | "Group";
 export interface ApplicationOwner {
-    id: number;
+    id: string;
     type: ApplicationOwnerType;
 }
 export interface TokenAuthorizationResourceIds {
-    ids: number[];
+    ids: string[];
 }
 export interface TokenAuthorizationResource {
     owner: ApplicationOwner;
-    resources: TokenAuthorizationResourceIds;
+    resources: Record<string, TokenAuthorizationResourceIds>;
 }
 export interface TokenAuthorizationResources {
     resourceInfos: TokenAuthorizationResource[];

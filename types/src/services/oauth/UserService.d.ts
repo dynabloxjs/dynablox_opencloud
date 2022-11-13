@@ -4,7 +4,7 @@ export interface AuthenticatedUser {
     name: string;
     nickname: string;
     preferredUsername: string;
-    createdAt: string;
+    createdAt: number;
     profile?: string;
     email?: string;
     emailVerified?: boolean;

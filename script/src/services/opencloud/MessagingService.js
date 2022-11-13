@@ -34,7 +34,9 @@ class MessagingService extends BaseService_js_1.BaseService {
             body: {
                 type: "json",
                 value: {
-                    message: JSONv2.serialize(data),
+                    message: typeof data === "string"
+                        ? data
+                        : JSONv2.serialize(data),
                 },
             },
             expect: "none",

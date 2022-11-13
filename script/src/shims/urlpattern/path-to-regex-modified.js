@@ -444,8 +444,8 @@ function tokensToRegexp(tokens, keys, options = {}) {
         const endToken = tokens[tokens.length - 1];
         const isEndDelimited = typeof endToken === "string"
             ? delimiter.indexOf(endToken[endToken.length - 1]) > -1
-            : // tslint:disable-next-line
-                endToken === undefined;
+            // tslint:disable-next-line
+            : endToken === undefined;
         if (!strict) {
             route += `(?:${delimiter}(?=${endsWith}))?`;
         }
