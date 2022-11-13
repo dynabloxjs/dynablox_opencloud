@@ -21,7 +21,9 @@ export class MessagingService extends BaseService {
 			body: {
 				type: "json",
 				value: {
-					message: JSONv2.serialize(data),
+					message: typeof data === "string"
+						? data
+						: JSONv2.serialize(data),
 				},
 			},
 			expect: "none",
