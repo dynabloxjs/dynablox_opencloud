@@ -65,7 +65,14 @@ export type AssetCreationTargetType =
 	| "Audio"
 	| "Decal"
 	| "ModelFromFbx"
-	| "AnimationFromVideo";
+	| "AnimationFromVideo"
+	| "Image"
+	| "TexturePack"
+	| "EmoteAnimation"
+	| "AnimationFromFbx"
+	| "Tshirt"
+	| "Shirt"
+	| "Pants";
 
 export interface MultipartUploadFile {
 	filesize: number;
