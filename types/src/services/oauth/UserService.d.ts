@@ -11,6 +11,8 @@ export interface AuthenticatedUser {
     verified?: boolean;
     ageBracket?: number;
     premium?: boolean;
+    roles?: string[];
+    internalUser?: boolean;
 }
 export declare class UserService extends BaseService {
     static urls: {
