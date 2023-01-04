@@ -31,8 +31,10 @@ type BEDEV2ErrorResponse = string | string[] | {
 	error: string;
 	message: string;
 	errorDetails: { errorDetailType: string; datastoreErrorCode: string }[];
+} | {
+	Error: string;
+	Message: string;
 };
-
 type ChildError = { type: string; code: string };
 
 export interface BEDEV2Error {
@@ -138,7 +140,13 @@ export async function parseBEDEV2Error(
 					}
 
 					if ("Error" in json) {
-						if (
+						if (typeof json.Error === "string") {
+							return [{
+								code: json.Error,
+								// @ts-ignore: fine
+								message: (json.Message as string),
+							}];
+						} else if (
 							("Code" in json.Error!) &&
 							("Message" in json.Error!)
 						) {
